@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'admin_panel.dart'; // Import the new admin panel file
+import 'admin_panel.dart'; 
 import 'login.dart';
 
 void main() async {

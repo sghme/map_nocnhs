@@ -77,11 +77,12 @@ class _HomeState extends State<Home> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Expanded(child: buildInfoBox('Buildings', buildingCount, Colors.red, Icons.apartment, () {
-                    widget.onRouteChange('/buildinginfo');
-                  })),
+                  
                   SizedBox(width: 10),
                   Expanded(child: buildInfoBox('Rooms', roomCount, Colors.red, Icons.door_back_door, () {
+                    widget.onRouteChange('/buildinginfo');
+                  })),
+                  Expanded(child: buildInfoBox('Buildings', buildingCount, Colors.red, Icons.apartment, () {
                     widget.onRouteChange('/buildinginfo');
                   })),
                   SizedBox(width: 10),

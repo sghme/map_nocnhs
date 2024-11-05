@@ -201,6 +201,7 @@ List<Polygon> initializeRoomPolygons1(
   final List<LatLng> GR10LABTap = GR10LAB;
   final List<LatLng> InnerRoom1Tap = InnerRoom1;
   final List<LatLng> InnerRoom2Tap = InnerRoom2;
+  final List<LatLng> InnerRoom3Tap = InnerRoom3;
   final List<LatLng> PastryLab1Tap = PastryLab1;
   final List<LatLng> InnerOffice2R1Tap = InnerOffice2R1;
   final List<LatLng> InnerOffice2R2Tap = InnerOffice2R2;
@@ -993,6 +994,11 @@ List<Polygon> initializeRoomPolygons1(
       borderStrokeWidth: 0,
     ),
     Polygon(
+      points: InnerRoom3Tap,
+      color: Colors.transparent,
+      borderStrokeWidth: 0,
+    ),
+    Polygon(
       points: PastryLab1Tap,
       color: Colors.transparent,
       borderStrokeWidth: 0,
@@ -1390,6 +1396,7 @@ List<Polygon> initializeRoomPolygons1(
   LatLngBounds GR10LABBounds = LatLngBounds.fromPoints(GR10LAB);
   LatLngBounds InnerRoom1Bounds = LatLngBounds.fromPoints(InnerRoom1);
   LatLngBounds InnerRoom2Bounds = LatLngBounds.fromPoints(InnerRoom2);
+  LatLngBounds InnerRoom3Bounds = LatLngBounds.fromPoints(InnerRoom3);
   LatLngBounds PastryLab1Bounds = LatLngBounds.fromPoints(PastryLab1);
   LatLngBounds InnerOffice2R1Bounds = LatLngBounds.fromPoints(InnerOffice2R1);
   LatLngBounds InnerOffice2R2Bounds = LatLngBounds.fromPoints(InnerOffice2R2);
@@ -1636,6 +1643,7 @@ List<Polygon> initializeRoomPolygons1(
   //Gate Rooms
   roompolygonBoundsMap['InnerRoom1'] = InnerRoom1Bounds;
   roompolygonBoundsMap['InnerRoom2'] = InnerRoom2Bounds;
+  roompolygonBoundsMap['InnerRoom3'] = InnerRoom3Bounds;
   roompolygonBoundsMap['InnerOffice2R1'] = InnerOffice2R1Bounds;
   roompolygonBoundsMap['InnerOffice2R2'] = InnerOffice2R2Bounds;
   roompolygonBoundsMap['PastryLab1'] = PastryLab1Bounds;

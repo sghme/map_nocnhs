@@ -924,6 +924,12 @@ final List<LatLng> InnerRoom1 = [
 final List<LatLng> InnerRoom2 = [
   LatLng(11.0120814, 124.6046391),
   LatLng(11.0120456, 124.604633),
+  LatLng(11.0120521,124.6046038),
+  LatLng(11.0120878,124.6046085),
+];
+final List<LatLng> InnerRoom3 = [
+   LatLng(11.0120878,124.6046085),
+ LatLng(11.0120521,124.6046038),
   LatLng(11.0120554, 124.6045861),
   LatLng(11.0120915, 124.6045917),
 ];
@@ -1321,6 +1327,7 @@ PolygonLayer createGroundFloorLayer2() {
     GR10LAB,
     InnerRoom1,
     InnerRoom2,
+    InnerRoom3,
     PastryLab1,
     InnerOffice2R1,
     InnerOffice2R2,

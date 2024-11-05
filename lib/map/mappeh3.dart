@@ -10,6 +10,8 @@ List<LatLng> getRoomPolygonForRoom(String polygonName) {
       return InnerRoom1;
     case 'InnerRoom2':
       return InnerRoom2;
+    case 'InnerRoom3':
+      return InnerRoom3;
     case 'InnerOffice2R1':
       return InnerOffice2R1; 
     case 'InnerOffice2R2':

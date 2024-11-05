@@ -100,25 +100,29 @@ class _InfoContainerState extends State<InfoContainer> {
                   ),
 
                   // Image Carousel with indicator
-                  if (_hasAnyImage())
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 16.0),
-                      child: Column(
-                        children: [
-                          _buildImageCarousel(), // The carousel
-                          SizedBox(height: 8.0),
-                          Text(
-                            'Image ${_currentImageIndex + 1} of ${_totalImages()}', // Image indicator
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.grey[700],
-                              fontWeight: FontWeight.w600,
-                              decoration:TextDecoration.none,
+                                     // Image Carousel with navigation buttons
+                    if (_hasAnyImage())
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: Column(
+                          children: [
+                            _buildImageWidget(_getCurrentImage()),
+                            SizedBox(height: 8.0),
+                            _buildImageNavigationButtons(),
+                            SizedBox(height: 8.0),
+                            Text(
+                              'Image ${_currentImageIndex + 1} of ${_totalImages()}',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.grey[700],
+                                fontWeight: FontWeight.w600,
+                                decoration: TextDecoration.none,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
+
 
                   // Section for displaying names
                   // Section for displaying names
@@ -127,7 +131,7 @@ class _InfoContainerState extends State<InfoContainer> {
                     Text(
                       'Building Name:',
                       style: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.grey[300], decoration: TextDecoration.none,),
+                          fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.black, decoration: TextDecoration.none,),
                     ),
                     SizedBox(height: 4.0),
                     Text(
@@ -184,14 +188,10 @@ class _InfoContainerState extends State<InfoContainer> {
     ));
   }
 
-  bool _hasAnyImage() {
-    return (widget.LandmarkImage != null && widget.LandmarkImage!.isNotEmpty) ||
-        (widget.LandmarkImage2 != null && widget.LandmarkImage2!.isNotEmpty) ||
-        (widget.LandmarkImage3 != null && widget.LandmarkImage3!.isNotEmpty) ||
-        (widget.buildingImage != null && widget.buildingImage!.isNotEmpty) ||
-        (widget.buildingImage2 != null && widget.buildingImage2!.isNotEmpty) ||
-        (widget.buildingImage3 != null && widget.buildingImage3!.isNotEmpty);
+   bool _hasAnyImage() {
+    return _totalImages() > 0;
   }
+
 
   int _totalImages() {
     int count = 0;
@@ -210,39 +210,15 @@ class _InfoContainerState extends State<InfoContainer> {
     return count;
   }
 
-  Widget _buildImageCarousel() {
-    List<Widget> imageWidgets = [];
-
-    if (widget.LandmarkImage != null && widget.LandmarkImage!.isNotEmpty) {
-      imageWidgets.add(_buildImageWidget(widget.LandmarkImage!));
-    }
-    if (widget.LandmarkImage2 != null && widget.LandmarkImage2!.isNotEmpty) {
-      imageWidgets.add(_buildImageWidget(widget.LandmarkImage2!));
-    }
-    if (widget.LandmarkImage3 != null && widget.LandmarkImage3!.isNotEmpty) {
-      imageWidgets.add(_buildImageWidget(widget.LandmarkImage3!));
-    }
-    if (widget.buildingImage != null && widget.buildingImage!.isNotEmpty) {
-      imageWidgets.add(_buildImageWidget(widget.buildingImage!));
-    }
-    if (widget.buildingImage2 != null && widget.buildingImage2!.isNotEmpty) {
-      imageWidgets.add(_buildImageWidget(widget.buildingImage2!));
-    }
-    if (widget.buildingImage3 != null && widget.buildingImage3!.isNotEmpty) {
-      imageWidgets.add(_buildImageWidget(widget.buildingImage3!));
-    }
-
-    return SizedBox(
-      height: 500,
-      child: PageView(
-        onPageChanged: (index) {
-          setState(() {
-            _currentImageIndex = index; // Update the image index on swipe
-          });
-        },
-        children: imageWidgets,
-      ),
-    );
+  String _getCurrentImage() {
+    List<String> images = [];
+    if (widget.LandmarkImage != null && widget.LandmarkImage!.isNotEmpty) images.add(widget.LandmarkImage!);
+    if (widget.LandmarkImage2 != null && widget.LandmarkImage2!.isNotEmpty) images.add(widget.LandmarkImage2!);
+    if (widget.LandmarkImage3 != null && widget.LandmarkImage3!.isNotEmpty) images.add(widget.LandmarkImage3!);
+    if (widget.buildingImage != null && widget.buildingImage!.isNotEmpty) images.add(widget.buildingImage!);
+    if (widget.buildingImage2 != null && widget.buildingImage2!.isNotEmpty) images.add(widget.buildingImage2!);
+    if (widget.buildingImage3 != null && widget.buildingImage3!.isNotEmpty) images.add(widget.buildingImage3!);
+    return images.isNotEmpty ? images[_currentImageIndex] : '';
   }
 
   Widget _buildImageWidget(String image) {
@@ -266,6 +242,37 @@ class _InfoContainerState extends State<InfoContainer> {
     ),
   );
 }
+
+
+
+ Widget _buildImageNavigationButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: _currentImageIndex > 0
+              ? () {
+                  setState(() {
+                    _currentImageIndex--;
+                  });
+                }
+              : null, // Disable button if at the first image
+        ),
+        IconButton(
+          icon: Icon(Icons.arrow_forward),
+          onPressed: _currentImageIndex < _totalImages() - 1
+              ? () {
+                  setState(() {
+                    _currentImageIndex++;
+                  });
+                }
+              : null, // Disable button if at the last image
+        ),
+      ],
+    );
+  }
+
 
   // Helper function to create a text with consistent styling
   Widget _buildDetailText(String label, String? value) {
@@ -302,34 +309,3 @@ class _InfoContainerState extends State<InfoContainer> {
     );
   }
 }
-
-// Widget _buildDetailText(String label, String? value) {
-//   return Padding(
-//     padding: const EdgeInsets.symmetric(vertical: 6.0),
-//     child: Row(
-//       crossAxisAlignment:
-//           CrossAxisAlignment.start, // Align to top for multi-line
-//       children: [
-//         Text(
-//           '$label: ',
-//           style: TextStyle(
-//             fontSize: 16.0,
-//             fontWeight: FontWeight.w600,
-//             color: Colors.grey[700],
-//           ),
-//         ),
-//         Flexible(
-//           child: Text(
-//             value ?? 'N/A',
-//             style: TextStyle(
-//               fontSize: 16.0,
-//               fontWeight: FontWeight.w500,
-//             ),
-//             maxLines: null, // Allow multi-line text
-//             softWrap: true, // Enable wrapping
-//           ),
-//         ),
-//       ],
-//     ),
-//   );
-// }
