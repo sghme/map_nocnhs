@@ -4,19 +4,19 @@ import 'package:flutter_map/flutter_map.dart';
 import 'Landmarks.dart';
 import 'Buildings.dart'; //Note only the Basketballcourtgr8 for this import
 
-List<Polygon> allPolygons = [];
-Map<String, LatLngBounds> polygonBoundsMap = {};
-LatLng calculatePolygonCenter(List<LatLng> points) {
-  double latitudeSum = 0;
-  double longitudeSum = 0;
+// List<Polygon> allPolygons = [];
+// Map<String, LatLngBounds> polygonBoundsMap = {};
+// LatLng calculatePolygonCenter(List<LatLng> points) {
+//   double latitudeSum = 0;
+//   double longitudeSum = 0;
 
-  for (var point in points) {
-    latitudeSum += point.latitude;
-    longitudeSum += point.longitude;
-  }
+//   for (var point in points) {
+//     latitudeSum += point.latitude;
+//     longitudeSum += point.longitude;
+//   }
 
-  return LatLng(latitudeSum / points.length, longitudeSum / points.length);
-}
+//   return LatLng(latitudeSum / points.length, longitudeSum / points.length);
+// }
 
 // LatLng offsetPointAbove(LatLng point, double offset) {
 //   return LatLng(point.latitude + offset, point.longitude);
@@ -65,12 +65,103 @@ List<Polygon> initializeLandmarkPolygons(
 
   List<Polygon> allPolygons = [
     Polygon(
-      points: Basketballcourtgr8Tap,
+      points:Basketballcourtgr8Tap,
+      color: Colors.transparent,
+      borderStrokeWidth: 0,
+    ),
+      Polygon(
+      points: BesideCoveredCourtCRTap,
+      color: Colors.transparent,
+      borderStrokeWidth: 0,
+    ),
+      Polygon(
+      points: MaterialRoomTap,
       color: Colors.transparent,
       borderStrokeWidth: 0,
     ),
     Polygon(
-      points: SwimmingPoolTap,
+      points: MainCanteenTap,
+      color: Colors.transparent,
+      borderStrokeWidth: 0,
+    ),
+    Polygon(
+      points: grade7CanteenTap,
+      color: Colors.transparent,
+      borderStrokeWidth: 0,
+    ),
+    Polygon(
+      points: G8bldCanteenTap,
+      color: Colors.transparent,
+      borderStrokeWidth: 0,
+    ),
+    Polygon(
+      points: STECanteenTap,
+      color: Colors.transparent,
+      borderStrokeWidth: 0,
+    ),
+    Polygon(
+      points: CrNearMainBuildingTap,
+      color: Colors.transparent,
+      borderStrokeWidth: 0,
+    ),
+    Polygon(
+      points: OldStageCRTap,
+      color: Colors.transparent,
+      borderStrokeWidth: 0,
+    ),
+    Polygon(
+      points: OldStageCRTap,
+      color: Colors.transparent,
+      borderStrokeWidth: 0,
+    ),
+    Polygon(
+      points: CR1OldStageTap,
+      color: Colors.transparent,
+      borderStrokeWidth: 0,
+    ),
+    Polygon(
+      points: CR2OldStageTap,
+      color: Colors.transparent,
+      borderStrokeWidth: 0,
+    ),
+  
+    Polygon(
+      points: CrNearStudentGateTap,
+      color: Colors.transparent,
+      borderStrokeWidth: 0,
+    ),
+    Polygon(
+      points: STEWashroomTap,
+      color: Colors.transparent,
+      borderStrokeWidth: 0,
+    ),
+    Polygon(
+      points: Carpentry_CrTap,
+      color: Colors.transparent,
+      borderStrokeWidth: 0,
+    ),
+    Polygon(
+      points: SPS_CrTap,
+      color: Colors.transparent,
+      borderStrokeWidth: 0,
+    ),
+    Polygon(
+      points: CrNrG9Tap,
+      color: Colors.transparent,
+      borderStrokeWidth: 0,
+    ),
+    Polygon(
+      points: CrNrG8ATap,
+      color: Colors.transparent,
+      borderStrokeWidth: 0,
+    ),
+    Polygon(
+      points: CrNrG8BTap,
+      color: Colors.transparent,
+      borderStrokeWidth: 0,
+    ),
+    Polygon(
+      points:SwimmingPoolTap,
       color: Colors.transparent,
       borderStrokeWidth: 0,
     ),
@@ -144,11 +235,7 @@ List<Polygon> initializeLandmarkPolygons(
       color: Colors.transparent,
       borderStrokeWidth: 0,
     ),
-    // Polygon(
-    //   points: GateTap,
-    //   color: Colors.transparent,
-    //   borderStrokeWidth: 0,
-    // ),
+    
     Polygon(
       points: OldStageTap,
       color: Colors.transparent,
@@ -169,101 +256,31 @@ List<Polygon> initializeLandmarkPolygons(
       color: Colors.transparent,
       borderStrokeWidth: 0,
     ),
-    Polygon(
-      points: MaterialRoomTap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: MainCanteenTap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: grade7CanteenTap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: G8bldCanteenTap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: STECanteenTap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: CrNearMainBuildingTap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: OldStageCRTap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: OldStageCRTap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: CR1OldStageTap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: CR2OldStageTap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: BesideCoveredCourtCRTap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: CrNearStudentGateTap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: STEWashroomTap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: Carpentry_CrTap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: SPS_CrTap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: CrNrG9Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: CrNrG8ATap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: CrNrG8BTap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
+  
   ];
 
   // Calculate bounds for each polygon
   LatLngBounds Basketballcourtgr8Bounds =
       LatLngBounds.fromPoints(Basketballcourtgr8);
+    LatLngBounds MaterialRoomBounds = LatLngBounds.fromPoints(MaterialRoom);
+  LatLngBounds MainCanteenBounds = LatLngBounds.fromPoints(MainCanteen);
+  LatLngBounds grade7CanteenBounds = LatLngBounds.fromPoints(grade7Canteen);
+  LatLngBounds G8bldCanteenBounds = LatLngBounds.fromPoints(G8bldCanteen);
+  LatLngBounds STECanteenBounds = LatLngBounds.fromPoints(STECanteen);
+  LatLngBounds CrNearMainBuildingBounds =
+      LatLngBounds.fromPoints(CrNearMainBuilding);
+  LatLngBounds OldStageCRBounds = LatLngBounds.fromPoints(OldStageCR);
+  LatLngBounds CR1OldStageBounds = LatLngBounds.fromPoints(CR1OldStage);
+  LatLngBounds CR2OldStageBounds = LatLngBounds.fromPoints(CR2OldStage);
+ 
+  LatLngBounds CrNearStudentGateBounds =
+      LatLngBounds.fromPoints(CrNearStudentGate);
+  LatLngBounds STEWashroomBounds = LatLngBounds.fromPoints(STEWashroom);
+  LatLngBounds Carpentry_CrBounds = LatLngBounds.fromPoints(Carpentry_Cr);
+  LatLngBounds SPS_CrBounds = LatLngBounds.fromPoints(SPS_Cr);
+  LatLngBounds CrNrG9Bounds = LatLngBounds.fromPoints(CrNrG9);
+  LatLngBounds CrNrG8ABounds = LatLngBounds.fromPoints(CrNrG8A);
+  LatLngBounds CrNrG8BBounds = LatLngBounds.fromPoints(CrNrG8B);
   LatLngBounds SwimmingPoolBounds = LatLngBounds.fromPoints(SwimmingPoolGate);
   LatLngBounds SpecialBuildingMainBounds =
       LatLngBounds.fromPoints(SpecialBuildingMain);
@@ -288,28 +305,27 @@ List<Polygon> initializeLandmarkPolygons(
   LatLngBounds OldCourtBounds = LatLngBounds.fromPoints(OldCourt);
   LatLngBounds InnerWaitingShed1Bounds =
       LatLngBounds.fromPoints(InnerWaitingShed1);
-  LatLngBounds CoveredcourtBounds = LatLngBounds.fromPoints(Coveredcourt);
-  LatLngBounds MaterialRoomBounds = LatLngBounds.fromPoints(MaterialRoom);
-  LatLngBounds MainCanteenBounds = LatLngBounds.fromPoints(MainCanteen);
-  LatLngBounds grade7CanteenBounds = LatLngBounds.fromPoints(grade7Canteen);
-  LatLngBounds G8bldCanteenBounds = LatLngBounds.fromPoints(G8bldCanteen);
-  LatLngBounds STECanteenBounds = LatLngBounds.fromPoints(STECanteen);
-  LatLngBounds CrNearMainBuildingBounds =
-      LatLngBounds.fromPoints(CrNearMainBuilding);
-  LatLngBounds OldStageCRBounds = LatLngBounds.fromPoints(OldStageCR);
-  LatLngBounds CR1OldStageBounds = LatLngBounds.fromPoints(CR1OldStage);
-  LatLngBounds CR2OldStageBounds = LatLngBounds.fromPoints(CR2OldStage);
-  LatLngBounds BesideCoverdCourtCRBounds =
+       LatLngBounds BesideCoveredCourtCRBounds =
       LatLngBounds.fromPoints(BesideCoveredCourtCR);
-  LatLngBounds CrNearStudentGateBounds =
-      LatLngBounds.fromPoints(CrNearStudentGate);
-  LatLngBounds STEWashroomBounds = LatLngBounds.fromPoints(STEWashroom);
-  LatLngBounds Carpentry_CrBounds = LatLngBounds.fromPoints(Carpentry_Cr);
-  LatLngBounds SPS_CrBounds = LatLngBounds.fromPoints(SPS_Cr);
-  LatLngBounds CrNrG9Bounds = LatLngBounds.fromPoints(CrNrG9);
-  LatLngBounds CrNrG8ABounds = LatLngBounds.fromPoints(CrNrG8A);
-  LatLngBounds CrNrG8BBounds = LatLngBounds.fromPoints(CrNrG8B);
+  LatLngBounds CoveredcourtBounds = LatLngBounds.fromPoints(Coveredcourt);
 
+LandmarkpolygonBoundsMap['MaterialRoom'] = MaterialRoomBounds;
+  LandmarkpolygonBoundsMap['MainCanteen'] = MainCanteenBounds;
+  LandmarkpolygonBoundsMap['grade7Canteen'] = grade7CanteenBounds;
+  LandmarkpolygonBoundsMap['G8bldCanteen'] = G8bldCanteenBounds;
+  LandmarkpolygonBoundsMap['STECanteen'] = STECanteenBounds;
+  LandmarkpolygonBoundsMap['CrNearMainBuilding'] = CrNearMainBuildingBounds;
+  LandmarkpolygonBoundsMap['OldStageCR'] = OldStageCRBounds;
+  LandmarkpolygonBoundsMap['CR1OldStage'] = CR1OldStageBounds;
+  LandmarkpolygonBoundsMap['CR2OldStage'] = CR2OldStageBounds;
+  LandmarkpolygonBoundsMap['STEWashroom'] = STEWashroomBounds;
+  LandmarkpolygonBoundsMap['BesideCoveredCourtCR'] = BesideCoveredCourtCRBounds;
+  LandmarkpolygonBoundsMap['CrNearStudentGate'] = CrNearStudentGateBounds;
+  LandmarkpolygonBoundsMap['Carpentry_Cr'] = Carpentry_CrBounds;
+  LandmarkpolygonBoundsMap['SPS_Cr'] = SPS_CrBounds;
+  LandmarkpolygonBoundsMap['CrNrG9'] = CrNrG9Bounds;
+  LandmarkpolygonBoundsMap['CrNrG8A'] = CrNrG8ABounds;
+  LandmarkpolygonBoundsMap['CrNrG8B'] = CrNrG8BBounds;
  LandmarkpolygonBoundsMap['Basketballcourtgr8'] = Basketballcourtgr8Bounds;
  LandmarkpolygonBoundsMap['SwimmingPoolGate'] = SwimmingPoolBounds;
  LandmarkpolygonBoundsMap['SpecialBuildingMain'] = SpecialBuildingMainBounds;
@@ -317,9 +333,9 @@ List<Polygon> initializeLandmarkPolygons(
  LandmarkpolygonBoundsMap['SpecialEducBuilding2'] = SpecialEducBuilding2Bounds;
   LandmarkpolygonBoundsMap['DepEd1'] = DepEd1Bounds;
  LandmarkpolygonBoundsMap['DepEd2'] = DepEd2Bounds;
-  LandmarkpolygonBoundsMap['DepEdNightHigh1'] = NightHigh1Bounds;
-  LandmarkpolygonBoundsMap['DepEdNightHigh2'] = NightHigh2Bounds;
-  LandmarkpolygonBoundsMap['DepEdNightHigh3'] = NightHigh3Bounds;
+  LandmarkpolygonBoundsMap['NightHigh1'] = NightHigh1Bounds;
+  LandmarkpolygonBoundsMap['NightHigh2'] = NightHigh2Bounds;
+  LandmarkpolygonBoundsMap['NightHigh3'] = NightHigh3Bounds;
   LandmarkpolygonBoundsMap['ocshsCourt'] = ocshsCourtBounds;
   LandmarkpolygonBoundsMap['ocshsBuildingA'] = ocshsBuildingABounds;
   LandmarkpolygonBoundsMap['ocshsBuildingB'] = ocshsBuildingBBounds;
@@ -330,21 +346,7 @@ List<Polygon> initializeLandmarkPolygons(
   LandmarkpolygonBoundsMap['OldCourt'] = OldCourtBounds;
   LandmarkpolygonBoundsMap['InnerWaitingShed1'] = InnerWaitingShed1Bounds;
   LandmarkpolygonBoundsMap['Coveredcourt'] = CoveredcourtBounds;
-  LandmarkpolygonBoundsMap['MaterialRoom'] = MaterialRoomBounds;
-  LandmarkpolygonBoundsMap['MainCanteen'] = MainCanteenBounds;
-  LandmarkpolygonBoundsMap['grade7Canteen'] = grade7CanteenBounds;
-  LandmarkpolygonBoundsMap['G8bldCanteen'] = G8bldCanteenBounds;
-  LandmarkpolygonBoundsMap['STECanteen'] = STECanteenBounds;
-  LandmarkpolygonBoundsMap['CrNearMainBuilding'] = CrNearMainBuildingBounds;
-  LandmarkpolygonBoundsMap['OldStageCR'] = OldStageCRBounds;
-  LandmarkpolygonBoundsMap['CR1OldStage'] = CR1OldStageBounds;
-  LandmarkpolygonBoundsMap['BesideCoveredCourtCR'] = BesideCoverdCourtCRBounds;
-  LandmarkpolygonBoundsMap['CrNearStudentGate'] = CrNearStudentGateBounds;
-  LandmarkpolygonBoundsMap['Carpentry_Cr'] = Carpentry_CrBounds;
-  LandmarkpolygonBoundsMap['SPS_Cr'] = SPS_CrBounds;
-  LandmarkpolygonBoundsMap['CrNrG9'] = CrNrG9Bounds;
-  LandmarkpolygonBoundsMap['CrNrG8A'] = CrNrG8ABounds;
-  LandmarkpolygonBoundsMap['CrNrG8B'] = CrNrG8BBounds;
+  
 
   return allPolygons;
 }

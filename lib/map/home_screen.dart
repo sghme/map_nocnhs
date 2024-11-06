@@ -27,6 +27,10 @@ class _MapScreenState extends State<MapScreen> {
   late MapController mapControllers;
   bool isNorth = true;
   double _markerRotation = 0;
+  List<Marker> _markers = [];
+  List<Marker> tapmarkers = [];
+  List<Polygon> polygons = [];
+  List<Polygon> tap_polygons = [];
   Map<String, LatLngBounds> polygonBoundsMap = {};
   Map<String, LatLngBounds> LandmarkpolygonBoundsMap = {};
   Map<String, LatLngBounds> roompolygonBoundsMap = {};
@@ -50,11 +54,6 @@ class _MapScreenState extends State<MapScreen> {
   bool isRoomLayer2Visible = false;
   bool isRoomLayer3Visible = false;
   bool isRoomLayer4Visible = false;
-  // Color _iconColor = Colors.blue;
-  // List<Polygon> buildingPolygonse = [];
-  List<Marker> _markers = [];
-  List<Marker> _markerse = [];
-  List<Polygon> polygons = [];
   List<Polygon> highlightedPolygons = [];
   List<Polygon> mainPolygons = [];
   bool isLayerButtonVisible = false;
@@ -67,219 +66,98 @@ class _MapScreenState extends State<MapScreen> {
   List<Polygon> allPolygons = [];
   List<Polygon> RoomPolygons = [];
   bool _isSearchClicked = false;
-  int _selectedIndex =1;
+  int _selectedIndex = 1;
   LatLng? polygonCenter;
   double? _heading;
-
-// void updateInfoContainer(
-//   String? roomName,
-//   String? teacherName,
-//   String? buildingName,
-//   String? roombuildingName,
-//   String? buildingImage,
-//   String? buildingImage2,
-//   String? buildingImage3, {
-//   int? numberOfFloors,
-//   int? numberOfRooms,
-//   int? floorNo,
-//   String? roomType,
-//   String? curriculum,
-//   String? roomNo,
-//   String? yearLevel,
-//   String? landmarkName,
-//   String? LandmarkImage,
-//   String? LandmarkImage2,
-//   String? LandmarkImage3,
-// }) {
-//   // Prioritize landmarkName over buildingName if available
-//   if (landmarkName != null && landmarkName.isNotEmpty) {
-//     print("Displaying Landmark: $landmarkName");
-//   } else {
-//     print("Displaying Building: $buildingName");
-//   }
-
-//   showModalBottomSheet(
-//     context: context,
-//     isScrollControlled: true,
-//     builder: (BuildContext context) {
-//       return InfoContainer(
-//         roomName: roomName,
-//         teacherName: teacherName,
-//         buildingName: landmarkName != null && landmarkName.isNotEmpty ? '' : buildingName,
-//         landmarkName: landmarkName,
-//         buildingImage: landmarkName != null && landmarkName.isNotEmpty ? LandmarkImage : buildingImage,
-//         buildingImage2: landmarkName != null && landmarkName.isNotEmpty ? LandmarkImage2 : buildingImage2,
-//         buildingImage3: landmarkName != null && landmarkName.isNotEmpty ? LandmarkImage3 : buildingImage3,
-//         roombuildingName: roomName != null ? roombuildingName ?? '' : '',
-//         numberOfFloors: numberOfFloors,
-//         numberOfRooms: numberOfRooms,
-//         floorNo: floorNo,
-//         roomType: roomType,
-//         curriculum: curriculum,
-//         roomNo: roomNo,
-//         yearLevel: yearLevel,
-//         onClose: () {
-//           Navigator.of(context).pop();
-//         },
-//       );
-//     },
-//   );
-// }
-void updateInfoContainer(
-  //BuildContext context, // Ensure you pass the context
-   String? roomName,
-  String? teacherName,
-  String? buildingName,
-  String? roombuildingName,
-  String? buildingImage,
-  String? buildingImage2,
-  String? buildingImage3, {
-  int? numberOfFloors,
-  int? numberOfRooms,
-  int? floorNo,
-  String? roomType,
-  String? curriculum,
-  String? roomNo,
-  String? yearLevel,
-  String? landmarkName,
-  String? LandmarkImage,
-  String? LandmarkImage2,
-  String? LandmarkImage3,
-}) {
-  showDialog(
-    context: context,
-   // barrierDismissible: true, 
-    builder: (BuildContext context) {
-
-      return Align(
-        alignment: Alignment.centerLeft, 
-        child: Container(
-          width: MediaQuery.of(context).size.width * 0.6,
-           // Adjust width as needed
-          child: InfoContainer(
-           roomName: roomName,
-        teacherName: teacherName,
-        buildingName: landmarkName != null && landmarkName.isNotEmpty ? '' : buildingName,
-        landmarkName: landmarkName,
-        buildingImage: landmarkName != null && landmarkName.isNotEmpty ? LandmarkImage : buildingImage,
-        buildingImage2: landmarkName != null && landmarkName.isNotEmpty ? LandmarkImage2 : buildingImage2,
-        buildingImage3: landmarkName != null && landmarkName.isNotEmpty ? LandmarkImage3 : buildingImage3,
-        roombuildingName: roomName != null ? roombuildingName ?? '' : '',
-        numberOfFloors: numberOfFloors,
-        numberOfRooms: numberOfRooms,
-        floorNo: floorNo,
-        roomType: roomType,
-        curriculum: curriculum,
-        roomNo: roomNo,
-        yearLevel: yearLevel,
-         onClose: () {
-           Navigator.of(context).pop();
-            },
+  void updateInfoContainer(
+    //BuildContext context, // Ensure you pass the context
+    String? roomName,
+    String? teacherName,
+    String? buildingName,
+    String? roombuildingName,
+    String? buildingImage,
+    String? buildingImage2,
+    String? buildingImage3, {
+    int? numberOfFloors,
+    int? numberOfRooms,
+    int? floorNo,
+    String? roomType,
+    String? curriculum,
+    String? roomNo,
+    String? yearLevel,
+    String? landmarkName,
+    String? LandmarkImage,
+    String? LandmarkImage2,
+    String? LandmarkImage3,
+  }) {
+    showDialog(
+      context: context,
+      // barrierDismissible: true,
+      builder: (BuildContext context) {
+        return Align(
+          alignment: Alignment.centerLeft,
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.6,
+            // Adjust width as needed
+            child: InfoContainer(
+              roomName: roomName,
+              teacherName: teacherName,
+              buildingName: landmarkName != null && landmarkName.isNotEmpty
+                  ? ''
+                  : buildingName,
+              landmarkName: landmarkName,
+              buildingImage: landmarkName != null && landmarkName.isNotEmpty
+                  ? LandmarkImage
+                  : buildingImage,
+              buildingImage2: landmarkName != null && landmarkName.isNotEmpty
+                  ? LandmarkImage2
+                  : buildingImage2,
+              buildingImage3: landmarkName != null && landmarkName.isNotEmpty
+                  ? LandmarkImage3
+                  : buildingImage3,
+              roombuildingName: roomName != null ? roombuildingName ?? '' : '',
+              numberOfFloors: numberOfFloors,
+              numberOfRooms: numberOfRooms,
+              floorNo: floorNo,
+              roomType: roomType,
+              curriculum: curriculum,
+              roomNo: roomNo,
+              yearLevel: yearLevel,
+              onClose: () {
+                Navigator.of(context).pop();
+              },
+            ),
           ),
-        ),
-      );
-    },
-  );
-}
-  void _fetchData() async {
-    print('Before fetching: ${buildingsWithSpecificRooms}');
-    await fetchRoomsForBuilding();
-    print('After fetching: ${buildingsWithSpecificRooms}');
-
-    setState(() {
-      // Clear existing markers if necessary
-      _markers.clear();
-      _markerse.clear();
-
-      // currentSearchQuery = cleanSearchQuery;
-
-      // Print the buildings with specific rooms after fetching data
-      print(
-          'Buildings with rooms having year level 7 and room type Classroom:');
-      for (var entry in buildingsWithSpecificRooms.entries) {
-        String buildingName = entry.key;
-        String polygonName = entry.value;
-
-        // Check if the polygon name matches any in your polygonBoundsMap
-        if (polygonBoundsMap.containsKey(polygonName)) {
-          LatLngBounds bounds = polygonBoundsMap[polygonName]!;
-
-          // Calculate the center of the polygon using the bounds
-          LatLng center = LatLng(
-            (bounds.northEast.latitude + bounds.southWest.latitude) / 2,
-            (bounds.northEast.longitude + bounds.southWest.longitude) / 2,
-          );
-
-          // Add a marker at the center of the polygon
-          _markers.add(Marker(
-            point: center,
-            child: Transform.rotate(
-              angle: _markerRotation, // Apply rotation here
-              child: Icon(
-                Icons.location_on,
-                color: Colors.redAccent,
-              ),
-            ),
-          ));
-//           _markers.add(
-
-//     point: center,
-//     builder: (ctx) => Transform.rotate(
-//       angle: _markerRotation, // Apply the rotation to the marker
-//       child: Icon(Icons.location_on, color: Colors.green),
-//     ),
-//   ),
-// );
-
-          print('Added marker for $buildingName at: $center');
-        } else {
-          print('No polygon found for $polygonName');
-        }
-
-        print('Building: $buildingName, BuildingPolygonName: $polygonName');
-      }
-      print('Total count: ${buildingsWithSpecificRooms.length}');
-    });
+        );
+      },
+    );
   }
 
-  void _fetchDataForGrade8() async {
-    print('Before fetching: ${buildingsWithSpecificRooms8}');
+  void _fetchDataForCategory(Map<String, String> buildingsMap) async {
+    print('Before fetching: $buildingsMap');
     await fetchRoomsForBuilding();
-    print('After fetching: ${buildingsWithSpecificRooms8}');
+    print('After fetching: $buildingsMap');
 
     setState(() {
-      // Clear existing markers if necessary
       _markers.clear();
-      _markerse.clear();
+      print('Buildings with specific rooms in the category:');
 
-      // currentSearchQuery = cleanSearchQuery;
-
-      // Print the buildings with specific rooms after fetching data
-      print(
-          'Buildings with rooms having year level 8 and room type Classroom:');
-      for (var entry in buildingsWithSpecificRooms8.entries) {
+      for (var entry in buildingsMap.entries) {
         String buildingName = entry.key;
         String polygonName = entry.value;
 
-        // Check if the polygon name matches any in your polygonBoundsMap
         if (polygonBoundsMap.containsKey(polygonName)) {
           LatLngBounds bounds = polygonBoundsMap[polygonName]!;
-
-          // Calculate the center of the polygon using the bounds
           LatLng center = LatLng(
             (bounds.northEast.latitude + bounds.southWest.latitude) / 2,
             (bounds.northEast.longitude + bounds.southWest.longitude) / 2,
           );
 
-          // Add a marker at the center of the polygon
           _markers.add(Marker(
             point: center,
             child: Transform.rotate(
-              angle: _markerRotation, // Apply rotation here
-              child: Icon(
-                Icons.location_on,
-                color: Colors.redAccent,
-              ),
+              angle: _markerRotation,
+              child: Icon(Icons.location_on, color: Colors.redAccent),
             ),
           ));
           print('Added marker for $buildingName at: $center');
@@ -289,272 +167,31 @@ void updateInfoContainer(
 
         print('Building: $buildingName, BuildingPolygonName: $polygonName');
       }
-      print('Total count: ${buildingsWithSpecificRooms8.length}');
+      print('Total count: ${buildingsMap.length}');
     });
   }
 
-  void _fetchDataForGrade9() async {
-    print('Before fetching: ${buildingsWithSpecificRooms9}');
-    await fetchRoomsForBuilding();
-    print('After fetching: ${buildingsWithSpecificRooms9}');
-
-    setState(() {
-      // Clear existing markers if necessary
-      _markers.clear();
-      _markerse.clear();
-
-      // currentSearchQuery = cleanSearchQuery;
-
-      // Print the buildings with specific rooms after fetching data
-      print(
-          'Buildings with rooms having year level 8 and room type Classroom:');
-      for (var entry in buildingsWithSpecificRooms9.entries) {
-        String buildingName = entry.key;
-        String polygonName = entry.value;
-
-        // Check if the polygon name matches any in your polygonBoundsMap
-        if (polygonBoundsMap.containsKey(polygonName)) {
-          LatLngBounds bounds = polygonBoundsMap[polygonName]!;
-
-          // Calculate the center of the polygon using the bounds
-          LatLng center = LatLng(
-            (bounds.northEast.latitude + bounds.southWest.latitude) / 2,
-            (bounds.northEast.longitude + bounds.southWest.longitude) / 2,
-          );
-
-          // Add a marker at the center of the polygon
-          _markers.add(Marker(
-            point: center,
-            child: Transform.rotate(
-              angle: _markerRotation, // Apply rotation here
-              child: Icon(
-                Icons.location_on,
-                color: Colors.redAccent,
-              ),
-            ),
-          ));
-          print('Added marker for $buildingName at: $center');
-        } else {
-          print('No polygon found for $polygonName');
-        }
-
-        print('Building: $buildingName, BuildingPolygonName: $polygonName');
-      }
-      print('Total count: ${buildingsWithSpecificRooms9.length}');
-    });
-  }
-
-  void _fetchDataForGrade10() async {
-    print('Before fetching: ${buildingsWithSpecificRooms10}');
-    await fetchRoomsForBuilding();
-    print('After fetching: ${buildingsWithSpecificRooms10}');
-
-    setState(() {
-      // Clear existing markers if necessary
-      _markers.clear();
-      _markerse.clear();
-
-      // currentSearchQuery = cleanSearchQuery;
-
-      // Print the buildings with specific rooms after fetching data
-      print(
-          'Buildings with rooms having year level 8 and room type Classroom:');
-      for (var entry in buildingsWithSpecificRooms10.entries) {
-        String buildingName = entry.key;
-        String polygonName = entry.value;
-
-        // Check if the polygon name matches any in your polygonBoundsMap
-        if (polygonBoundsMap.containsKey(polygonName)) {
-          LatLngBounds bounds = polygonBoundsMap[polygonName]!;
-
-          // Calculate the center of the polygon using the bounds
-          LatLng center = LatLng(
-            (bounds.northEast.latitude + bounds.southWest.latitude) / 2,
-            (bounds.northEast.longitude + bounds.southWest.longitude) / 2,
-          );
-
-          // Add a marker at the center of the polygon
-          _markers.add(Marker(
-            point: center,
-            child: Transform.rotate(
-              angle: _markerRotation, // Apply rotation here
-              child: Icon(
-                Icons.location_on,
-                color: Colors.redAccent,
-              ),
-            ),
-          ));
-          print('Added marker for $buildingName at: $center');
-        } else {
-          print('No polygon found for $polygonName');
-        }
-
-        print('Building: $buildingName, BuildingPolygonName: $polygonName');
-      }
-      print('Total count: ${buildingsWithSpecificRooms10.length}');
-    });
-  }
-
-  void _fetchDataForTLE() async {
-    print('Before fetching: ${buildingsWithSpecificRoomsTLE}');
-    await fetchRoomsForBuilding();
-    print('After fetching: ${buildingsWithSpecificRoomsTLE}');
-
-    setState(() {
-      // Clear existing markers if necessary
-      _markers.clear();
-      _markerse.clear();
-
-      // currentSearchQuery = cleanSearchQuery;
-
-      // Print the buildings with specific rooms after fetching data
-      print(
-          'Buildings with rooms having year level 8 and room type Classroom:');
-      for (var entry in buildingsWithSpecificRoomsTLE.entries) {
-        String buildingName = entry.key;
-        String polygonName = entry.value;
-
-        // Check if the polygon name matches any in your polygonBoundsMap
-        if (polygonBoundsMap.containsKey(polygonName)) {
-          LatLngBounds bounds = polygonBoundsMap[polygonName]!;
-
-          // Calculate the center of the polygon using the bounds
-          LatLng center = LatLng(
-            (bounds.northEast.latitude + bounds.southWest.latitude) / 2,
-            (bounds.northEast.longitude + bounds.southWest.longitude) / 2,
-          );
-
-          // Add a marker at the center of the polygon
-          _markers.add(Marker(
-            point: center,
-            child: Transform.rotate(
-              angle: _markerRotation, // Apply rotation here
-              child: Icon(
-                Icons.location_on,
-                color: Colors.redAccent,
-              ),
-            ),
-          ));
-          print('Added marker for $buildingName at: $center');
-        } else {
-          print('No polygon found for $polygonName');
-        }
-
-        print('Building: $buildingName, BuildingPolygonName: $polygonName');
-      }
-      print('Total count: ${buildingsWithSpecificRoomsTLE.length}');
-    });
-  }
-
-  void _fetchDataForOffices() async {
-    print('Before fetching: ${buildingsWithSpecificRoomsOffices}');
-    await fetchRoomsForBuilding();
-    print('After fetching: ${buildingsWithSpecificRoomsOffices}');
-
-    setState(() {
-      // Clear existing markers if necessary
-      _markers.clear();
-      _markerse.clear();
-
-      // currentSearchQuery = cleanSearchQuery;
-
-      // Print the buildings with specific rooms after fetching data
-      print(
-          'Buildings with rooms having year level 8 and room type Classroom:');
-      for (var entry in buildingsWithSpecificRoomsOffices.entries) {
-        String buildingName = entry.key;
-        String polygonName = entry.value;
-
-        // Check if the polygon name matches any in your polygonBoundsMap
-        if (polygonBoundsMap.containsKey(polygonName)) {
-          LatLngBounds bounds = polygonBoundsMap[polygonName]!;
-
-          // Calculate the center of the polygon using the bounds
-          LatLng center = LatLng(
-            (bounds.northEast.latitude + bounds.southWest.latitude) / 2,
-            (bounds.northEast.longitude + bounds.southWest.longitude) / 2,
-          );
-
-          // Add a marker at the center of the polygon
-          _markers.add(Marker(
-            point: center,
-            child: Transform.rotate(
-              angle: _markerRotation, // Apply rotation here
-              child: Icon(
-                Icons.location_on,
-                color: Colors.redAccent,
-              ),
-            ),
-          ));
-          print('Added marker for $buildingName at: $center');
-        } else {
-          print('No polygon found for $polygonName');
-        }
-
-        print('Building: $buildingName, BuildingPolygonName: $polygonName');
-      }
-      print('Total count: ${buildingsWithSpecificRoomsOffices.length}');
-    });
-  }
-
-  void _fetchDataForLaboratory() async {
-    print('Before fetching: ${buildingsWithSpecificRoomsLaboratory}');
-    await fetchRoomsForBuilding();
-    print('After fetching: ${buildingsWithSpecificRoomsLaboratory}');
-
-    setState(() {
-      // Clear existing markers if necessary
-      _markers.clear();
-      _markerse.clear();
-
-      // currentSearchQuery = cleanSearchQuery;
-
-      // Print the buildings with specific rooms after fetching data
-      print(
-          'Buildings with rooms having year level 8 and room type Classroom:');
-      for (var entry in buildingsWithSpecificRoomsLaboratory.entries) {
-        String buildingName = entry.key;
-        String polygonName = entry.value;
-
-        // Check if the polygon name matches any in your polygonBoundsMap
-        if (polygonBoundsMap.containsKey(polygonName)) {
-          LatLngBounds bounds = polygonBoundsMap[polygonName]!;
-
-          // Calculate the center of the polygon using the bounds
-          LatLng center = LatLng(
-            (bounds.northEast.latitude + bounds.southWest.latitude) / 2,
-            (bounds.northEast.longitude + bounds.southWest.longitude) / 2,
-          );
-
-          // Add a marker at the center of the polygon
-          _markers.add(Marker(
-            point: center,
-            child: Transform.rotate(
-              angle: _markerRotation, // Apply rotation here
-              child: Icon(
-                Icons.location_on,
-                color: Colors.redAccent,
-              ),
-            ),
-          ));
-          print('Added marker for $buildingName at: $center');
-        } else {
-          print('No polygon found for $polygonName');
-        }
-
-        print('Building: $buildingName, BuildingPolygonName: $polygonName');
-      }
-      print('Total count: ${buildingsWithSpecificRoomsLaboratory.length}');
-    });
-  }
-
+// Now call the generic function with each specific map
+  void _fetchData() => _fetchDataForCategory(buildingsWithSpecificRooms);
+  void _fetchDataForGrade8() =>
+      _fetchDataForCategory(buildingsWithSpecificRooms8);
+  void _fetchDataForGrade9() =>
+      _fetchDataForCategory(buildingsWithSpecificRooms9);
+  void _fetchDataForGrade10() =>
+      _fetchDataForCategory(buildingsWithSpecificRooms10);
+  void _fetchDataForTLE() =>
+      _fetchDataForCategory(buildingsWithSpecificRoomsTLE);
+  void _fetchDataForOffices() =>
+      _fetchDataForCategory(buildingsWithSpecificRoomsOffices);
+  void _fetchDataForLaboratory() =>
+      _fetchDataForCategory(buildingsWithSpecificRoomsLaboratory);
+// para ni sa tap if mo tap sila sa map
   void _onMapTap(LatLng tappedPoint) {
     bool polygonTapped = false;
-
     // Clear existing markers and polygons before checking the new tap
     setState(() {
-      markers.clear();
-      polygons.clear();
+      tapmarkers.clear();
+      tap_polygons.clear();
     });
     if (isRoomLayerVisible ||
         isRoomLayer2Visible ||
@@ -562,7 +199,6 @@ void updateInfoContainer(
         isRoomLayer4Visible) {
       // Check all room layers and their respective polygon maps
       Map<String, LatLngBounds>? selectedRoomPolygonBoundsMap;
-
       // Determine which layer is visible and assign the correct bounds map
       if (isRoomLayerVisible) {
         selectedRoomPolygonBoundsMap = roompolygonBoundsMap;
@@ -573,40 +209,28 @@ void updateInfoContainer(
       } else if (isRoomLayer4Visible) {
         selectedRoomPolygonBoundsMap = roompolygon4BoundsMap;
       }
-
       // Ensure the map is not null before checking entries
       if (selectedRoomPolygonBoundsMap != null) {
         for (var entry in selectedRoomPolygonBoundsMap.entries) {
           if (entry.value.contains(tappedPoint)) {
             print('Tapped Room Polygon: ${entry.key}');
             String polygonName = entry.key; // The polygon key
-            String? roomName = polygonToRoomBuildingMap[polygonName];
+            String? fullRoomName = polygonToRoomBuildingMap[polygonName];
 
-            if (roomName != null) {
-              Marker newMarker = _createMarkerForPolygon(roomName, entry.value);
+            if (fullRoomName != null) {
+              Marker newMarker =
+                  _createMarkerForPolygon(fullRoomName, entry.value);
               setState(() {
-                markers.add(newMarker);
-                // bool polygonTapped = false;
-                // markers.add(newMarker);
-                //highlightPolygon(polygon);
-
+                tapmarkers.add(newMarker);
                 // Loop through all polygons and check if the tap point is inside any polygon
                 for (var polygon in RoomPolygons) {
                   if (isPointInPolygon(tappedPoint, polygon.points)) {
-                    highlightPolygon(polygon); // Highlight the tapped polygon
-                    // polygonTapped = true;
+                    highlightedPolygon(polygon); // Highlight the tapped polygon
                     break; // Exit loop once we find the tapped polygon
                   }
                 }
-
-                // If no polygon was tapped, reset state
-                // if (!polygonTapped) {
-                //   polygons = [];
-                //   _markers = []; // Clear markers if no polygon is tapped
-                //   print('Tap point $tappedPoint is outside all polygons.');
-                // }
               });
-              print('Room Name: $roomName');
+              print('Full Room Name: $fullRoomName');
             } else {
               print('Room not found for polygon: ${entry.key}');
             }
@@ -615,69 +239,26 @@ void updateInfoContainer(
         }
       }
       if (!polygonTapped) {
-        polygons = [];
-        _markers = []; // Clear markers if no polygon is tapped
+        tap_polygons = [];
+        tapmarkers = []; // Clear markers if no polygon is tapped
         print('Tap point $tappedPoint is outside all polygons.');
       }
       print('Tap point $tappedPoint is outside all room polygons.');
     } else {
-      // Room layers are not visible, check for building polygons
-      for (var entry in polygonBoundsMap.entries) {
-        if (entry.value.contains(tappedPoint)) {
-          print('Tapped Building Polygon: ${entry.key}');
-          String polygonName = entry.key; // The polygon key
-          String? buildingName = polygonToBuildingMap[polygonName];
-
-          if (buildingName != null) {
-            Marker newMarker =
-                _createMarkerForPolygon(buildingName, entry.value);
-            setState(() {
-              markers.add(newMarker);
-
-              // Loop through all polygons and check if the tap point is inside any polygon
-              for (var polygon in allPolygons) {
-                if (isPointInPolygon(tappedPoint, polygon.points)) {
-                  highlightPolygon(polygon);
-                  // _moveMapToLocation(polygon); // Highlight the tapped polygon
-                  polygonTapped = true;
-
-                  break; // Exit loop once we find the tapped polygon
-                }
-              }
-              // If no polygon was tapped, reset state
-              // if (!polygonTapped) {
-              //   print('No polygon was tapped, clearing polygons and markers.');
-              //   setState(() {
-              //     polygons = []; // Clear highlighted polygons
-              //     markers = []; // Clear markers if no polygon is tapped
-              //   });
-              //   print('Tap point $tappedPoint is outsided all polygons.');
-              // }
-            });
-            // print('Building Name: $buildingName');
-          } else {
-            // print('Building not found for polygon: ${entry.key}');
-          }
-          return;
-        }
-      }
-
       for (var entry in LandmarkpolygonBoundsMap.entries) {
         if (entry.value.contains(tappedPoint)) {
           print('Tapped Landmark Polygon: ${entry.key}');
           String polygonName = entry.key; // The polygon key
           String? landmarkName = polygonToLandmarkMap[polygonName];
-
           if (landmarkName != null) {
             Marker newMarker =
                 _createMarkerForPolygon(landmarkName, entry.value);
             setState(() {
-              markers.add(newMarker);
-
+              tapmarkers.add(newMarker);
               // Loop through all polygons and check if the tap point is inside any polygon
               for (var polygon in allPolygons) {
                 if (isPointInPolygon(tappedPoint, polygon.points)) {
-                  highlightPolygon(polygon);
+                  highlightedPolygon(polygon);
                   // Highlight the tapped polygon
                   polygonTapped = true;
                   break; // Exit loop once we find the tapped polygon
@@ -689,20 +270,45 @@ void updateInfoContainer(
         }
       }
     }
+    // Room layers are not visible, check for building polygons
+    for (var entry in polygonBoundsMap.entries) {
+      if (entry.value.contains(tappedPoint)) {
+        print('Tapped Building Polygon: ${entry.key}');
+        String polygonName = entry.key; // The polygon key
+        String? buildingName = polygonToBuildingMap[polygonName];
 
+        if (buildingName != null) {
+          Marker newMarker = _createMarkerForPolygon(buildingName, entry.value);
+          setState(() {
+            tapmarkers.add(newMarker);
+
+            // Loop through all polygons and check if the tap point is inside any polygon
+            for (var polygon in allPolygons) {
+              if (isPointInPolygon(tappedPoint, polygon.points)) {
+                highlightedPolygon(polygon);
+
+                polygonTapped = true;
+
+                break; // Exit loop once we find the tapped polygon
+              }
+            }
+          });
+          // print('Building Name: $buildingName');
+        } else {
+          // print('Building not found for polygon: ${entry.key}');
+        }
+        return;
+      }
+    }
     if (!polygonTapped) {
       print('No polygon was tapped, clearing polygons and markers.');
       setState(() {
-        polygons = []; // Clear highlighted polygons
-        markers = []; // Clear markers if no polygon is tapped
+        tap_polygons = []; // Clear highlighted polygons
+        tapmarkers = []; // Clear markers if no polygon is tapped
       });
     }
   }
 
-// void _moveMapToLocation(LatLng location) {
-//   // Use the MapController to move and zoom
-//   mapController.move(location, 15.0); // Move to location with zoom level 18
-// }
   Marker _createMarkerForPolygon(String name, LatLngBounds bounds) {
     LatLng center = LatLng(
       (bounds.north + bounds.south) / 2,
@@ -727,15 +333,29 @@ void updateInfoContainer(
                 fontWeight: FontWeight.bold,
               ),
             ),
-            // Icon(
-            //   Icons.circle,
-            //   size: 8,
-            //   color: Colors.yellow, // Customize the color of the dot
-            // ),
           ],
         ),
       ),
     );
+  }
+
+  bool isPointInPolygon(LatLng point, List<LatLng> polygon) {
+    int n = polygon.length;
+    bool inside = false;
+
+    for (int i = 0, j = n - 1; i < n; j = i++) {
+      if (((polygon[i].longitude > point.longitude) !=
+              (polygon[j].longitude > point.longitude)) &&
+          (point.latitude <
+              (polygon[j].latitude - polygon[i].latitude) *
+                      (point.longitude - polygon[i].longitude) /
+                      (polygon[j].longitude - polygon[i].longitude) +
+                  polygon[i].latitude)) {
+        inside = !inside;
+      }
+    }
+
+    return inside;
   }
 
   void updateMapLayers(Polygon? polygon) {
@@ -750,51 +370,35 @@ void updateInfoContainer(
     }
   }
 
-  bool _isPointInsidePolygon(LatLng point, List<LatLng> polygonPoints) {
-    bool isInside = false;
-
-    for (int i = 0, j = polygonPoints.length - 1;
-        i < polygonPoints.length;
-        j = i++) {
-      if (((polygonPoints[i].latitude > point.latitude) !=
-              (polygonPoints[j].latitude > point.latitude)) &&
-          (point.longitude <
-              (polygonPoints[j].longitude - polygonPoints[i].longitude) *
-                      (point.latitude - polygonPoints[i].latitude) /
-                      (polygonPoints[j].latitude - polygonPoints[i].latitude) +
-                  polygonPoints[i].longitude)) {
-        isInside = !isInside;
-      }
+  void updateMapLayerss(Polygon? polygon) {
+    if (polygon == null) {
+      setState(() {
+        tap_polygons.clear(); // Assume polygons is a List<Polygon>
+      });
+    } else {
+      setState(() {
+        tap_polygons.add(polygon);
+      });
     }
-
-    return isInside;
   }
-//   void onSuggestionSelected(String selectedSuggestion) {
-//   // Extract the actual key from the selected suggestion
-//   String actualKey = selectedSuggestion.replaceAll(" (new)", ""); // Remove "(new)"
 
-//   // Update the search input with the actual key
-//   searchController.text = actualKey; // Assuming you have a TextEditingController for your search input
-//   // Trigger the search function here
-// }
-
-  void highlightPolygon(Polygon polygon) {
-    final Polygon highlightPolygon = Polygon(
+  void highlightedPolygon(Polygon polygon) {
+    final Polygon highlightedPolygon = Polygon(
       points: polygon.points,
       color: Colors.yellowAccent,
       borderStrokeWidth: 1.0,
       borderColor: const Color.fromARGB(255, 173, 202, 5),
     );
 
-    final Polygon mainPolygon = Polygon(
+    final Polygon mainPolygons = Polygon(
       points: polygon.points,
       color: Colors.yellowAccent,
       borderStrokeWidth: 1.0,
       borderColor: const Color.fromARGB(255, 173, 202, 5),
     );
 
-    updateMapLayers(highlightPolygon);
-    updateMapLayers(mainPolygon);
+    updateMapLayerss(highlightedPolygon);
+    updateMapLayerss(mainPolygons);
     print('polygonname: $polygon.points');
 
     LatLng polygonCenter = _calculatePolygonCenter(polygon.points);
@@ -826,7 +430,7 @@ void updateInfoContainer(
     mapController.move(location, 20.0); // Move to location with zoom level 18
   }
 
-  // Function to update polygon layers on the map
+//para sa zoom in og out
   void _zoomout() {
     _currentZoom = _currentZoom - 1;
     mapController.move(_currentCenter, _currentZoom);
@@ -837,11 +441,13 @@ void updateInfoContainer(
     mapController.move(_currentCenter, _currentZoom);
   }
 
-  // Function to update map markers
+//para ni sa search function kani sila
+  // Function to update map markers if nagsearch i update niyang markers
   void updateMarkers() {
     setState(() {});
   }
 
+  // Function to update floor visibility if nagsearch i update niyang floor
   void updateFloorVisibility(int? floorNo) {
     setState(() {
       // Reset visibility for all layers if no specific floor is selected
@@ -860,6 +466,64 @@ void updateInfoContainer(
     });
   }
 
+  void onSearchChanged(String query) async {
+    if (query.isNotEmpty) {
+      _searchResults = await getSearchSuggestions(query); // Fetch suggestions
+      setState(() {}); // Update UI with new search results
+    } else if (_searchResults.isNotEmpty) {
+      _searchResults.clear();
+      setState(() {}); // Only update UI if results were previously non-empty
+    }
+  }
+
+  void setLayerButtonVisibility(bool isVisible) {
+    setState(() {
+      isLayerButtonVisible = isVisible;
+    });
+  }
+
+  // Function to perform the search when an item is tapped or search is submitted
+  Future<void> performSearch(BuildContext context,
+      {String? selectedResult, double markerRotation = 0.0}) async {
+    // Set the search field text if a specific result is selected
+    if (selectedResult != null) {
+      _searchController.text = selectedResult;
+    }
+
+    // Check if the search field is empty
+    if (_searchController.text.trim().isEmpty) {
+      print("Search field is empty");
+      return; // Exit the function if there's no query
+    }
+    // Proceed with the search operation
+    await searchBuildings(
+      _searchController.text,
+      mapController,
+      markers,
+      updateMarkers,
+      updateMapLayers,
+      setLayerVisibility,
+      updateFloorVisibility,
+      context,
+      setLayerButtonVisibility,
+      updateInfoContainer,
+      _markerRotation,
+    );
+
+    // Check if there are search results to display
+    bool searchSuccessful = markers.isNotEmpty || polygons.isNotEmpty;
+    if (mounted) {
+      setState(() {
+        _isSearchClicked = searchSuccessful;
+        _searchResults.clear(); // Clear suggestions after search
+        tapmarkers.clear();
+        tap_polygons.clear();
+        _markers.clear();
+      });
+    }
+  }
+
+  // para ni sa layers na button if iya itap tong naay 1f, 2f,3f, 4f ma visible or dili
   void setLayerVisibility({
     bool? layer1Visible,
     bool? layer2Visible,
@@ -919,75 +583,10 @@ void updateInfoContainer(
         isRoomLayer3Visible = false;
         isRoomLayerVisible = false;
       }
-
-      //   // Handle room layers
-      //   if (roomLayerVisible != null) isRoomLayerVisible = roomLayerVisible;
-      // if (roomLayer2Visible != null) isRoomLayer2Visible = roomLayer2Visible;
-      // if (roomLayer3Visible != null) isRoomLayer3Visible = roomLayer3Visible;
-      // if (roomLayer4Visible != null) isRoomLayer4Visible = roomLayer4Visible;
-
-      // Debug prints
-      print('Layer 1 Visibility: $isLayer1Visible');
-      print('Layer 2 Visibility: $isLayer2Visible');
-      print('Layer 3 Visibility: $isLayer3Visible');
-      print('Layer 4 Visibility: $isLayer4Visible');
-      print('Room Layer Visibility: $isRoomLayerVisible');
-      print('Room Layer 2 Visibility: $isRoomLayer2Visible');
-      print('Room Layer 3 Visibility: $isRoomLayer3Visible');
-      print('Room Layer 4 Visibility: $isRoomLayer4Visible');
     });
   }
 
   // Function to handle search input changes and show suggestions
-  void onSearchChanged(String query) async {
-    if (query.isNotEmpty) {
-      _searchResults = await getSearchSuggestions(
-          query); // Implement this function to get suggestions
-    } else {
-      _searchResults.clear();
-    }
-    setState(() {});
-  }
-
-  void setLayerButtonVisibility(bool isVisible) {
-    setState(() {
-      isLayerButtonVisible = isVisible;
-    });
-  }
-
-  // Function to perform the search when an item is tapped or search is submitted
-  Future<void> performSearch(BuildContext context,
-      {String? selectedResult, double mapRotation = 0.0}) async {
-    if (!mounted) return; // Check if widget is still in the tree
-
-    if (selectedResult != null) {
-      _searchController.text = selectedResult;
-    }
-    await searchBuildings(
-      _searchController.text,
-      mapController,
-      markers,
-      updateMarkers,
-      updateMapLayers,
-      setLayerVisibility,
-      updateFloorVisibility,
-
-      context,
-      setLayerButtonVisibility,
-      updateInfoContainer,
-      mapRotation, // Pass this function
-    );
-
-    bool searchSuccessful = markers.isNotEmpty || polygons.isNotEmpty;
-    if (mounted) {
-      setState(() {
-        _isSearchClicked = searchSuccessful;
-        // Update the state here// Show circles after search is performed
-        _searchResults.clear(); // Clear suggestions after search
-      });
-    }
-  }
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -1047,14 +646,14 @@ void updateInfoContainer(
         _refreshMap();
         print('Selected index 1, calling _refreshMap');
       } else if (_selectedIndex == 2) {
-         _refreshMap();
-               // Navigator.of(context).pop();
-                _showUpdateMessage();
+        _refreshMap();
+        // Navigator.of(context).pop();
+        _showUpdateMessage();
         // Navigate to another screen if needed
         // Navigator.push(
         //   context,
         //   MaterialPageRoute(builder: (context) => NavigationScreen()),
-      //  );
+        //  );
       } else {
         isCategoryBarVisible = false;
       }
@@ -1129,7 +728,7 @@ void updateInfoContainer(
     });
   }
 
-  double _mapRotation = 0.0; // Initial rotation angle
+  //double _mapRotation = 0.0; // Initial rotation angle
 
 // Update this variable in your _resetMapRotation method
   void _resetMapRotation() {
@@ -1138,7 +737,7 @@ void updateInfoContainer(
         mapController.rotate(0); // Rotate to North
         _iconImagePath = 'assets/north-compass.png';
         _markerRotation = 0; // Reset marker rotation to north
-        _mapRotation = 0;
+        //  _mapRotation = 0;
         mapController.move(
             initialCenter, _currentZoom); // Update the rotation state
         // Update the rotation state
@@ -1146,7 +745,7 @@ void updateInfoContainer(
         mapController.rotate(180); // Rotate to South
         _iconImagePath = 'assets/south-compass.png';
         _markerRotation = 3.1416; // Rotate markers to 180 degrees (pi radians)
-        _mapRotation = 180;
+        // _mapRotation = 180;
         mapController.move(
             southcompassCenter, _currentZoom); // Update the rotation state
       }
@@ -1162,8 +761,9 @@ void updateInfoContainer(
       mapController.move(initialCenter, initialZoom);
       markers.clear();
       polygons.clear();
+      tap_polygons.clear();
       _markers.clear();
-      _markerse.clear();
+      tapmarkers.clear();
       _isSearchClicked = false;
       _searchController.clear();
       isLayer1Visible = false;
@@ -1175,6 +775,7 @@ void updateInfoContainer(
       isRoomLayer3Visible = false;
       isRoomLayer4Visible = false;
       areLayerButtonsVisible = false;
+      _searchResults.clear();
     });
 
     // Perform async tasks after state has been updated
@@ -1187,7 +788,7 @@ void updateInfoContainer(
     print('Map refreshed'); // Debugging purpose
   }
 
-  bool isPointInPolygon(LatLng point, List<LatLng> polygon) {
+  bool _isPointInPolygon(LatLng point, List<LatLng> polygon) {
     int n = polygon.length;
     bool inside = false;
 
@@ -1249,7 +850,7 @@ void updateInfoContainer(
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Data is Updated'),
-          content: Text('You are up to Date'),
+          content: Text('You are up to date!'),
           actions: [
             TextButton(
               onPressed: () {
@@ -1271,7 +872,6 @@ void updateInfoContainer(
         title: const Text(
           'NOCNHS Mobile Map',
           style: TextStyle(
-            
             color: Colors.white,
             fontSize: 20,
           ), // Set text color here
@@ -1378,12 +978,12 @@ void updateInfoContainer(
           children: [
             FlutterMap(
               options: MapOptions(
-              initialCenter: _currentCenter, // Initial center of the map
-              initialZoom: _currentZoom,
-              minZoom: 17.4,
-              maxZoom: 20,
-              onTap: (_, tappedPoint) =>
-              _onMapTap(tappedPoint), // Initial zoom level
+                initialCenter: _currentCenter, // Initial center of the map
+                initialZoom: _currentZoom,
+                minZoom: 17.4,
+                maxZoom: 20,
+                onTap: (_, tappedPoint) =>
+                    _onMapTap(tappedPoint), // Initial zoom level
               ),
               mapController: mapController,
               children: build_MapLayers(
@@ -1391,14 +991,13 @@ void updateInfoContainer(
                 _markers,
                 [],
                 markers,
-                // buildingPolygonse,
+                tapmarkers,
                 polygons,
+                tap_polygons,
                 isLayer1Visible,
                 isLayer2Visible,
                 isLayer3Visible,
                 isLayer4Visible,
-                // _isTapped,
-                // (LatLng point) => _handlePolygonTap(context, point),
               ),
             ),
             Positioned(
@@ -1412,6 +1011,22 @@ void updateInfoContainer(
                   child: Image.asset(
                     _iconImagePath, // Replace with your image path
                     fit: BoxFit.contain, // Adjust to maintain aspect ratio
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 10.0,
+              left: 10,
+              child: Container(
+                color: Colors.black
+                    .withOpacity(0.5), // Semi-transparent background
+                padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                child: Text(
+                  '© OpenStreetMap contributors',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12.0,
                   ),
                 ),
               ),
@@ -1457,12 +1072,13 @@ void updateInfoContainer(
                     ),
                   ],
                 ),
+
                 child: Column(
                   children: [
                     Row(
                       children: [
                         Expanded(
-                          child: TextField(
+                           child: TextField(
                             controller: _searchController,
                             decoration: InputDecoration(
                               labelText: 'Search Building',
@@ -1491,30 +1107,36 @@ void updateInfoContainer(
                                       icon:
                                           Icon(Icons.clear, color: Colors.red),
                                       onPressed: () {
-                                        _searchController.clear(); 
-                                        //  _searchController.clear(); 
-                                        _searchResults.clear(); 
+                                        _searchController.clear();
+                                        //  _searchController.clear();
+                                        _searchResults.clear();
                                         onSearchChanged('');
-                                        setState(() {}); 
+                                        setState(() {});
                                       },
                                     )
                                   : IconButton(
                                       icon: Icon(Icons.search,
                                           color: Colors.indigo),
                                       onPressed: () async {
-                                         if (_searchController.text.trim().isNotEmpty) { 
-                                    await performSearch(context);
-                                  } else {
-                                    print("Search field is empty");
-                                  }
-                                 },
-                              ),
+                                        if (_searchController.text
+                                            .trim()
+                                            .isNotEmpty) {
+                                          await performSearch(context);
+                                        } else {
+                                          print("Search field is empty");
+                                        }
+                                      },
+                                    ),
                             ),
                             onChanged: (value) {
                               setState(() {}); // Update UI when text changes
-                              onSearchChanged(value);
+                              if (value.trim().isNotEmpty) {
+                                onSearchChanged(value);
+                              }
                               areLayerButtonsVisible = false;
                               _markers.clear(); // Trigger search change
+                              tapmarkers.clear();
+                              tap_polygons.clear();
                             },
                             onSubmitted: (value) => performSearch(context),
                           ),
@@ -1567,10 +1189,12 @@ void updateInfoContainer(
                               ),
                               onTap: () async {
                                 _searchController.text = actualName;
-                                //  _resetMapRotation(); // Set input to actual name
-                                await performSearch(context,
-                                    selectedResult: actualName,
-                                    mapRotation: _mapRotation);
+
+                                await performSearch(
+                                  context,
+                                  selectedResult: actualName,
+                                  markerRotation: _markerRotation,
+                                );
                               },
                             );
                           },
@@ -1592,56 +1216,6 @@ void updateInfoContainer(
                   buildCircleButton(3, '3f'),
                   buildCircleButton(4, '4f'),
                 ],
-              ),
-
-            // Layer indicator
-            if (isCategoryBarVisible)
-              Positioned(
-                bottom: 30,
-                left: 10, // Add some spacing from the edge
-                child: Container(
-                  width: 100,
-                  height: 250,
-                  padding: EdgeInsets.all(10), // Add some padding
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(15), // Rounded corners
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        spreadRadius: 2,
-                        blurRadius: 8,
-                        offset: Offset(0, 3), // Shadow position
-                      ),
-                    ],
-                    gradient: LinearGradient(
-                      colors: [Colors.blueAccent, Colors.lightBlueAccent],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ), // Gradient background
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.category,
-                        color: Colors.white,
-                        size: 30,
-                      ), // A category icon at the top
-                      SizedBox(height: 10),
-                      Text(
-                        'Category Bar',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Arial', // Custom font style
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
               ),
 
             Positioned(
@@ -1869,10 +1443,11 @@ void _showLegendDialog(BuildContext context) {
                   _buildLegendItem(Colors.orangeAccent, '3rd Floor Rooms'),
                   _buildLegendItem(Colors.green, '4th Floor Rooms'),
                   _buildLegendItem(Colors.blueGrey, 'Landmarks'),
-                  _buildLegendItem( const Color.fromARGB(255, 138, 125, 120), 'Canteens'),
-                  _buildLegendItem(const Color.fromARGB(255, 216, 209, 143), 'Comfort Rooms (outside)'),
-                    _buildLegendItem( Colors.white, 'Comfort Rooms (inside)'),
-                  
+                  _buildLegendItem(
+                      const Color.fromARGB(255, 138, 125, 120), 'Canteens'),
+                  _buildLegendItem(const Color.fromARGB(255, 216, 209, 143),
+                      'Comfort Rooms (outside)'),
+                  _buildLegendItem(Colors.white, 'Comfort Rooms (inside)'),
                 ],
               ),
             ),

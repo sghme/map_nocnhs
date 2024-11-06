@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'mappeh.dart';
-import 'dart:math' as math;
+//import 'dart:math' as math;
 
 //double _markerRotation = 0;
 // Function to get search suggestions
@@ -97,7 +97,8 @@ Future<void> searchBuildings(
   Function setLayerButtonVisibility,
   Function
       updateInfoContainer, 
-  double mapRotation,// This is now the function to update info container
+  //double mapRotation,
+  double _markerRotation,// This is now the function to update info container
 ) async {
   print('Fetching building, landmarks, room data for query: $query');
   String searchQuery = query;
@@ -170,12 +171,19 @@ Future<void> searchBuildings(
   String teacherName = roomTeacherMap[matchedKey] ?? ''; // Empty if not found
 
   // Combine the teacher names, avoiding duplicates
- if (teacherName.isNotEmpty && !teachersName.contains(teacherName)) {
-  if (teachersName.isEmpty) {
-    teachersName = ' $teacherName'; // Initialize with the first teacher and a bullet point
-  } else {
-    teachersName = '• $teachersName\n• $teacherName'; // Append subsequent teachers with a bullet and newline
-  }
+ if (teacherName.isNotEmpty && teacherName != "None" && !teachersName.contains(teacherName)) {
+      if (teachersName.isEmpty) {
+        teachersName = ' $teacherName'; // Initialize with the first teacher and a bullet point
+      } else {
+        teachersName = '• $teachersName\n• $teacherName'; // Append subsequent teachers with a bullet and newline
+      }
+    }
+
+    // If teachersName is "None", clear it
+    if (teachersName.trim() == "None") {
+      teachersName = ''; // Clear to avoid showing "None"
+    
+    
 }
       String roombuildingName = roomBuildingMap[matchedKey] ?? 'N/A';
       int floorNo = roomFloorNumbers[matchedKey] ?? 0;
@@ -367,7 +375,7 @@ Future<void> searchBuildings(
             height: 45.0,
             child: Transform.rotate(
               angle:
-                 mapRotation * (math.pi / 180),  // Apply the rotation to both text and icon
+                _markerRotation,  // Apply the rotation to both text and icon
               child: Column(
                 children: [
                   Text(
@@ -424,7 +432,7 @@ Future<void> searchBuildings(
 
          final Polygon mainPolygon = Polygon(
           points: polygonCoords,
-          color: Colors.yellowAccent,
+          color:  Colors.yellowAccent,
           borderStrokeWidth: 2.0,
           borderColor:  const Color.fromARGB(221, 141, 172, 29),
         );
@@ -448,12 +456,19 @@ Future<void> searchBuildings(
   String teacherName = roomTeacherMap[matchedKey] ?? ''; // Empty if not found
 
   // Combine the teacher names, avoiding duplicates
- if (teacherName.isNotEmpty && !teachersName.contains(teacherName)) {
-  if (teachersName.isEmpty) {
-    teachersName = '• $teacherName'; // Initialize with the first teacher and a bullet point
-  } else {
-    teachersName = '$teachersName\n• $teacherName'; // Append subsequent teachers with a bullet and newline
-  }
+ if (teacherName.isNotEmpty && teacherName != "None" && !teachersName.contains(teacherName)) {
+      if (teachersName.isEmpty) {
+        teachersName = ' $teacherName'; // Initialize with the first teacher and a bullet point
+      } else {
+        teachersName = '• $teachersName\n• $teacherName'; // Append subsequent teachers with a bullet and newline
+      }
+    }
+
+    // If teachersName is "None", clear it
+    if (teachersName.trim() == "None") {
+      teachersName = ''; // Clear to avoid showing "None"
+    
+    
 }
                   String roombuildingName =
                       roomBuildingMap[matchedKey] ?? 'N/A';
@@ -586,7 +601,7 @@ Future<void> searchBuildings(
               // },
               child: Transform.rotate(
               angle:
-                 mapRotation * (math.pi / 180), 
+                 _markerRotation, 
               child: Center(
                 child: Icon(
                   Icons.apartment,

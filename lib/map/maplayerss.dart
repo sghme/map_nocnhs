@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 //import 'package:flutter_openstreetmapnocnhs/icons.dart';
+import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_tile_provider.dart';
 import 'package:latlong2/latlong.dart';
 import '1stFlooRoom.dart';
 import '2ndFloorRoom.dart';
@@ -16,8 +17,9 @@ List<Widget> build_MapLayers(
   List<Marker> _markers,
   List<LatLng> polylines,
   List<Marker> markers,
-  // List<Polygon> buildingPolygonse,
+   List<Marker> tapmarkers,
   List<Polygon> polygons,
+    List<Polygon> tap_polygons,
   bool isLayer1Visible,
   bool isLayer2Visible,
   bool isLayer3Visible,
@@ -29,8 +31,9 @@ List<Widget> build_MapLayers(
 ) {
   return [
     TileLayer(
-      urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      subdomains: ['a', 'b', 'c'],
+      tileProvider: CancellableNetworkTileProvider(),
+      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+     // subdomains: ['a', 'b', 'c'],
     ),
     // Ensure this returns a LayerOptions or Layer
     createSchoolArea(),
@@ -44,24 +47,19 @@ List<Widget> build_MapLayers(
     PolygonLayer(
       polygons: polygons,
     ),
-    MarkerLayer(markers: markers),
-    //  if (_isTapped)
-    //         Positioned(
-    //           top: 30,
-    //           left: 10,
-    //           child: Container(
-    //             color: Colors.white,
-    //             padding: EdgeInsets.all(5),
-    //             child: Text(
-    //               'Polygon Info',
-    //               style: TextStyle(color: Colors.black),
-    //             ),
-    //           ),
-    //         ),
+    PolygonLayer(
+      polygons: tap_polygons,
+    ), // polygons para sa sa gitap tong yellow na mo pop up
+    
+    MarkerLayer(markers: markers), // markers para sa gisearch
+  
          
             
              MarkerLayer(
-            markers: _markers, // Dynamic markers list
+            markers: _markers, //markers para sa categories
+          ),
+              MarkerLayer(
+            markers: tapmarkers, //markers para sa tap
           ),
          
     
