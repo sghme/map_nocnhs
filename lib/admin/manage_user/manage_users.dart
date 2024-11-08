@@ -228,8 +228,12 @@ class _ManageUsersState extends State<ManageUsers> {
                                     },
                                   ),
                                   IconButton(
-                                    icon: Icon(Icons.delete, color: Colors.red),
-                                    onPressed: () {
+                                   icon: Icon(
+                                      Icons.delete,
+                                      color: users.length > 1 ? Colors.red : Colors.black, // Black if only one user, red otherwise
+                                    ),
+                                    onPressed:  users.length > 1
+                                    ? () {
                                       _deleteUserManager.showDeleteConfirmation(
                                         context,
                                         user['id'] as int,
@@ -239,7 +243,8 @@ class _ManageUsersState extends State<ManageUsers> {
                                           });
                                         },
                                       );
-                                    },
+                                    }
+                                    : null,
                                   ),
                                 ],
                               ),

@@ -86,8 +86,8 @@ class _AddUserFormState extends State<AddUserForm> {
                         color: passwordStrength == 'Password is strong' ? Colors.green : Colors.red,
                       ),
                     ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center, // Aligns the checkbox with text in the middle
+                   Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SizedBox(
                           width: 100.0, // Align it to match the input field label
@@ -98,12 +98,12 @@ class _AddUserFormState extends State<AddUserForm> {
                             ),
                           ),
                         ),
-                        SizedBox(width: 12), // Spacing between label and checkbox
-                        Expanded(
+                        SizedBox(width: 8), // Spacing between label and checkbox
+                        Flexible(
                           child: Row(
                             children: [
                               Transform.scale(
-                                scale: 0.8, // Shrinks the size of the checkbox
+                                scale: 0.6, // Shrinks the size of the checkbox
                                 child: Checkbox(
                                   value: _termsAccepted,
                                   onChanged: (value) {
@@ -113,26 +113,30 @@ class _AddUserFormState extends State<AddUserForm> {
                                   },
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => TermsAndConditionsPage()),
-                                  );
-                                },
-                                child: Text.rich(
-                                  TextSpan(
-                                    text: 'I agree to the ',
-                                    children: [
-                                      TextSpan(
-                                        text: 'Terms and Conditions',
-                                        style: TextStyle(
-                                          color: Colors.blue,
-                                          decoration: TextDecoration.none,
+                              Flexible(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => TermsAndConditionsPage()),
+                                    );
+                                  },
+                                  child: Text.rich(
+                                    TextSpan(
+                                      text: 'I agree to the ',
+                                      children: [
+                                        TextSpan(
+                                          text: 'Terms and Conditions',
+                                          style: TextStyle(
+                                            color: Colors.blue,
+                                            decoration: TextDecoration.none,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                    style: TextStyle(fontSize: 12.0, color: Colors.black87), // Smaller font size
+                                      ],
+                                      style: TextStyle(fontSize: 11.0, color: Colors.black87),
+                                    ),
+                                    overflow: TextOverflow.ellipsis, // Prevents overflow by truncating text
+                                    maxLines: 1, // Ensures the text stays on one line
                                   ),
                                 ),
                               ),
@@ -195,8 +199,21 @@ class _AddUserFormState extends State<AddUserForm> {
                                         context: context,
                                         builder: (BuildContext context) {
                                           return AlertDialog(
-                                            title: Text('Success'),
-                                            content: Text('User added successfully. Please check your email to verify your account.'),
+                                            title: Text('Account Created'),
+                                            content: RichText(
+                                                    text: TextSpan(
+                                                      style: Theme.of(context).textTheme.bodyMedium,
+                                                      children: [
+                                                        TextSpan(
+                                                          text: 'Your account has been created. ',
+                                                        ),
+                                                        TextSpan(
+                                                          text: 'Please check your email to verify and activate your account!',
+                                                          style: TextStyle(color: Colors.red), // Set this part in red
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),                                            
                                             actions: [
                                               TextButton(
                                                 onPressed: () {

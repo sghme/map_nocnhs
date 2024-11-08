@@ -35,65 +35,115 @@ class _RoomTypeAddState extends State<RoomTypeAdd> {
     }
   }
 
-  Widget _buildFormField(
-    String labelText,
-    void Function(String?)? onSaved,
-    String? Function(String?)? validator, {
-    bool obscureText = false,
-  }) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: 100.0,
-          child: Text(
-            labelText,
-            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-          ),
-        ),
-        SizedBox(width: 12),
-        Container(
-          width: 300.0, // Set a fixed width to make the input field smaller
-          child: TextFormField(
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              contentPadding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+  
+@override
+Widget build(BuildContext context) {
+  return Padding(
+    padding: const EdgeInsets.all(16.0),
+    child: Form(
+      key: _formKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Center(
+            child: _buildFormField(
+              'Room Type: ',
+              (value) => _roomTypeName = value,
+              (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter a room type';
+                }
+                return null;
+              },
             ),
-            obscureText: obscureText,
-            onSaved: onSaved,
-            validator: validator,
           ),
-        ),
-      ],
-    );
-  }
+        ],
+      ),
+    ),
+  );
+}
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, // Center the form vertically
-          crossAxisAlignment: CrossAxisAlignment.center, // Center the form horizontally
-          children: [
-            Center(
-              child: _buildFormField(
-                'Room Type: ',
-                (value) => _roomTypeName = value,
-                (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a room type';
-                  }
-                  return null;
-                },
+
+
+Widget _buildFormField(
+  String labelText,
+  void Function(String?)? onSaved,
+  String? Function(String?)? validator, {
+  bool obscureText = false,
+}) {
+  return LayoutBuilder(
+    builder: (context, constraints) {
+      bool isSmallScreen = constraints.maxWidth < 600;
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 100.0,
+                child: Text(
+                  labelText,
+                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            SizedBox(height: 20),
+              SizedBox(width: 12),
+              // Wrapping the input field and buttons together
+              Container(
+                width: isSmallScreen ? constraints.maxWidth * 0.6 : 300.0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                      ),
+                      obscureText: obscureText,
+                      onSaved: onSaved,
+                      validator: validator,
+                    ),
+                    SizedBox(height: 10),
+                    // Buttons aligned under the input field on mobile
+                    if (isSmallScreen)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          ElevatedButton(
+                            onPressed: _addRoomType,
+                            child: Text('Save'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              foregroundColor: Colors.white,
+                              minimumSize: Size(80, 36),
+                              padding: EdgeInsets.symmetric(horizontal: 12.0),
+                            ),
+                          ),
+                          SizedBox(width: 4), // Reduced spacing between buttons
+                          TextButton(
+                            onPressed: widget.onClose,
+                            child: Text('Cancel'),
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.red,
+                              foregroundColor: Colors.white,
+                              minimumSize: Size(80, 36),
+                              padding: EdgeInsets.symmetric(horizontal: 12.0),
+                            ),
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          // Desktop layout remains the same
+          if (!isSmallScreen)
             Row(
-              mainAxisAlignment: MainAxisAlignment.center, // Center the buttons horizontally
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
                   onPressed: _addRoomType,
@@ -107,9 +157,9 @@ class _RoomTypeAddState extends State<RoomTypeAdd> {
                 ),
                 SizedBox(width: 8),
                 TextButton(
-                  onPressed: widget.onClose, // Close the form when Cancel is pressed
+                  onPressed: widget.onClose,
                   child: Text('Cancel'),
-                  style: ElevatedButton.styleFrom(
+                  style: TextButton.styleFrom(
                     backgroundColor: Colors.red,
                     foregroundColor: Colors.white,
                     minimumSize: Size(80, 36),
@@ -118,9 +168,10 @@ class _RoomTypeAddState extends State<RoomTypeAdd> {
                 ),
               ],
             ),
-          ],
-        ),
-      ),
-    );
-  }
+        ],
+      );
+    },
+  );
+}
+
 }

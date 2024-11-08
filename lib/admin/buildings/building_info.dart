@@ -236,127 +236,94 @@ class _BuildingInfoState extends State<BuildingInfo> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Building Info'),
-        actions: [
-          SizedBox(
-            height: 35.0,
-            width: 250.0,
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                hintText: 'Search',
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),
-                suffixIcon: Icon(Icons.search),
-              ),
+ @override
+Widget build(BuildContext context) {
+  // Get screen width
+  double screenWidth = MediaQuery.of(context).size.width;
+  bool isSmallScreen = screenWidth < 600; // Define threshold for small screens
+
+  return Scaffold(
+    appBar: AppBar(
+      title: Text('Building Info'),
+      actions: [
+        SizedBox(
+          height: 35.0,
+          width: 250.0,
+          child: TextField(
+            controller: _searchController,
+            decoration: InputDecoration(
+              hintText: 'Search',
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),
+              suffixIcon: Icon(Icons.search),
             ),
           ),
-          SizedBox(width: 10),
-        ],
-      ),
-      body: 
-      // _isAddingBuilding
-      //     ? BuildingAddForm(
-      //         formKey: GlobalKey<FormState>(),
-      //         onAddBuilding: _addBuilding,
-      //         onCancel: _toggleAddBuilding,
-      //       )
-           _isAddingRoom
-          ? RoomAddForm(
-              formKey: GlobalKey<FormState>(),
-              onAddRoom: _addRoom,
-              onCancel: _toggleAddRoom,
-            )
-          : _isAddingCR
-          ? CRAddForm(
-              formKey: GlobalKey<FormState>(),
-              onAddCR: _addCR,
-              onCancel: _toggleAddCR,
-            )
-          : _isEditingBuilding && _buildToEdit != null
-          ? BuildingEditForm(
-              info: _buildToEdit!,
-              formKey: GlobalKey<FormState>(),
-              onEditBuilding: _editBuilding,
-              onCancel: () {
-                setState(() {
-                  _isEditingBuilding = false;
-                });
-              },
-            )
-          : Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
+        ),
+        SizedBox(width: 10),
+      ],
+    ),
+    body: _isAddingRoom
+        ? RoomAddForm(
+            formKey: GlobalKey<FormState>(),
+            onAddRoom: _addRoom,
+            onCancel: _toggleAddRoom,
+          )
+        : _isAddingCR
+            ? CRAddForm(
+                formKey: GlobalKey<FormState>(),
+                onAddCR: _addCR,
+                onCancel: _toggleAddCR,
+              )
+            : _isEditingBuilding && _buildToEdit != null
+                ? BuildingEditForm(
+                    info: _buildToEdit!,
+                    formKey: GlobalKey<FormState>(),
+                    onEditBuilding: _editBuilding,
+                    onCancel: () {
+                      setState(() {
+                        _isEditingBuilding = false;
+                      });
+                    },
+                  )
+                : Column(
                     children: [
-                      // Wrap(
-                      //   spacing: 8.0,
-                      //   runSpacing: 8.0,
-                      //   children: [
-                      //     ElevatedButton.icon(
-                      //       icon: Icon(Icons.add),
-                      //       label: Text('Add Building Info'),
-                      //       onPressed: _toggleAddBuilding,
-                      //     ),
-                      //     ElevatedButton.icon(
-                      //       icon: Icon(Icons.add),
-                      //       label: Text('Add Room Info'),
-                      //       onPressed: _toggleAddRoom,
-                      //     ),
-                      //     ElevatedButton.icon(
-                      //       icon: Icon(Icons.add),
-                      //       label: Text('Add CR Info'),
-                      //       onPressed: _toggleAddCR,
-                      //     ),
-                      //   ],
-                      // ),
-                      // Spacer(),
-                      // SizedBox(
-                      //   height: 35.0,
-                      //   width: 250.0,
-                      //   child: TextField(
-                      //     controller: _searchController,
-                      //     decoration: InputDecoration(
-                      //       labelText: 'Search Building',
-                      //       border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),
-                      //       suffixIcon: Icon(Icons.search),
-                      //     ),
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                ),Expanded(
-                            child: FutureBuilder<List<Map<String, dynamic>>>(
-                              future: _buildingInfoFuture,
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                  return Center(child: CircularProgressIndicator());
-                                } else if (snapshot.hasError) {
-                                  return Center(child: Text('Error: ${snapshot.error}'));
-                                } else {
-                                  List<Map<String, dynamic>> data = snapshot.data ?? [];
-                                  bool hasData = data.isNotEmpty;
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          children: [],
+                        ),
+                      ),
+                      Expanded(
+                        child: FutureBuilder<List<Map<String, dynamic>>>(
+                          future: _buildingInfoFuture,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return Center(child: CircularProgressIndicator());
+                            } else if (snapshot.hasError) {
+                              return Center(child: Text('Error: ${snapshot.error}'));
+                            } else {
+                              List<Map<String, dynamic>> data = snapshot.data ?? [];
+                              bool hasData = data.isNotEmpty;
 
-                                  return SingleChildScrollView(
-                                    padding: const EdgeInsets.all(16.0),
-                                    scrollDirection: Axis.vertical,
-                                    child: Column(
-                                      children: [
-                                        Table(
+                              return SingleChildScrollView(
+                                padding: const EdgeInsets.all(16.0),
+                                scrollDirection: Axis.vertical,
+                                child: Column(
+                                  children: [
+                                    // Wrap the Table with SingleChildScrollView for horizontal scroll in mobile
+                                    if (isSmallScreen)
+                                      SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: Table(
                                           border: TableBorder.all(
                                             color: const Color.fromARGB(255, 218, 218, 218),
                                           ),
                                           columnWidths: {
-                                            0: FlexColumnWidth(1),
-                                            1: FlexColumnWidth(1),
-                                            2: FlexColumnWidth(1),
-                                            3: FlexColumnWidth(1),
-                                            4: FlexColumnWidth(1),
-                                            5: FixedColumnWidth(100.0),
+                                            0: IntrinsicColumnWidth(),
+                                            1: IntrinsicColumnWidth(),
+                                            2: IntrinsicColumnWidth(),
+                                            3: IntrinsicColumnWidth(),
+                                            4: IntrinsicColumnWidth(),
+                                            5: IntrinsicColumnWidth(),
                                           },
                                           children: [
                                             TableRow(
@@ -412,27 +379,96 @@ class _BuildingInfoState extends State<BuildingInfo> {
                                             if (hasData) ...data.map(_buildTableRow).toList(),
                                           ],
                                         ),
-                                        if (!hasData)
-                                          Center(
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(32.0),
-                                              child: Text(
-                                                'No data available',
-                                                style: TextStyle(fontSize: 16.0),
-                                              ),
+                                      )
+                                    else
+                                      Table(
+                                        border: TableBorder.all(
+                                          color: const Color.fromARGB(255, 218, 218, 218),
+                                        ),
+                                        columnWidths: {
+                                          0: FlexColumnWidth(1),
+                                          1: FlexColumnWidth(1),
+                                          2: FlexColumnWidth(1),
+                                          3: FlexColumnWidth(1),
+                                          4: FlexColumnWidth(1),
+                                          5: FixedColumnWidth(100.0),
+                                        },
+                                        children: [
+                                          TableRow(
+                                            decoration: BoxDecoration(
+                                              color: Colors.blueGrey.shade50,
                                             ),
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  'Building Name',
+                                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  'No. of Floors',
+                                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  'No. of Rooms',
+                                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  'Building Picture',
+                                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  'Last Updated',
+                                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  'Actions',
+                                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                      ],
-                                    ),
-                                  );
-                                }
-                              },
-                            ),
-                          ),
-                        ],
+                                          // Add data rows only if available
+                                          if (hasData) ...data.map(_buildTableRow).toList(),
+                                        ],
+                                      ),
+                                    if (!hasData)
+                                      Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(32.0),
+                                          child: Text(
+                                            'No data available',
+                                            style: TextStyle(fontSize: 16.0),
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              );
+                            }
+                          },
+                        ),
                       ),
-    );
-  }
+                    ],
+                  ),
+  );
+}
+
 }
 
 

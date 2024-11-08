@@ -81,7 +81,7 @@ Future<void> _loadSelectedRoute() async {
   Widget build(BuildContext context) {
     return AdminScaffold(
       appBar: AppBar(
-        title: Text('Admin Panel', style: TextStyle(color: Colors.white)),
+        title: Text('MAPNOCNHS Admin Panel', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.red.shade900,
          iconTheme: IconThemeData(color: Colors.white),
         actions: [

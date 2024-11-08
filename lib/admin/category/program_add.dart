@@ -33,108 +33,111 @@ class _ProgramAddState extends State<ProgramAdd> {
     }
   }
 
-   Widget _buildFormField(
-    String labelText,
-    void Function(String?)? onSaved,
-    String? Function(String?)? validator, {
-    bool obscureText = false,
-  }) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: 100.0,
-          child: Text(
-            labelText,
-            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-          ),
-        ),
-        SizedBox(width: 12),
-        Container(
-          width: 300.0, // Set a fixed width to make the input field smaller
-          child: TextFormField(
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              contentPadding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-            ),
-            obscureText: obscureText,
-            onSaved: onSaved,
-            validator: validator,
-          ),
-        ),
-      ],
-    );
-  }
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, // Center the form vertically
-          crossAxisAlignment: CrossAxisAlignment.center, 
-          children: [
-            Center(
-             child:  _buildFormField(
+@override
+Widget build(BuildContext context) {
+  return Padding(
+    padding: const EdgeInsets.all(16.0),
+    child: Form(
+      key: _formKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Center(
+            child: _buildFormField(
               'Curriculum Code: ',
               (value) => _programName = value,
               (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter a urriculum code';
+                  return 'Please enter a curriculum code';
                 }
                 return null;
               },
             ),
-            
+          ),
+          SizedBox(height: 20),
+          Center(
+            child: _buildFormField(
+              'Curriculum Name: ',
+              (value) => _curriculumName = value,
+              (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter a curriculum name';
+                }
+                return null;
+              },
             ),
-              SizedBox(height: 20),
-            Center(
-              child: _buildFormField(
-                'Curriculum Name: ',
-                (value) => _curriculumName = value,
-                (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a curriculum name';
-                  }
-                  return null;
-                },
+          ),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: _addProgram,
+                child: Text('Save'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                  minimumSize: Size(80, 36),
+                  padding: EdgeInsets.symmetric(horizontal: 12.0),
+                ),
               ),
-            ),
-            
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center, // Distribute buttons evenly
-              children: [
-                ElevatedButton(
-                  onPressed: _addProgram,
-                  child: Text('Save'),
-                  style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          foregroundColor: Colors.white,
-                          minimumSize: Size(80, 36),
-                          padding: EdgeInsets.symmetric(horizontal: 12.0),
-                        ),
+              SizedBox(width: 8),
+              TextButton(
+                onPressed: widget.onClose,
+                child: Text('Cancel'),
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                  minimumSize: Size(80, 36),
+                  padding: EdgeInsets.symmetric(horizontal: 12.0),
                 ),
-                SizedBox(width: 8), 
-                TextButton(
-                  onPressed: widget.onClose, // Close the form when Cancel is pressed
-                  child: Text('Cancel'),
-                  style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                          foregroundColor: Colors.white,
-                          minimumSize: Size(80, 36),
-                          padding: EdgeInsets.symmetric(horizontal: 12.0),
-                        ),
-                ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
+
+Widget _buildFormField(
+  String labelText,
+  void Function(String?)? onSaved,
+  String? Function(String?)? validator, {
+  bool obscureText = false,
+}) {
+  return LayoutBuilder(
+    builder: (context, constraints) {
+      bool isSmallScreen = constraints.maxWidth < 600;
+
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 100.0,
+            child: Text(
+              labelText,
+              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+            ),
+          ),
+          SizedBox(width: 12),
+          Container(
+            width: isSmallScreen ? constraints.maxWidth * 0.6 : 300.0,
+            child: TextFormField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                contentPadding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+              ),
+              obscureText: obscureText,
+              onSaved: onSaved,
+              validator: validator,
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
 }

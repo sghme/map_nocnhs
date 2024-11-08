@@ -44,39 +44,46 @@ class _ProgramEditState extends State<ProgramEdit> {
       );
     }
   }
- Widget _buildFormField(
-    String labelText,
-    void Function(String?)? onSaved,
-    String? Function(String?)? validator, {
-    String? initialValue,
-  }) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: 100.0,
-          child: Text(
-            labelText,
-            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-          ),
-        ),
-        SizedBox(width: 12),
-        Container(
-          width: 300.0, // Set a fixed width for the input field
-          child: TextFormField(
-            initialValue: initialValue,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              contentPadding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+ 
+Widget _buildFormField(
+  String labelText,
+  void Function(String?)? onSaved,
+  String? Function(String?)? validator, {
+  String? initialValue,
+}) {
+  return LayoutBuilder(
+    builder: (context, constraints) {
+      bool isSmallScreen = constraints.maxWidth < 600;
+
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 100.0,
+            child: Text(
+              labelText,
+              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
             ),
-            onSaved: onSaved,
-            validator: validator,
           ),
-        ),
-      ],
-    );
-  }
+          SizedBox(width: 12),
+          Container(
+            width: isSmallScreen ? constraints.maxWidth * 0.6 : 300.0,
+            child: TextFormField(
+              initialValue: initialValue,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                contentPadding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+              ),
+              onSaved: onSaved,
+              validator: validator,
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
 
   @override
   Widget build(BuildContext context) {

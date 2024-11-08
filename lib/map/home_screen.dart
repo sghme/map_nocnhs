@@ -870,7 +870,7 @@ class _MapScreenState extends State<MapScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          'NOCNHS Mobile Map',
+          'MAPNOCNHS',
           style: TextStyle(
             color: Colors.white,
             fontSize: 20,

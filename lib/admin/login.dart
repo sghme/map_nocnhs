@@ -429,7 +429,7 @@ void _showErrorDialog(String message) {
               // ),
               SizedBox(height: 20),
               Text(
-                'Admin Login',
+                'MAPNOCNHS Admin Login',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,

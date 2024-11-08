@@ -58,30 +58,62 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 600;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Dashboard Overview'),
       ),
       body: Container(
-         // decoration: BoxDecoration(
-        //   gradient: LinearGradient(
-        //     colors: [const Color.fromARGB(255, 224, 133, 133)!, Colors.white],
-        //     begin: Alignment.topLeft,
-        //     end: Alignment.bottomRight,
-        //   ),
-        // ),
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
             children: [
+              if (isMobile) ...[
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: buildInfoBox('Rooms', roomCount, Colors.red, Icons.door_back_door, () {
+                    widget.onRouteChange('/buildinginfo');
+                  }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: buildInfoBox('Buildings', buildingCount, Colors.red, Icons.apartment, () {
+                    widget.onRouteChange('/buildinginfo');
+                  }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: buildInfoBox('Facilities', landmarkCount, Colors.red, Icons.business, () {
+                    widget.onRouteChange('/landmarks');
+                  }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: buildInfoBox('Manage Users', userCount, Colors.red, Icons.people, () {
+                    widget.onRouteChange('/manageuser');
+                  }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: buildInfoBox('Advisers or Personnel', teacherCount, Colors.red, Icons.person, () {
+                    widget.onRouteChange('/teacherlist');
+                  }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: buildInfoBox('User Reports', usageCount, Colors.red, Icons.analytics, () {
+                    widget.onRouteChange('/usage');
+                  }),
+                ),
+              ] else ...[
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  
-                  SizedBox(width: 10),
                   Expanded(child: buildInfoBox('Rooms', roomCount, Colors.red, Icons.door_back_door, () {
                     widget.onRouteChange('/buildinginfo');
                   })),
+                  SizedBox(width: 10),
                   Expanded(child: buildInfoBox('Buildings', buildingCount, Colors.red, Icons.apartment, () {
                     widget.onRouteChange('/buildinginfo');
                   })),
@@ -109,6 +141,7 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ],
+          ],
           ),
         ),
       ),
@@ -132,6 +165,7 @@ class _HomeState extends State<Home> {
           ),
           child: Container(
             padding: EdgeInsets.all(16),
+            width: double.infinity,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),

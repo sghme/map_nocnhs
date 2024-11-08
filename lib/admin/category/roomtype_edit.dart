@@ -45,38 +45,116 @@ class _RoomTypeEditState extends State<RoomTypeEdit> {
     }
   }
 
-  Widget _buildFormField(
-    String labelText,
-    void Function(String?)? onSaved,
-    String? Function(String?)? validator,
-  ) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: 100.0,
-          child: Text(
-            labelText,
-            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+
+
+  
+Widget _buildFormField(
+  String labelText,
+  void Function(String?)? onSaved,
+  String? Function(String?)? validator, ) {
+  return LayoutBuilder(
+    builder: (context, constraints) {
+      bool isSmallScreen = constraints.maxWidth < 600;
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 100.0,
+                child: Text(
+                  labelText,
+                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(width: 12),
+              // Wrapping the input field and buttons together
+              Container(
+                width: isSmallScreen ? constraints.maxWidth * 0.6 : 300.0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    TextFormField(
+                      initialValue: _updatedRoomTypeName,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                      ),
+                      onSaved: onSaved,
+                      validator: validator,
+                    ),
+                    SizedBox(height: 10),
+                    // Buttons aligned under the input field on mobile
+                    if (isSmallScreen)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          ElevatedButton(
+                            onPressed: _editRoomType,
+                            child: Text('Save'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              foregroundColor: Colors.white,
+                              minimumSize: Size(80, 36),
+                              padding: EdgeInsets.symmetric(horizontal: 12.0),
+                            ),
+                          ),
+                          SizedBox(width: 4), // Reduced spacing between buttons
+                          TextButton(
+                            onPressed: widget.onClose,
+                            child: Text('Cancel'),
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.red,
+                              foregroundColor: Colors.white,
+                              minimumSize: Size(80, 36),
+                              padding: EdgeInsets.symmetric(horizontal: 12.0),
+                            ),
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ),
-        SizedBox(width: 12),
-        Container(
-          width: 300.0, // Set a fixed width for the input field
-          child: TextFormField(
-            initialValue: _updatedRoomTypeName,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              contentPadding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+          // Desktop layout remains the same
+          if (!isSmallScreen)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: _editRoomType,
+                  child: Text('Save'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white,
+                    minimumSize: Size(80, 36),
+                    padding: EdgeInsets.symmetric(horizontal: 12.0),
+                  ),
+                ),
+                SizedBox(width: 8),
+                TextButton(
+                  onPressed: widget.onClose,
+                  child: Text('Cancel'),
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                    minimumSize: Size(80, 36),
+                    padding: EdgeInsets.symmetric(horizontal: 12.0),
+                  ),
+                ),
+              ],
             ),
-            onSaved: onSaved,
-            validator: validator,
-          ),
-        ),
-      ],
-    );
-  }
+        ],
+      );
+    },
+  );
+}
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -100,35 +178,11 @@ class _RoomTypeEditState extends State<RoomTypeEdit> {
                 },
               ),
             ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: _editRoomType,
-                  child: Text('Save'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
-                    minimumSize: Size(80, 36),
-                    padding: EdgeInsets.symmetric(horizontal: 12.0),
-                  ),
-                ),
-                SizedBox(width: 8), // Space between buttons
-                TextButton(
-                  onPressed: widget.onClose,
-                  child: Text('Cancel'),
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    foregroundColor: Colors.white,
-                    padding: EdgeInsets.symmetric(horizontal: 12.0),
-                  ),
-                ),
-              ],
-            ),
+           
           ],
         ),
       ),
     );
   }
+
 }
