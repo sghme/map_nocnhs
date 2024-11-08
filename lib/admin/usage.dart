@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-// import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:async';
 import 'adminservice.dart';
+import 'package:intl/intl.dart';
 
 class Usage extends StatefulWidget {
   @override
@@ -10,49 +10,102 @@ class Usage extends StatefulWidget {
 }
 
 class _UsageState extends State<Usage> {
-  // final SupabaseClient _supabaseClient = Supabase.instance.client;
   Map<String, int> _usageData = {};
-final AdminService _adminService = AdminService();
+  final AdminService _adminService = AdminService();
+  DateTime _selectedDate = DateTime.now();
 
   @override
   void initState() {
     super.initState();
-    _fetchUsageData();
+    _fetchUsageData(_selectedDate); // Fetch data for today's date initially
   }
 
-  Future<void> _fetchUsageData() async {
-    _usageData = await _adminService.fetchUsageData(); // Call the service function to get usage data
-    setState(() {}); // Refresh the UI
+  Future<void> _fetchUsageData(DateTime date) async {
+    _usageData = await _adminService.fetchUsageData(date);
+    setState(() {}); // Refresh the UI with new data
   }
-@override
-Widget build(BuildContext context) {
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+      });
+      _fetchUsageData(picked); // Fetch data for the newly selected date
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
   return Scaffold(
-    appBar: AppBar(title: Text('Usage Statistics')),
-    body: Column(
-      children: [
-        Text(
-          'Usage Statistics for ${DateTime.now().toLocal().toString().split(' ')[0]}', // Display today's date
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-        Expanded(
-          child: _buildBarChart(), // Build the bar chart even if there's no data
-        ),
-      ],
+    appBar: AppBar(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Text.rich(
+              TextSpan(
+                text: 'Usage Statistics for ',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+                children: [
+                  TextSpan(
+                    text: DateFormat('yyyy-MM-dd').format(_selectedDate),
+                    style: TextStyle(color: Colors.blue), // Blue color for the date
+                  ),
+                ],
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          ElevatedButton.icon(
+            onPressed: () => _selectDate(context),
+            icon: Icon(Icons.calendar_today, size: 20),
+            label: Text('Select Date'),
+            style: ElevatedButton.styleFrom(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              backgroundColor: Colors.white, // Button background color
+              foregroundColor: Colors.blueAccent, // Text and icon color
+            ),
+          ),
+        ],
+      ),
+    ),
+    body: Expanded(
+      child: _buildBarChart(),
     ),
   );
 }
 
 Widget _buildBarChart() {
   if (_usageData.isEmpty) {
-    // If there's no data, create a default bar chart with zero values
     return Center(
-      child: Text(
-        'No data available for today.',
-        style: TextStyle(fontSize: 16, color: Colors.black),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/images/noreport.png', // Path to your image
+            height: 300, // Adjust size as needed
+            width: 300, // Adjust size as needed
+          ), // Add space between the image and the text
+          
+          Text(
+            'No data available for selected date.',
+            style: TextStyle(fontSize: 16, color: Colors.black),
+          ),
+
+        ],
       ),
     );
   } else {
-    // Create the bar chart with available data
+    double barWidth = _usageData.length > 20 ? 8 : 40;
     List<BarChartGroupData> barGroups = _usageData.entries.map((entry) {
       int index = _usageData.keys.toList().indexOf(entry.key);
       return BarChartGroupData(
@@ -61,11 +114,9 @@ Widget _buildBarChart() {
           BarChartRodData(
             toY: entry.value.toDouble(),
             color: Colors.blueAccent,
-            width: 50,
+            width: barWidth,
             borderRadius: BorderRadius.zero,
-            backDrawRodData: BackgroundBarChartRodData(
-              show: false,
-            ),
+            borderSide: BorderSide(color: const Color.fromARGB(255, 92, 92, 92)),
           ),
         ],
       );
@@ -82,7 +133,7 @@ Widget _buildBarChart() {
                 showTitles: true,
                 reservedSize: 38,
                 getTitlesWidget: (value, meta) {
-                  final userLabel = 'User ${value.toInt() + 1}'; // Generic labels
+                  final userLabel = 'U${value.toInt() + 1}';
                   return SideTitleWidget(
                     axisSide: meta.axisSide,
                     child: Text(
@@ -121,4 +172,5 @@ Widget _buildBarChart() {
     );
   }
 }
+
 }

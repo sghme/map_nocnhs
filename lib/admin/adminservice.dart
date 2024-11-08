@@ -38,10 +38,33 @@ class AdminService {
   }
 
   //queries for usage.dart
-  Future<Map<String, int>> fetchUsageData() async {
-    // Get the start of the day
-    DateTime now = DateTime.now();
-    DateTime startOfDay = DateTime(now.year, now.month, now.day);
+  // Future<Map<String, int>> fetchUsageData() async {
+  //   // Get the start of the day
+  //   DateTime now = DateTime.now();
+  //   DateTime startOfDay = DateTime(now.year, now.month, now.day);
+  //   DateTime endOfDay = startOfDay.add(Duration(days: 1));
+
+  //   final response = await _supabaseClient
+  //       .from('user_reports')
+  //       .select('device_id, usage')
+  //       .gte('timestamp', startOfDay.toIso8601String())
+  //       .lt('timestamp', endOfDay.toIso8601String());
+
+  //   Map<String, int> usageData = {};
+  //   if (response != null) {
+  //     for (var record in response as List<dynamic>) {
+  //       String deviceId = record['device_id'];
+  //       int usage = record['usage'];
+  //       usageData[deviceId] = (usageData[deviceId] ?? 0) + usage;
+  //     }
+  //   } else {
+  //     print('Error fetching data: ${response}');
+  //   }
+  //   return usageData;
+  // }
+
+   Future<Map<String, int>> fetchUsageData(DateTime date) async {
+    DateTime startOfDay = DateTime(date.year, date.month, date.day);
     DateTime endOfDay = startOfDay.add(Duration(days: 1));
 
     final response = await _supabaseClient
