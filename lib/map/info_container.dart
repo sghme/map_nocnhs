@@ -65,15 +65,17 @@ class _InfoContainerState extends State<InfoContainer> {
     return base64String.startsWith('data:image');
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-       
-        child: Container(
-      padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 10.0),
+  
+Widget build(BuildContext context) {
+  // Get screen width
+  double screenWidth = MediaQuery.of(context).size.width;
+
+  return SizedBox(
+    child: Container(
+      // Set padding for mobile screens to allow more space
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: 12.0), // 5% of screen width
       decoration: BoxDecoration(
         color: Colors.white,
-      //  borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
@@ -84,10 +86,10 @@ class _InfoContainerState extends State<InfoContainer> {
       ),
       child: Column(
         children: [
-       
           Expanded(
             child: SingleChildScrollView(
-              // controller: scrollController,
+              // Add some padding to prevent overflow in small screens
+              padding: EdgeInsets.only(bottom: 16.0), // Extra space at the bottom for scrolling
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -100,75 +102,60 @@ class _InfoContainerState extends State<InfoContainer> {
                   ),
 
                   // Image Carousel with indicator
-                                     // Image Carousel with navigation buttons
-                    if (_hasAnyImage())
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 16.0),
-                        child: Column(
-                          children: [
-                            _buildImageWidget(_getCurrentImage()),
-                            SizedBox(height: 8.0),
-                            _buildImageNavigationButtons(),
-                            SizedBox(height: 8.0),
-                            Text(
-                              'Image ${_currentImageIndex + 1} of ${_totalImages()}',
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                color: Colors.grey[700],
-                                fontWeight: FontWeight.w600,
-                                decoration: TextDecoration.none,
-                              ),
+                  if (_hasAnyImage())
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 16.0),
+                      child: Column(
+                        children: [
+                          _buildImageWidget(_getCurrentImage()),
+                          SizedBox(height: 8.0),
+                          _buildImageNavigationButtons(),
+                          SizedBox(height: 8.0),
+                          Text(
+                            'Image ${_currentImageIndex + 1} of ${_totalImages()}',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.grey[700],
+                              fontWeight: FontWeight.w600,
+                              decoration: TextDecoration.none,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
+                    ),
 
-
-                  // Section for displaying names
-                  // Section for displaying names
-                  if (widget.buildingName != null &&
-                      widget.buildingName!.isNotEmpty) ...[
+                  // Display building name or landmark name
+                  if (widget.buildingName != null && widget.buildingName!.isNotEmpty) ...[
                     Text(
                       'Building Name:',
-                      style: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.black, decoration: TextDecoration.none,),
+                      style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.black, decoration: TextDecoration.none),
                     ),
                     SizedBox(height: 4.0),
                     Text(
                       widget.buildingName ?? '',
-                      style: TextStyle(
-                          fontSize: 20.0, fontWeight: FontWeight.bold, color: const Color.fromARGB(255, 0, 0, 0), decoration: TextDecoration.none,),
+                      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.black, decoration: TextDecoration.none),
                     ),
-                  ] else if (widget.landmarkName != null &&
-                      widget.landmarkName!.isNotEmpty) ...[
+                  ] else if (widget.landmarkName != null && widget.landmarkName!.isNotEmpty) ...[
                     Text(
                       'Facility Name:',
-                      // 'Landmark Name:',
-                      style: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.grey[300], decoration: TextDecoration.none,),
+                      style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.black, decoration: TextDecoration.none),
                     ),
                     SizedBox(height: 4.0),
                     Text(
-                      //  widget.buildingName ?? '',
                       widget.landmarkName ?? '',
-                      style: TextStyle(
-                          fontSize: 20.0, fontWeight: FontWeight.bold, color: const Color.fromARGB(255, 0, 0, 0), decoration: TextDecoration.none,),
+                      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold,  color: Colors.black, decoration: TextDecoration.none,),
                     ),
                   ],
 
                   Divider(thickness: 1, color: Colors.grey[300]),
                   SizedBox(height: 12.0),
 
-                  // Section for displaying building details
-                  if (widget.landmarkName == null &&
-                      widget.roomName == null) ...[
-                    _buildDetailText(
-                        'Number of Floors', widget.numberOfFloors?.toString()),
-                    _buildDetailText(
-                        'Number of Rooms', widget.numberOfRooms?.toString()),
+                  // Section for building details or room details
+                  if (widget.landmarkName == null && widget.roomName == null) ...[
+                    _buildDetailText('Number of Floors', widget.numberOfFloors?.toString()),
+                    _buildDetailText('Number of Rooms', widget.numberOfRooms?.toString()),
                   ],
 
-                  // Section for displaying room details
                   if (widget.roomName != null) ...[
                     _buildDetailText('Building Name', widget.roombuildingName),
                     _buildDetailText('Curriculum', widget.curriculum),
@@ -185,10 +172,12 @@ class _InfoContainerState extends State<InfoContainer> {
           ),
         ],
       ),
-    ));
-  }
+    ),
+  );
+}
 
-   bool _hasAnyImage() {
+
+  bool _hasAnyImage() {
     return _totalImages() > 0;
   }
 
@@ -220,28 +209,159 @@ class _InfoContainerState extends State<InfoContainer> {
     if (widget.buildingImage3 != null && widget.buildingImage3!.isNotEmpty) images.add(widget.buildingImage3!);
     return images.isNotEmpty ? images[_currentImageIndex] : '';
   }
-
+  
   Widget _buildImageWidget(String image) {
+  double screenWidth = MediaQuery.of(context).size.width;
+  
+  // Check if the screen width is mobile size (you can adjust the threshold as needed)
+  bool isMobile = screenWidth < 600; // Consider mobile if width is less than 600px
+
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 100.0),
-    child: ClipRRect(
-      borderRadius: BorderRadius.circular(12),
-      child: _isBase64Image(image)
-          ? Image.memory(
-              base64Decode(_normalizeBase64(image.split(',').last)),
-              width: 450, // Set fixed width for the image
-              height: 550, // Set fixed height for the image
-              fit: BoxFit.cover,
-            )
-          : Image.network(
-              image,
-              width: 450, // Set fixed width for the image
-              height: 550, 
-              fit: BoxFit.cover,
+    padding: const EdgeInsets.symmetric(horizontal: 16.0), // Adjust padding for mobile
+    child: isMobile
+        ? GestureDetector(
+            onTap: () => _showFullScreenImage(image), // Trigger the full-screen view
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  double imageHeight = constraints.maxWidth > 600
+                      ? 400.0
+                      : MediaQuery.of(context).size.height * 0.3;
+
+                  return _isBase64Image(image)
+                      ? Image.memory(
+                          base64Decode(_normalizeBase64(image.split(',').last)),
+                          width: double.infinity,
+                          height: imageHeight,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.network(
+                          image,
+                          width: double.infinity,
+                          height: imageHeight,
+                          fit: BoxFit.cover,
+                        );
+                },
+              ),
             ),
-    ),
+          )
+        : ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                double imageHeight = constraints.maxWidth > 600
+                    ? 400.0
+                    : MediaQuery.of(context).size.height * 0.3;
+
+                return _isBase64Image(image)
+                    ? Image.memory(
+                        base64Decode(_normalizeBase64(image.split(',').last)),
+                        width: double.infinity,
+                        height: imageHeight,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.network(
+                        image,
+                        width: double.infinity,
+                        height: imageHeight,
+                        fit: BoxFit.cover,
+                      );
+              },
+            ),
+          ),
   );
 }
+
+
+
+void _showFullScreenImage(String image) {
+  int currentImageIndex = _currentImageIndex;
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Container(
+          width: MediaQuery.of(context).size.width * 0.9, // Larger width for mobile screens
+          height: MediaQuery.of(context).size.height * 0.7, // Adjust height for full-screen view
+          child: Column(
+            children: [
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context).pop(), // Close the image on tap
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        double imageHeight = constraints.maxHeight;
+                        double imageWidth = constraints.maxWidth;
+
+                        return _isBase64Image(image)
+                            ? Image.memory(
+                                base64Decode(_normalizeBase64(image.split(',').last)),
+                                width: imageWidth,
+                                height: imageHeight,
+                                fit: BoxFit.contain, // Ensure the image is fully contained within the available space
+                              )
+                            : Image.network(
+                                image,
+                                width: imageWidth,
+                                height: imageHeight,
+                                fit: BoxFit.contain, // Ensure the image is fully contained within the available space
+                              );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+              // Row for arrow buttons
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: currentImageIndex > 0
+                        ? () {
+                            setState(() {
+                              _currentImageIndex--;
+                              currentImageIndex = _currentImageIndex;
+                            });
+                            Navigator.of(context).pop(); // Close the dialog to refresh with the new image
+                            _showFullScreenImage(_getCurrentImage()); // Show updated image
+                          }
+                        : null,
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.arrow_forward),
+                    onPressed: currentImageIndex < _totalImages() - 1
+                        ? () {
+                            setState(() {
+                              _currentImageIndex++;
+                              currentImageIndex = _currentImageIndex;
+                            });
+                            Navigator.of(context).pop(); // Close the dialog to refresh with the new image
+                            _showFullScreenImage(_getCurrentImage()); // Show updated image
+                          }
+                        : null,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            child: Text('Close'),
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
 
 
 
