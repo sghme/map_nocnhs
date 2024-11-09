@@ -422,21 +422,25 @@ void _showErrorDialog(String message) {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Image.asset(
-              //   'assets/images/logo.png',
-              //   width: 120,
-              //   height: 120,
-              // ),
-              SizedBox(height: 20),
-              Text(
-                'MAPNOCNHS Admin Login',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.red.shade900,
+             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'MAPNOCNHS',
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red.shade900,
+                  ),
                 ),
-              ),
-              SizedBox(height: 30),
+                Image.asset(
+                  'assets/images/logo.png',
+                  width: 35,
+                  height: 35,
+                ),         // Space between the log
+              ],
+            ),
+              SizedBox(height: 10),
               Container(
                 width: 300,
                 padding: EdgeInsets.all(20),
