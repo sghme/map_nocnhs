@@ -10,7 +10,7 @@ class Usage extends StatefulWidget {
 }
 
 class _UsageState extends State<Usage> {
-  Map<String, int> _usageData = {};
+  Map<String, Map<String, dynamic>> _usageData = {};
   final AdminService _adminService = AdminService();
   DateTime _selectedDate = DateTime.now();
 
@@ -42,135 +42,150 @@ class _UsageState extends State<Usage> {
 
   @override
   Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Text.rich(
-              TextSpan(
-                text: 'Usage Statistics for ',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
-                children: [
-                  TextSpan(
-                    text: DateFormat('yyyy-MM-dd').format(_selectedDate),
-                    style: TextStyle(color: Colors.blue), // Blue color for the date
-                  ),
-                ],
-              ),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          ElevatedButton.icon(
-            onPressed: () => _selectDate(context),
-            icon: Icon(Icons.calendar_today, size: 20),
-            label: Text('Select Date'),
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              backgroundColor: Colors.white, // Button background color
-              foregroundColor: Colors.blueAccent, // Text and icon color
-            ),
-          ),
-        ],
-      ),
-    ),
-    body: Expanded(
-      child: _buildBarChart(),
-    ),
-  );
-}
-
-Widget _buildBarChart() {
-  if (_usageData.isEmpty) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            'assets/images/noreport.png', // Path to your image
-            height: 300, // Adjust size as needed
-            width: 300, // Adjust size as needed
-          ), // Add space between the image and the text
-          
-          Text(
-            'No data available for selected date.',
-            style: TextStyle(fontSize: 16, color: Colors.black),
-          ),
-
-        ],
-      ),
-    );
-  } else {
-    double barWidth = _usageData.length > 20 ? 8 : 40;
-    List<BarChartGroupData> barGroups = _usageData.entries.map((entry) {
-      int index = _usageData.keys.toList().indexOf(entry.key);
-      return BarChartGroupData(
-        x: index,
-        barRods: [
-          BarChartRodData(
-            toY: entry.value.toDouble(),
-            color: Colors.blueAccent,
-            width: barWidth,
-            borderRadius: BorderRadius.zero,
-            borderSide: BorderSide(color: const Color.fromARGB(255, 92, 92, 92)),
-          ),
-        ],
-      );
-    }).toList();
-
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: BarChart(
-        BarChartData(
-          alignment: BarChartAlignment.spaceAround,
-          titlesData: FlTitlesData(
-            bottomTitles: AxisTitles(
-              sideTitles: SideTitles(
-                showTitles: true,
-                reservedSize: 38,
-                getTitlesWidget: (value, meta) {
-                  final userLabel = 'U${value.toInt() + 1}';
-                  return SideTitleWidget(
-                    axisSide: meta.axisSide,
-                    child: Text(
-                      userLabel,
-                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+    return Scaffold(
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Text.rich(
+                TextSpan(
+                  text: 'Usage Statistics for ',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+                  children: [
+                    TextSpan(
+                      text: DateFormat('yyyy-MM-dd').format(_selectedDate),
+                      style: TextStyle(color: Colors.blue), // Blue color for the date
                     ),
-                  );
-                },
+                  ],
+                ),
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-            leftTitles: AxisTitles(
-              sideTitles: SideTitles(
-                showTitles: true,
-                reservedSize: 40,
-                getTitlesWidget: (value, meta) {
-                  return Text(
-                    value.toInt().toString(),
-                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-                  );
-                },
+            ElevatedButton.icon(
+              onPressed: () => _selectDate(context),
+              icon: Icon(Icons.calendar_today, size: 20),
+              label: Text('Select Date'),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                backgroundColor: Colors.white, // Button background color
+                foregroundColor: Colors.blueAccent, // Text and icon color
               ),
             ),
-            topTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: false),
-            ),
-            rightTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: false),
-            ),
-          ),
-          barGroups: barGroups,
-          borderData: FlBorderData(show: false),
-          gridData: FlGridData(show: true, verticalInterval: 1, horizontalInterval: 1),
-          maxY: _usageData.values.isNotEmpty ? _usageData.values.reduce((a, b) => a > b ? a : b).toDouble() : 1,
+          ],
         ),
       ),
+      body: _buildBarChart(),
     );
   }
-}
 
+  Widget _buildBarChart() {
+    if (_usageData.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/noreport.png', // Path to your image
+              height: 300, // Adjust size as needed
+              width: 300, // Adjust size as needed
+            ),
+            Text(
+              'No data available for selected date.',
+              style: TextStyle(fontSize: 16, color: Colors.black),
+            ),
+          ],
+        ),
+      );
+    } else {
+      double barWidth = _usageData.length > 15 ? 10 : 40;
+      List<BarChartGroupData> barGroups = _usageData.entries.map((entry) {
+        int index = _usageData.keys.toList().indexOf(entry.key);
+        int usage = entry.value['usage'];
+        DateTime lastUsed = entry.value['timestamp'];
+        String formattedTime = DateFormat('hh:mm a').format(lastUsed);
+
+        return BarChartGroupData(
+          x: index,
+          barRods: [
+            BarChartRodData(
+              toY: usage.toDouble(),
+              color: Colors.blueAccent,
+              width: barWidth,
+              borderRadius: BorderRadius.zero,
+              borderSide: BorderSide(color: const Color.fromARGB(255, 92, 92, 92)),
+            ),
+          ],
+        );
+      }).toList();
+
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: BarChart(
+          BarChartData(
+            alignment: BarChartAlignment.spaceAround,
+            barGroups: barGroups,
+            titlesData: FlTitlesData(
+              bottomTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  reservedSize: 38,
+                  getTitlesWidget: (value, meta) {
+                    final userLabel = 'U${value.toInt() + 1}';
+                    return SideTitleWidget(
+                      axisSide: meta.axisSide,
+                      child: Text(
+                        userLabel,
+                        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              leftTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  reservedSize: 40,
+                  getTitlesWidget: (value, meta) {
+                    return Text(
+                      value.toInt().toString(),
+                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                    );
+                  },
+                ),
+              ),
+              topTitles: AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
+              ),
+              rightTitles: AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
+              ),
+            ),
+            borderData: FlBorderData(show: false),
+            gridData: FlGridData(show: true, verticalInterval: 1, horizontalInterval: 1),
+            maxY: _usageData.values.isNotEmpty
+                ? _usageData.values.map((e) => e['usage']).reduce((a, b) => a > b ? a : b).toDouble()
+                : 1,
+            barTouchData: BarTouchData(
+              touchTooltipData: BarTouchTooltipData(
+                getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                  final deviceId = _usageData.keys.toList()[groupIndex];
+                  final usage = _usageData[deviceId]!['usage'];
+                  final lastUsed = DateFormat('hh:mm a').format(_usageData[deviceId]!['timestamp']);
+
+                  return BarTooltipItem(
+                    'Usage: $usage\n $lastUsed',
+                    TextStyle(color: Colors.white),
+                  );
+                },
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+  }
 }
