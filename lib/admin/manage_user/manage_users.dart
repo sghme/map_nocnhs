@@ -65,52 +65,7 @@ class _ManageUsersState extends State<ManageUsers> {
     });
   }
 
-  Future<void> _deleteUser(Map<String, dynamic> user) async {
-    bool? confirmDelete = await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Delete User'),
-          content: Text('Are you sure you want to delete this user?'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(true),
-              child: Text('Delete'),
-            ),
-          ],
-        );
-      },
-    );
-
-    if (confirmDelete == true) {
-      try {
-        // Call delete service method
-        await _userService.deleteUser(user['email']);
-        
-        // Refresh user list after deletion
-        _fetchUsers();
-        
-        // Show success message
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('User deleted successfully'),
-          backgroundColor: Colors.green,
-        ));
-      } catch (e) {
-        // Show error message if deletion fails
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Error deleting user: $e'),
-          backgroundColor: Colors.red,
-        ));
-      }
-    }
-  }
-
-
-
+  
   @override
   void dispose() {
     _searchController.dispose(); // Dispose of the controller
@@ -163,19 +118,6 @@ class _ManageUsersState extends State<ManageUsers> {
   Widget _buildUserTable() {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ElevatedButton.icon(
-                icon: Icon(Icons.add),
-                label: Text('NEW'),
-                onPressed: _toggleAddUser,
-              ),
-            ],
-          ),
-        ),
         Expanded(
         child: FutureBuilder<List<dynamic>>(
           future: _usersFuture,
@@ -188,11 +130,26 @@ class _ManageUsersState extends State<ManageUsers> {
 
             final hasData = snapshot.hasData && snapshot.data!.isNotEmpty;
             final users = snapshot.data ?? [];
+            final isAddDisabled = users.length >= 3;
 
             return SingleChildScrollView(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ElevatedButton.icon(
+                          icon: Icon(Icons.add),
+                          label: Text('NEW'),
+                          onPressed: isAddDisabled ? null : _toggleAddUser, // Disable button
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: isAddDisabled ? Colors.grey : null, // Optional style
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
                   Table(
                     border: TableBorder.all(color: const Color.fromARGB(255, 218, 218, 218)),
                     columnWidths: const {
@@ -252,27 +209,13 @@ class _ManageUsersState extends State<ManageUsers> {
                               padding: const EdgeInsets.all(8.0),
                               child: Text(user['role'] ?? 'No role'),
                             ),
-                            Padding(
+                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  IconButton(
-                                    icon: Icon(Icons.edit, color: Colors.blue),
-                                    onPressed: () {
+                              child: IconButton(
+                                icon: Icon(Icons.edit, color: Colors.blue),
+                               onPressed: () {
                                       _toggleEditUser(user); // Open edit form
                                     },
-                                  ),
-                                  IconButton(
-                                   icon: Icon(
-                                      Icons.delete,
-                                      color: users.length > 1 ? Colors.red : Colors.black, // Black if only one user, red otherwise
-                                    ),
-                                    onPressed:  users.length > 1
-                                    ? () => _deleteUser(user)
-                                    : null,
-                                  ),
-                                ],
                               ),
                             ),
                           ],
