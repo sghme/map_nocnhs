@@ -167,7 +167,7 @@ class _UsageState extends State<Usage> {
             borderData: FlBorderData(show: false),
             gridData: FlGridData(show: true, verticalInterval: 1, horizontalInterval: 1),
             maxY: _usageData.values.isNotEmpty
-                ? _usageData.values.map((e) => e['usage']).reduce((a, b) => a > b ? a : b).toDouble()
+                ? _usageData.values.map((e) => e['usage']).reduce((a, b) => a > b ? a : b).toDouble()*1.2
                 : 1,
             barTouchData: BarTouchData(
               touchTooltipData: BarTouchTooltipData(

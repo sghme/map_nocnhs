@@ -65,7 +65,15 @@ class _HomeState extends State<Home> {
         title: Text('Dashboard Overview'),
       ),
       body: Container(
+        width: double.infinity, // Full width
+        height: MediaQuery.of(context).size.height, // Full height of the screen
         padding: const EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/nocnhsn.png'),
+            fit: BoxFit.cover, // Ensures the image covers the entire container
+          ),
+        ),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -141,12 +149,46 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ],
+           SizedBox(height: 70), // Add spacing before footer
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/images/nlogo.png', height: 30), // NLogo
+                SizedBox(width: 10),
+                Image.asset('assets/images/evsu.png', height: 30), // EVSU Logo
+                SizedBox(width: 10),
+                Image.asset('assets/images/xtriventech.png', height: 30), // Xtriventech Logo
+              ],
+            ),
+            SizedBox(height: 5),
+            RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: '©2024 NOCNHS | All Rights Reserved.\nDeveloped by ',
+                    style: TextStyle(
+                      fontSize: 9,
+                      color: Colors.black,
+                    ),
+                  ),
+                  TextSpan(
+                    text: 'XTRIVENTECH',
+                    style: TextStyle(
+                      fontSize: 9,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ) // Add space after footer
           ],
-          ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget buildInfoBox(String title, int count, Color color, IconData icon, VoidCallback onTap) {
     return GestureDetector(

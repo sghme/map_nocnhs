@@ -97,7 +97,7 @@ class _ManageEditUserState extends State<ManageEditUser> {
                           }
                           return null;
                         },
-                        readOnly: true,
+                        readOnly: false,
                       ),
                     ),
                     SizedBox(height: 20),

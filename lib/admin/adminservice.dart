@@ -38,7 +38,7 @@ class AdminService {
   }
 
   //queries for usage.dart
-Future<Map<String, Map<String, dynamic>>> fetchUsageData(DateTime date) async {
+  Future<Map<String, Map<String, dynamic>>> fetchUsageData(DateTime date) async {
   DateTime startOfDay = DateTime(date.year, date.month, date.day);
   DateTime endOfDay = startOfDay.add(Duration(days: 1));
 
@@ -53,7 +53,7 @@ Future<Map<String, Map<String, dynamic>>> fetchUsageData(DateTime date) async {
     for (var record in response as List<dynamic>) {
       String deviceId = record['device_id'];
       int usage = record['usage'];
-      DateTime timestamp = DateTime.parse(record['timestamp']);
+      DateTime timestamp = DateTime.parse(record['timestamp']).toLocal(); // Convert to local time
 
       if (usageData.containsKey(deviceId)) {
         usageData[deviceId]!['usage'] += usage;
@@ -72,6 +72,7 @@ Future<Map<String, Map<String, dynamic>>> fetchUsageData(DateTime date) async {
   }
   return usageData;
 }
+
 
   //queries for homscreen.dart
   Future<Map<String, int>> fetchCounts() async {

@@ -411,8 +411,6 @@ void _showErrorDialog(String message) {
   );
 }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -422,6 +420,19 @@ void _showErrorDialog(String message) {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+            ClipOval(
+            child: Container(
+              color: Colors.white,  // Border color
+              padding: EdgeInsets.all(1),  // Border thickness
+              child: Image.asset(
+                'assets/images/nlogo.png',  // Adjust the path to match your image location
+                height: 150,
+                width: 150,
+                fit: BoxFit.cover,  // Ensures the image fits within the circle
+              ),
+            ),
+          ),
+            SizedBox(height: 10),
              Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -508,16 +519,6 @@ void _showErrorDialog(String message) {
                           style: TextStyle(color: Colors.red),
                         ),
                       ),
-                    // SizedBox(height: 20),
-                    // TextButton(
-                    //   onPressed: _showResetPasswordDialog,
-                    //   child: Text(
-                    //     'Forgot Password?',
-                    //     style: TextStyle(
-                    //       color: Colors.red.shade900,
-                    //     ),
-                    //   ),
-                    // ),
                     if (_errorMessage != null) ...[
                       SizedBox(height: 20),
                       Text(

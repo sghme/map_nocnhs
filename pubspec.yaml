@@ -60,13 +60,8 @@ dependencies:
   font_awesome_flutter: ^10.7.0
   latlong2: ^0.9.1
   flutter_map: ^7.0.2
-  flutter_map_cancellable_tile_provider: ^3.0.2
+  flutter_map_cancellable_tile_provider: ^3.0.2 
  
-
-  
- 
-  
-  
   
 dev_dependencies:
   flutter_test:
@@ -129,6 +124,12 @@ flutter:
   - assets/north-compass.png
   - assets/south-compass.png
   - assets/images/noreport.png
+  - assets/images/nlogo.png
+  - assets/images/nocnhsn.png
+  - assets/images/evsu.png
+  - assets/images/xtriventech.png
+
+ 
 
 
 

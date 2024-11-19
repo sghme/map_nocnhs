@@ -14,6 +14,8 @@ import 'Helppage.dart';
 import 'category/add.dart';
 import 'usage.dart';
 import '../map/home_screen.dart';
+import 'change_password.dart';
+import 'change_email.dart';
 
 class AdminPanel extends StatefulWidget {
   final String username;
@@ -81,7 +83,33 @@ Future<void> _loadSelectedRoute() async {
   Widget build(BuildContext context) {
     return AdminScaffold(
       appBar: AppBar(
-        title: Text('MAPNOCNHS Admin Panel', style: TextStyle(color: Colors.white)),
+         title: Row(
+        children: [
+          // Wrap the image with a SizedBox to make it responsive
+          ClipOval(
+            child: Container(
+              color: Colors.white,  // Border color
+              padding: EdgeInsets.all(1),  // Border thickness
+              child: Image.asset(
+                'assets/images/nlogo.png',  // Adjust the path to match your image location
+                height: 35,
+                width: 35,
+                fit: BoxFit.cover,  // Ensures the image fits within the circle
+              ),
+            ),
+          ),
+          SizedBox(width: 8),
+          // Use Flexible to allow the text to adjust if needed
+          Flexible(
+            child: Text(
+              'MAPNOCNHS Admin Panel',
+              style: TextStyle(color: Colors.white),
+              overflow: TextOverflow.ellipsis,  // Adds ellipsis if text overflows
+              softWrap: true,  // Allows the text to wrap to a new line if necessary
+            ),
+          ),
+        ],
+      ), 
         backgroundColor: Colors.red.shade900,
          iconTheme: IconThemeData(color: Colors.white),
         actions: [
@@ -101,13 +129,55 @@ Future<void> _loadSelectedRoute() async {
               onSelected: (value) {
                 if (value == 'logout') {
                   Logout(context, _supabaseClient, widget.username).showLogoutConfirmation();
+                }else if (value == 'change_password') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ChangePasswordScreen()),
+                );} else if (value == 'change_email') {
+                  final currentUser = _supabaseClient.auth.currentUser;
+                  if (currentUser != null && currentUser.email != null) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => ChangeEmailDialog(
+                        currentEmail: currentUser.email!,
+                        userId: currentUser.id, // Pass the user ID here
+                      ),
+                    );
+                  }
                 }
               },
               itemBuilder: (context) => [
-                PopupMenuItem<String>(
-                  value: 'logout',
-                  child: Text('Logout'),
+               PopupMenuItem<String>(
+                value: 'change_password',
+                child: Row(
+                  children: [
+                    Icon(Icons.lock, size: 20,color: Colors.black),  // Icon for "Change Password"
+                    SizedBox(width: 8),  // Space between icon and text
+                    Text('Change Password'),
+                  ],
                 ),
+              ),
+              PopupMenuItem<String>(
+                value: 'change_email',
+                child: Row(
+                  children: [
+                    Icon(Icons.email, size: 20, color: Colors.black),
+                    SizedBox(width: 8),
+                    Text('Change Email'),
+                  ],
+                ),
+              ),
+              PopupMenuItem<String>(
+                value: 'logout',
+                child: Row(
+                  children: [
+                    Icon(Icons.exit_to_app, size: 20,color: Colors.black),  // Icon for "Logout"
+                    SizedBox(width: 8),  // Space between icon and text
+                    Text('Logout'),
+                  ],
+                ),
+              ),
+
               ],
               child: Row(
                 children: [
