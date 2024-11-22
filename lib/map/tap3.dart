@@ -44,14 +44,14 @@ List<Polygon> initializeRoomPolygons2(
   List<LatLng> G10Building4F_2Room3Tap = G10Building4F_2Room3;
   List<LatLng> G10Building4F_2Room4Tap = G10Building4F_2Room4;
   //COMFORTROOMS 
-  List<LatLng> G10Building4F_2Cr1Tap = G10Building4F_2Cr1;
-  List<LatLng> G10Building4F_2Cr2Tap = G10Building4F_2Cr2;
-  // SPA CR
-  List<LatLng> SPA_2cr1Tap = SPA_2cr1;
-  List<LatLng> SPA_2cr2Tap = SPA_2cr2;
-  // GRADE 10 YELLOW BUILDING CR
-  List<LatLng> CRGrade10YellowBuilding2ndFloor2Tap = CRGrade10YellowBuilding2ndFloor2;
-  List<LatLng> CRGR10YELLOWBUILDING2Tap = CRGR10YELLOWBUILDING2;
+  // List<LatLng> G10Building4F_2Cr1Tap = G10Building4F_2Cr1;
+  // List<LatLng> G10Building4F_2Cr2Tap = G10Building4F_2Cr2;
+  // // SPA CR
+  // List<LatLng> SPA_2cr1Tap = SPA_2cr1;
+  // List<LatLng> SPA_2cr2Tap = SPA_2cr2;
+  // // GRADE 10 YELLOW BUILDING CR
+  // List<LatLng> CRGrade10YellowBuilding2ndFloor2Tap = CRGrade10YellowBuilding2ndFloor2;
+  // List<LatLng> CRGR10YELLOWBUILDING2Tap = CRGR10YELLOWBUILDING2;
   // STE A BUILDING
   List<LatLng> STEA_2Room1Tap = STEA_2Room1;
   List<LatLng> STEA_2Room2Tap = STEA_2Room2;
@@ -225,39 +225,39 @@ List<Polygon> initializeRoomPolygons2(
       color: Colors.transparent,
       borderStrokeWidth: 0,
     ),
-    //COMFORTROOMS 
-    Polygon(
-      points: G10Building4F_2Cr1Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: G10Building4F_2Cr2Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    // SPA CR
-    Polygon(
-      points: SPA_2cr1Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: SPA_2cr2Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
+    //COMFORTROOMS
+    // Polygon(
+    //   points: G10Building4F_2Cr1Tap,
+    //   color: Colors.transparent,
+    //   borderStrokeWidth: 0,
+    // ),
+    // Polygon(
+    //   points: G10Building4F_2Cr2Tap,
+    //   color: Colors.transparent,
+    //   borderStrokeWidth: 0,
+    // ),
+    // // SPA CR
+    // Polygon(
+    //   points: SPA_2cr1Tap,
+    //   color: Colors.transparent,
+    //   borderStrokeWidth: 0,
+    // ),
+    // Polygon(
+    //   points: SPA_2cr2Tap,
+    //   color: Colors.transparent,
+    //   borderStrokeWidth: 0,
+    // ),
     // GRADE 10 YELLOW BUILDING CR
-    Polygon(
-      points: CRGrade10YellowBuilding2ndFloor2Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: CRGR10YELLOWBUILDING2Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
+    // Polygon(
+    //   points: CRGrade10YellowBuilding2ndFloor2Tap,
+    //   color: Colors.transparent,
+    //   borderStrokeWidth: 0,
+    // ),
+    // Polygon(
+    //   points: CRGR10YELLOWBUILDING2Tap,
+    //   color: Colors.transparent,
+    //   borderStrokeWidth: 0,
+    // ),
     // STE A BUILDING
     Polygon(
       points: STEA_2Room1Tap,
@@ -353,14 +353,14 @@ LatLngBounds G7A2Room9Bounds = LatLngBounds.fromPoints(G7A2Room9);
   LatLngBounds G10Building4F_2Room3Bounds = LatLngBounds.fromPoints(G10Building4F_2Room3);
   LatLngBounds G10Building4F_2Room4Bounds = LatLngBounds.fromPoints(G10Building4F_2Room4);
   //COMFORTROOMS 
-  LatLngBounds G10Building4F_2Cr1Bounds = LatLngBounds.fromPoints(G10Building4F_2Cr1);
-  LatLngBounds G10Building4F_2Cr2Bounds = LatLngBounds.fromPoints(G10Building4F_2Cr2);
-  // SPA CR
-  LatLngBounds SPA_2cr1Bounds = LatLngBounds.fromPoints(SPA_2cr1);
-  LatLngBounds SPA_2cr2Bounds = LatLngBounds.fromPoints(SPA_2cr2);
+  // LatLngBounds G10Building4F_2Cr1Bounds = LatLngBounds.fromPoints(G10Building4F_2Cr1);
+  // LatLngBounds G10Building4F_2Cr2Bounds = LatLngBounds.fromPoints(G10Building4F_2Cr2);
+  // // SPA CR
+  // LatLngBounds SPA_2cr1Bounds = LatLngBounds.fromPoints(SPA_2cr1);
+  // LatLngBounds SPA_2cr2Bounds = LatLngBounds.fromPoints(SPA_2cr2);
   // GRADE 10 YELLOW BUILDING CR
-  LatLngBounds CRGrade10YellowBuilding2ndFloor2Bounds = LatLngBounds.fromPoints(CRGrade10YellowBuilding2ndFloor2);
-  LatLngBounds CRGR10YELLOWBUILDING2Bounds = LatLngBounds.fromPoints(CRGR10YELLOWBUILDING2);
+  //LatLngBounds CRGrade10YellowBuilding2ndFloor2Bounds = LatLngBounds.fromPoints(CRGrade10YellowBuilding2ndFloor2);
+  //LatLngBounds CRGR10YELLOWBUILDING2Bounds = LatLngBounds.fromPoints(CRGR10YELLOWBUILDING2);
   // STE A BUILDING
   LatLngBounds STEA_2Room1Bounds = LatLngBounds.fromPoints(STEA_2Room1);
   LatLngBounds STEA_2Room2Bounds = LatLngBounds.fromPoints(STEA_2Room2);
@@ -415,14 +415,14 @@ LatLngBounds G7A2Room9Bounds = LatLngBounds.fromPoints(G7A2Room9);
   roompolygon2BoundsMap['G10Building4F_2Room3'] = G10Building4F_2Room3Bounds;
   roompolygon2BoundsMap['G10Building4F_2Room4'] = G10Building4F_2Room4Bounds;
   //COMFORTROOMS 
-  roompolygon2BoundsMap['G10Building4F_2Cr1'] = G10Building4F_2Cr1Bounds;
-  roompolygon2BoundsMap['G10Building4F_2Cr2'] = G10Building4F_2Cr2Bounds;
-  // SPA CR
-  roompolygon2BoundsMap['SPA_2cr1'] = SPA_2cr1Bounds;
-  roompolygon2BoundsMap['SPA_2cr2'] = SPA_2cr2Bounds;
-  // GRADE 10 YELLOW BUILDING CR
-  roompolygon2BoundsMap['CRGrade10YellowBuilding2ndFloor2'] = CRGrade10YellowBuilding2ndFloor2Bounds;
-  roompolygon2BoundsMap['CRGR10YELLOWBUILDING2'] = CRGR10YELLOWBUILDING2Bounds;
+  // roompolygon2BoundsMap['G10Building4F_2Cr1'] = G10Building4F_2Cr1Bounds;
+  // roompolygon2BoundsMap['G10Building4F_2Cr2'] = G10Building4F_2Cr2Bounds;
+  // // SPA CR
+  // roompolygon2BoundsMap['SPA_2cr1'] = SPA_2cr1Bounds;
+  // roompolygon2BoundsMap['SPA_2cr2'] = SPA_2cr2Bounds;
+  // // GRADE 10 YELLOW BUILDING CR
+  // roompolygon2BoundsMap['CRGrade10YellowBuilding2ndFloor2'] = CRGrade10YellowBuilding2ndFloor2Bounds;
+  //roompolygon2BoundsMap['CRGR10YELLOWBUILDING2'] = CRGR10YELLOWBUILDING2Bounds;
   // STE A BUILDING
   roompolygon2BoundsMap['STEA_2Room1'] = STEA_2Room1Bounds;
   roompolygon2BoundsMap['STEA_2Room2'] = STEA_2Room2Bounds;

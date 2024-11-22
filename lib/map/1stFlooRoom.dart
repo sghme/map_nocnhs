@@ -101,7 +101,23 @@ final List<LatLng> G7BStairs = [
   LatLng(11.0104296, 124.6048623),
   LatLng(11.0104087, 124.6048606),
   LatLng(11.0104051, 124.6048948),
-  LatLng(11.0104258, 124.6048964),
+  //LatLng(11.0104258, 124.6048964),
+   LatLng(11.0104258, 124.6048964),
+    LatLng(11.0104296, 124.6048623),
+];
+final List<LatLng> G7BStairsbox = [
+  LatLng(11.0104087, 124.6048606),
+  LatLng(11.0104817, 124.6048666),
+  // LatLng(11.0104784, 124.6049004),
+  // LatLng(11.0104614, 124.6048991),
+  // LatLng(11.0104634, 124.6048651),
+  // LatLng(11.0104473, 124.6048638),
+  // LatLng(11.0104438, 124.6048978),
+  // LatLng(11.0104258, 124.6048964),
+  // LatLng(11.0104296, 124.6048623),
+  LatLng(11.0104087, 124.6048606),
+  LatLng(11.0104051, 124.6048948),
+  //LatLng(11.0104258, 124.6048964),
 ];
 final List<LatLng> G7BRoom3 = [
   LatLng(11.0104756, 124.6049283),
@@ -934,6 +950,7 @@ final List<LatLng> InnerRoom3 = [
   LatLng(11.0120915, 124.6045917),
 ];
 
+
 // Office near waiting shed 2
 final List<LatLng> InnerOffice2R1 = [
   LatLng(11.0120911, 124.6045843),
@@ -1122,8 +1139,11 @@ final List<LatLng> STEA_ComfortRoom1 = [
 final List<LatLng> STEB_CR = [
   LatLng(11.0097719, 124.6046797),
   LatLng(11.0097886, 124.6046928),
-  LatLng(11.0097523, 124.6047437),
+  LatLng(11.0097599, 124.6047397),
+ // LatLng(11.0097523, 124.6047437),
   LatLng(11.0097374, 124.6047246),
+  //  LatLng(11.0097655, 124.6047387),
+
 ];
 final List<LatLng> STEC_CR = [
   LatLng(11.0096271, 124.6046041),
@@ -1179,17 +1199,211 @@ final List<LatLng> G10Building4F_Cr1 = [
   LatLng(11.0112338, 124.6047957),
 ];
 final List<LatLng> G10Building4F_Cr2 = [
-  LatLng(11.0109045, 124.6047535),
+ LatLng(11.0109045, 124.6047535),
   LatLng(11.0108965, 124.6048066),
   LatLng(11.0108764, 124.6048053),
   LatLng(11.0108804, 124.6047507),
 ];
+final List<LatLng> GRADE8_SECOND_FLOOR_BUILDING_CR1 = [
+  LatLng(11.0112232, 124.6040811),
+  LatLng(11.0112591, 124.6040869),
+  LatLng(11.0112548, 124.604123),
+  LatLng(11.011217, 124.6041201),
+];
+
+final List<LatLng> GRADE8_SECOND_FLOOR_STAIRS = [
+  LatLng(11.011278, 124.6041437),
+  LatLng(11.0112539, 124.6041427),
+  LatLng(11.0112562, 124.6041187),
+  LatLng(11.0112794, 124.604123),
+  LatLng(11.0112841, 124.6040999),
+  LatLng(11.0112591, 124.6040985),
+  LatLng(11.0112562, 124.6041187),
+  LatLng(11.0112794, 124.604123),
+];
+
+final List<LatLng> LGU1_STAIRS_BOX = [
+  LatLng(11.0104996, 124.6049408),
+  LatLng(11.0105621, 124.6049444),
+  LatLng(11.0105602, 124.6049975),
+  LatLng(11.0104955, 124.604991),
+];
+
+final List<LatLng> LGU1_STAIRS = [
+  LatLng(11.0105439, 124.6049958),
+  LatLng(11.0105475, 124.6049444),
+  LatLng(11.0105343, 124.6049429),
+  LatLng(11.0105291, 124.6049946),
+  LatLng(11.0105142, 124.6049927),
+  LatLng(11.0105182, 124.6049424),
+  LatLng(11.0105069, 124.6049408),
+  LatLng(11.010504, 124.6049915),
+];
+
+final List<LatLng> LGU2_STAIRS_BOX = [
+  LatLng(11.0104817, 124.6048666),
+  LatLng(11.0104804, 124.6048975),
+  LatLng(11.0104068, 124.6048907),
+  LatLng(11.0104087, 124.6048561),
+];
+//grade10yellowbuilding
+final List<LatLng> LGU2_STAIRS = [
+  LatLng(11.0114475, 124.6040807),
+  LatLng(11.0114579, 124.604096),
+  LatLng(11.0114586, 124.6040977),
+  LatLng(11.0114475, 124.6041066),
+  LatLng(11.011434, 124.6040879),
+  LatLng(11.0114229, 124.6040973),
+  LatLng(11.0114352, 124.604116),
+  LatLng(11.0114243, 124.6041247),
+  
+  LatLng(11.0114121, 124.6041066),
+ // LatLng(11.0114003, 124.6041158),
+  // LatLng(11.0114135, 124.6041333),
+  // LatLng(11.0114017, 124.604142),
+  // LatLng(11.011388, 124.6041244),
+  // LatLng(11.0114003, 124.6041158),
+];
+
+final List<LatLng> FOURTH_FLOOR_LEFT = [
+  LatLng(11.010848, 124.6048145),
+  LatLng(11.0108749, 124.6048162),
+  LatLng(11.0108775, 124.6048032),
+  LatLng(11.0108494, 124.6047998),
+  LatLng(11.0108513, 124.6047815),
+  LatLng(11.0108804, 124.6047835),
+  LatLng(11.0108806, 124.6047729),
+  LatLng(11.0108532, 124.60477),
+];
+final List<LatLng> SPA_STAIR1 = [
+  LatLng(11.0113724, 124.6046733),
+  LatLng(11.0113969, 124.6046743),
+  LatLng(11.0113946, 124.6046901),
+  LatLng(11.0113738, 124.6046897),
+  LatLng(11.0113696, 124.6047036),
+  LatLng(11.0113946, 124.604706),
+  LatLng(11.0113936, 124.6047252),
+  LatLng(11.01137, 124.6047219),
+  LatLng(11.0113667, 124.6047373),
+  LatLng(11.0113908, 124.6047397),
+  LatLng(11.0113903, 124.6047575),
+  LatLng(11.0113648, 124.6047556),
+];
+final List<LatLng> SPA_STAIR2 = [
+ LatLng(11.0109786, 124.6046319),
+  LatLng(11.0110029, 124.6046353),
+  LatLng(11.011003, 124.6046519),
+  LatLng(11.0109776, 124.6046495),
+  LatLng(11.0109758, 124.6046649),
+  LatLng(11.0109991, 124.6046675),
+  LatLng(11.0109975, 124.6046848),
+  LatLng(11.0109748,124.6046834),
+  LatLng(11.0109739, 124.6046988),
+  LatLng(11.010998,  124.6046998),
+  LatLng(11.0109944, 124.604719),
+  LatLng(11.0109715, 124.6047164),
+];
+
+final List<LatLng> FOURTH_FLOOR_RIGHT_ROOM = [
+  LatLng(11.0112546,124.6047981),
+  LatLng(11.0112732, 124.6048013),
+  LatLng(11.0112704, 124.6048176),
+  LatLng(11.0112523,124.6048138),
+  LatLng(11.0112508,124.6048289),
+  LatLng(11.0112662, 124.6048311),
+  LatLng(11.0112643, 124.604847),
+  LatLng(11.0112484,124.6048461),
+  LatLng(11.0112453,124.6048616),
+  LatLng(11.0112638, 124.6048628),
+  LatLng(11.0112624, 124.6048773),
+  LatLng(11.0112441,124.6048751),
+];
+// 1.0112586,124.6048003
+// 11.0112577,124.6048142
+// 11.0112553,124.6048282
+// 11.0112548,124.604847
+// 11.0112529,124.6048614
+// 11.011251,124.6048777
+// 11.0112546,124.6047981
+// 11.0112523,124.6048138
+// 11.0112508,124.6048289
+// 11.0112484,124.6048461
+// 11.0112453,124.6048616
+// 11.0112441,124.6048751
+final List<LatLng> CRGrade10YellowBuilding2ndFloor2 = [
+  LatLng(11.0113978, 124.60409),
+  LatLng(11.0114228, 124.6041257),
+  LatLng(11.0113805, 124.6041589),
+  LatLng(11.0113537, 124.604124),
+];
+final List<LatLng> STEC_STAIRS_1 = [
+  LatLng(11.0099327, 124.6042981),
+  LatLng(11.0099157, 124.6043231),
+  LatLng(11.0099053, 124.6043212),
+  LatLng(11.0099223, 124.6042933),
+  LatLng(11.00991, 124.6042837),
+  LatLng(11.0098911, 124.6043077),
+  LatLng(11.0098826, 124.6043),
+  LatLng(11.0098968, 124.604274),
+  LatLng(11.0098864, 124.6042673),
+  LatLng(11.0098723, 124.6042875),
+  LatLng(11.0098609, 124.6042846),
+  LatLng(11.009879, 124.6042609),
+];
+
+final List<LatLng> STEC_STAIRS_2 = [
+  LatLng(11.0096664, 124.604681),
+  LatLng(11.0096541, 124.6047002),
+  LatLng(11.0096397, 124.6046925),
+  LatLng(11.0096551, 124.6046714),
+  LatLng(11.0096437, 124.6046627),
+  LatLng(11.0096258, 124.604681),
+  LatLng(11.0096116, 124.6046743),
+  LatLng(11.0096267, 124.6046541),
+  LatLng(11.0096126, 124.6046415),
+  LatLng(11.0096012, 124.6046637),
+  LatLng(11.0095908, 124.604656),
+  LatLng(11.0096072, 124.6046366),
+];
+
+final List<LatLng> STE_Bstairs = [
+  LatLng(11.0097607, 124.6046448),
+  LatLng(11.0097861, 124.6046654),
+  LatLng(11.0097795, 124.6046757),
+  LatLng(11.009753, 124.6046562),
+  LatLng(11.0097464, 124.6046661),
+  LatLng(11.0097719, 124.6046853),
+ 
+    // LatLng(11.0097671, 124.6046932),
+    // LatLng(11.0097334, 124.6046863),
+    //     LatLng(11.0097306, 124.6046916),
+  //LatLng(11.),
+  LatLng(11.0097615, 124.6047012),
+  LatLng(11.0097511, 124.6047147),
+  LatLng(11.0097261, 124.6046986),
+  LatLng(11.0097181, 124.6047103),
+];
+final List<LatLng> STE_Bstairsbox = [
+  LatLng(11.0097607, 124.6046448),
+   LatLng(11.0097861, 124.6046654),
+  // LatLng(11.0097795, 124.6046757),
+  // LatLng(11.009753, 124.6046562),
+  // LatLng(11.0097464, 124.6046661),
+  // LatLng(11.0097719, 124.6046853),
+  // LatLng(11.0097615, 124.6047012),
+   LatLng(11.0097511, 124.6047147),
+  // LatLng(11.0097181, 124.6047103),
+  LatLng(11.0097261, 124.6046986),
+ 
+];
+
 
 PolygonLayer createGroundFloorLayer2() {
   // Function to create polygons with specific properties
   Polygon createPolygon(List<LatLng> points, Color color,
       double borderStrokeWidth, Color borderColor) {
     return Polygon(
+      
       points: points,
       color: color,
       borderStrokeWidth: borderStrokeWidth,
@@ -1365,30 +1579,48 @@ PolygonLayer createGroundFloorLayer2() {
 
   // Define the polygons with other similar properties in lists
   final List<List<LatLng>> greyPolygonPoints = [
-    G7BStairs,
-    G82ndFLRoom2Stairs,
-    G10Building4F_Stairs1,
-    G10Building4F_Stairs2,
-    GR10YELLOWBUILDINSTAIRS,
-    SPA_stairs1,
-    SPA_stairs2,
+   //G7BStairs,
+   // G82ndFLRoom2Stairs,
+    // G10Building4F_Stairs1,
+    // G10Building4F_Stairs2,
+    //GR10YELLOWBUILDINSTAIRS,
+    // G7BStairsbox,
+    // SPA_stairs1,
+    // SPA_stairs2,
+      G7BStairs,
+    STEC_STAIRS_2,
+    STEC_STAIRS_1,
     STEA_Stairs,
-    STEB_STAIRS,
-    STEC_STAIR1,
-    STEC_STAIR2,
-    G7AStair,
+    STE_Bstairsbox,
+    // STEC_STAIR1,
+    // STEC_STAIR2,
+    // G7AStair,
     G7AGroundHall,
     G7BGroundHall,
+    CRGrade10YellowBuilding2ndFloor2,
+    
+   
+GRADE8_SECOND_FLOOR_STAIRS,
+LGU1_STAIRS_BOX,
+LGU1_STAIRS,
+LGU2_STAIRS,
+FOURTH_FLOOR_RIGHT_ROOM,
+//LGU2_STAIRS_BOX,
+FOURTH_FLOOR_LEFT,
+STE_Bstairs,
+SPA_STAIR1,
+SPA_STAIR2,
   ];
 
   final List<Polygon> greyPolygons = greyPolygonPoints
       .map((points) => createPolygon(
-          points, Colors.grey.withOpacity(0.3), borderStrokeWidth, Colors.grey))
+          points, Colors.grey.withOpacity(0.5), borderStrokeWidth,  Colors.grey))
       .toList();
 
   final List<List<LatLng>> whitePolygonPoints = [
-    fth_floorcr1,
+  //  fth_floorcr1,
     fth_floorcr2,
+
     STEA_ComfortRoom1,
     STEB_CR,
     STEC_CR,
@@ -1403,19 +1635,21 @@ PolygonLayer createGroundFloorLayer2() {
     SPA_cr2,
     G10Building4F_Cr1,
     G10Building4F_Cr2,
+     GRADE8_SECOND_FLOOR_BUILDING_CR1,
   ];
 
   final List<Polygon> whitePolygons = whitePolygonPoints
-      .map((points) => createPolygon(points, Colors.white.withOpacity(0.3),
-          borderStrokeWidth, Colors.white))
+      .map((points) => createPolygon(points, Colors.white.withOpacity(0.9),
+          borderStrokeWidth, Colors.grey))
       .toList();
 
   // Combine all polygons in the final layer
   return PolygonLayer(
     polygons: [
-      ...grade7BuildingAPolygons,
+      
       ...greyPolygons,
       ...whitePolygons,
+      ...grade7BuildingAPolygons,
     ],
   );
 }

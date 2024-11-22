@@ -54,6 +54,32 @@ const LatLng (11.0108965, 124.6048066),
 const LatLng (11.0108764, 124.6048053),
 const LatLng (11.0108804, 124.6047507),
 ]; 
+final List<LatLng> FOURTH_FLOOR_LEFT = [
+  LatLng(11.010848, 124.6048145),
+  LatLng(11.0108749, 124.6048162),
+  LatLng(11.0108775, 124.6048032),
+  LatLng(11.0108494, 124.6047998),
+  LatLng(11.0108513, 124.6047815),
+  LatLng(11.0108804, 124.6047835),
+  LatLng(11.0108806, 124.6047729),
+  LatLng(11.0108532, 124.60477),
+];
+
+
+final List<LatLng> FOURTH_FLOOR_RIGHT_ROOM = [
+  LatLng(11.0112546,124.6047981),
+  LatLng(11.0112732, 124.6048013),
+  LatLng(11.0112704, 124.6048176),
+  LatLng(11.0112523,124.6048138),
+  LatLng(11.0112508,124.6048289),
+  LatLng(11.0112662, 124.6048311),
+  LatLng(11.0112643, 124.604847),
+  LatLng(11.0112484,124.6048461),
+  LatLng(11.0112453,124.6048616),
+  LatLng(11.0112638, 124.6048628),
+  LatLng(11.0112624, 124.6048773),
+  LatLng(11.0112441,124.6048751),
+];
 
 // Function to create the PolygonLayer for all these buildings
 PolygonLayer createGroundFloorLayer5() {
@@ -86,13 +112,16 @@ G10Building4F_4Room4,
 
   // Define the polygons with other similar properties in lists
   final List<List<LatLng>> greyPolygonPoints = [
-G10Building4F_4Stairs1,
-G10Building4F_4Stairs2,
+// G10Building4F_4Stairs1,
+// G10Building4F_4Stairs2,
+FOURTH_FLOOR_RIGHT_ROOM,
+//LGU2_STAIRS_BOX,
+FOURTH_FLOOR_LEFT,
   ];
 
   final List<Polygon> greyPolygons = greyPolygonPoints
       .map((points) => createPolygon(
-          points, Colors.grey.withOpacity(0.3), borderStrokeWidth, Colors.grey))
+          points, Colors.grey.withOpacity(0.5), borderStrokeWidth, Colors.grey))
       .toList();
 
   final List<List<LatLng>> whitePolygonPoints = [
@@ -101,15 +130,16 @@ G10Building4F_4Cr2,
   ];
 
   final List<Polygon> whitePolygons = whitePolygonPoints
-      .map((points) => createPolygon(points, Colors.white.withOpacity(0.3),
-          borderStrokeWidth, Colors.white))
+      .map((points) => createPolygon(points, Colors.white.withOpacity(0.9),
+          borderStrokeWidth, Colors.grey))
       .toList();
 
   // Combine all polygons in the final layer
   return PolygonLayer(
     polygons: [
-      ...FourthLayerPolygons,
+     
       ...greyPolygons,
+       ...FourthLayerPolygons,
       ...whitePolygons,
     ],
   );

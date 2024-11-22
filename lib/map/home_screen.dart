@@ -1,8 +1,8 @@
-import 'dart:io';
+//import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:url_launcher/url_launcher.dart';
+//import 'package:url_launcher/url_launcher.dart';
 
 // import 'navigation3.dart';
 
@@ -25,6 +25,8 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   final MapController mapController = MapController();
   late MapController mapControllers;
+  int selectedIndex = -1;
+  int _hoveredIndex = -1; // Track hovered item
   bool isNorth = true;
   double _markerRotation = 0;
   List<Marker> _markers = [];
@@ -68,7 +70,7 @@ class _MapScreenState extends State<MapScreen> {
   bool _isSearchClicked = false;
   int _selectedIndex = 1;
   LatLng? polygonCenter;
-  double? _heading;
+  //double? _heading;
   void updateInfoContainer(
     //BuildContext context, // Ensure you pass the context
     String? roomName,
@@ -188,18 +190,21 @@ class _MapScreenState extends State<MapScreen> {
 // para ni sa tap if mo tap sila sa map
   void _onMapTap(LatLng tappedPoint) {
     bool polygonTapped = false;
+
     // Clear existing markers and polygons before checking the new tap
     setState(() {
       tapmarkers.clear();
       tap_polygons.clear();
     });
+
+    // Room layers check
     if (isRoomLayerVisible ||
         isRoomLayer2Visible ||
         isRoomLayer3Visible ||
         isRoomLayer4Visible) {
-      // Check all room layers and their respective polygon maps
       Map<String, LatLngBounds>? selectedRoomPolygonBoundsMap;
-      // Determine which layer is visible and assign the correct bounds map
+
+      // Assign the correct bounds map based on the visible room layer
       if (isRoomLayerVisible) {
         selectedRoomPolygonBoundsMap = roompolygonBoundsMap;
       } else if (isRoomLayer2Visible) {
@@ -209,59 +214,53 @@ class _MapScreenState extends State<MapScreen> {
       } else if (isRoomLayer4Visible) {
         selectedRoomPolygonBoundsMap = roompolygon4BoundsMap;
       }
-      // Ensure the map is not null before checking entries
+
+      // Check if tap is within any room polygon bounds
       if (selectedRoomPolygonBoundsMap != null) {
         for (var entry in selectedRoomPolygonBoundsMap.entries) {
           if (entry.value.contains(tappedPoint)) {
-            print('Tapped Room Polygon: ${entry.key}');
-            String polygonName = entry.key; // The polygon key
+            String polygonName = entry.key;
             String? fullRoomName = polygonToRoomBuildingMap[polygonName];
 
             if (fullRoomName != null) {
               Marker newMarker =
                   _createMarkerForPolygon(fullRoomName, entry.value);
+
               setState(() {
-                tapmarkers.add(newMarker);
-                // Loop through all polygons and check if the tap point is inside any polygon
+                // Highlight the tapped room polygon
                 for (var polygon in RoomPolygons) {
                   if (isPointInPolygon(tappedPoint, polygon.points)) {
-                    highlightedPolygon(polygon); // Highlight the tapped polygon
-                    break; // Exit loop once we find the tapped polygon
+                    highlightedPolygon(polygon);
+                    tapmarkers.add(newMarker);
+                    polygonTapped = true;
+                    break;
                   }
                 }
               });
-              print('Full Room Name: $fullRoomName');
-            } else {
-              print('Room not found for polygon: ${entry.key}');
             }
-            return;
+            return; // Exit after finding the tapped polygon
           }
         }
       }
-      if (!polygonTapped) {
-        tap_polygons = [];
-        tapmarkers = []; // Clear markers if no polygon is tapped
-        print('Tap point $tappedPoint is outside all polygons.');
-      }
-      print('Tap point $tappedPoint is outside all room polygons.');
     } else {
+      // Landmark and building polygons check
+      // Check if tap is within any landmark polygon bounds
       for (var entry in LandmarkpolygonBoundsMap.entries) {
         if (entry.value.contains(tappedPoint)) {
-          print('Tapped Landmark Polygon: ${entry.key}');
-          String polygonName = entry.key; // The polygon key
+          String polygonName = entry.key;
           String? landmarkName = polygonToLandmarkMap[polygonName];
+
           if (landmarkName != null) {
             Marker newMarker =
                 _createMarkerForPolygon(landmarkName, entry.value);
+
             setState(() {
-              tapmarkers.add(newMarker);
-              // Loop through all polygons and check if the tap point is inside any polygon
               for (var polygon in allPolygons) {
                 if (isPointInPolygon(tappedPoint, polygon.points)) {
                   highlightedPolygon(polygon);
-                  // Highlight the tapped polygon
+                  tapmarkers.add(newMarker);
                   polygonTapped = true;
-                  break; // Exit loop once we find the tapped polygon
+                  break;
                 }
               }
             });
@@ -269,43 +268,42 @@ class _MapScreenState extends State<MapScreen> {
           return;
         }
       }
-    }
-    // Room layers are not visible, check for building polygons
-    for (var entry in polygonBoundsMap.entries) {
-      if (entry.value.contains(tappedPoint)) {
-        print('Tapped Building Polygon: ${entry.key}');
-        String polygonName = entry.key; // The polygon key
-        String? buildingName = polygonToBuildingMap[polygonName];
 
-        if (buildingName != null) {
-          Marker newMarker = _createMarkerForPolygon(buildingName, entry.value);
-          setState(() {
-            tapmarkers.add(newMarker);
+      // Check if tap is within any building polygon bounds
+      if (!polygonTapped) {
+        for (var entry in polygonBoundsMap.entries) {
+          if (entry.value.contains(tappedPoint)) {
+            String polygonName = entry.key;
+            String? buildingName = polygonToBuildingMap[polygonName];
 
-            // Loop through all polygons and check if the tap point is inside any polygon
-            for (var polygon in allPolygons) {
-              if (isPointInPolygon(tappedPoint, polygon.points)) {
-                highlightedPolygon(polygon);
+            if (buildingName != null) {
+              Marker newMarker =
+                  _createMarkerForPolygon(buildingName, entry.value);
 
-                polygonTapped = true;
-
-                break; // Exit loop once we find the tapped polygon
-              }
+              setState(() {
+                for (var polygon in allPolygons) {
+                  if (isPointInPolygon(tappedPoint, polygon.points)) {
+                    highlightedPolygon(polygon);
+                    polygonTapped = true;
+                    tapmarkers.add(newMarker);
+                    break;
+                  }
+                }
+              });
             }
-          });
-          // print('Building Name: $buildingName');
-        } else {
-          // print('Building not found for polygon: ${entry.key}');
+            return;
+          }
         }
-        return;
       }
     }
+
+    // If no polygon was tapped, clear all markers and polygons
     if (!polygonTapped) {
-      print('No polygon was tapped, clearing polygons and markers.');
       setState(() {
-        tap_polygons = []; // Clear highlighted polygons
-        tapmarkers = []; // Clear markers if no polygon is tapped
+        tapmarkers.clear();
+        tap_polygons.clear();
       });
+      print('No polygon was tapped, clearing polygons and markers.');
     }
   }
 
@@ -381,6 +379,48 @@ class _MapScreenState extends State<MapScreen> {
       });
     }
   }
+  // bool isPointInPolygon(LatLng point, List<LatLng> polygon) {
+  //   int n = polygon.length;
+  //   bool inside = false;
+
+  //   for (int i = 0, j = n - 1; i < n; j = i++) {
+  //     if (((polygon[i].longitude > point.longitude) !=
+  //             (polygon[j].longitude > point.longitude)) &&
+  //         (point.latitude <
+  //             (polygon[j].latitude - polygon[i].latitude) *
+  //                     (point.longitude - polygon[i].longitude) /
+  //                     (polygon[j].longitude - polygon[i].longitude) +
+  //                 polygon[i].latitude)) {
+  //       inside = !inside;
+  //     }
+  //   }
+
+  //   return inside;
+  // }
+
+  // void updateMapLayers(Polygon? polygon) {
+  //   if (polygon == null) {
+  //     setState(() {
+  //       polygons.clear(); // Assume polygons is a List<Polygon>
+  //     });
+  //   } else {
+  //     setState(() {
+  //       polygons.add(polygon);
+  //     });
+  //   }
+  // }
+
+  // void updateMapLayerss(Polygon? polygon) {
+  //   if (polygon == null) {
+  //     setState(() {
+  //       tap_polygons.clear(); // Assume polygons is a List<Polygon>
+  //     });
+  //   } else {
+  //     setState(() {
+  //       tap_polygons.add(polygon);
+  //     });
+  //   }
+  // }
 
   void highlightedPolygon(Polygon polygon) {
     final Polygon highlightedPolygon = Polygon(
@@ -869,13 +909,17 @@ class _MapScreenState extends State<MapScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
-          'MAPNOCNHS',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-          ), // Set text color here
+               title: GestureDetector(
+          onTap: () {
+            _onItemTapped(
+                1); // Call your function here with the desired index or action
+          },
+          child: Text(
+            'MAPNOCNHS',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
         ),
+        // ),
         backgroundColor: Colors.red[900],
         iconTheme: const IconThemeData(color: Colors.white),
         actions: [
@@ -883,6 +927,13 @@ class _MapScreenState extends State<MapScreen> {
             icon: const Icon(Icons.legend_toggle),
             onPressed: () {
               _showLegendDialog(context);
+            },
+          ),
+           IconButton(
+            icon: const Icon(Icons.location_on),
+            onPressed: () {
+              _onItemTapped(_selectedIndex = 0);
+            //_selectedIndex = 1;
             },
           ),
         ],
@@ -1055,155 +1106,170 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ),
             // Search and results UI
-            Positioned(
-              top: 45,
-              left: 10,
-              right: 10,
-              child: Container(
-                height: _searchResults.isNotEmpty ? 200 : 49,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      spreadRadius: 2,
-                      blurRadius: 5,
+Positioned(
+  top: 45,
+  left: 10,
+  right: 10,
+  child: Container(
+    height: _searchResults.isNotEmpty ? 200 : 49,
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(20),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.1),
+          spreadRadius: 2,
+          blurRadius: 5,
+        ),
+      ],
+    ),
+    child: Column(
+      children: [
+        // Search bar
+        Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: _searchController,
+                decoration: InputDecoration(
+                  labelText: 'Search Building',
+                  labelStyle: TextStyle(color: Colors.black),
+                  hintText: 'Search for a building, room, or teacher...',
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                      width: 2.0,
                     ),
-                  ],
-                ),
-
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                           child: TextField(
-                            controller: _searchController,
-                            decoration: InputDecoration(
-                              labelText: 'Search Building',
-                              labelStyle: TextStyle(
-                                color: Colors.black, // Label color
-                              ),
-                              hintText:
-                                  'Search for a building, room, or teacher...',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.0),
+                  ),
+                    enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
                                 borderSide: BorderSide(
-                                  color: Colors.black45, // Border color
-                                  width: 2.0, // Border width
+                                  color: Colors
+                                      .grey, // Keep the border subtle when enabled
+                                  width: 1,
                                 ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                // Focused border
-                                borderRadius: BorderRadius.circular(20.0),
-                                borderSide: BorderSide(
-                                  color: Colors.black45, // Focused border color
-                                  width: 2.0,
-                                ),
-                              ),
-                              suffixIcon: _searchController.text.isNotEmpty
-                                  ? IconButton(
-                                      icon:
-                                          Icon(Icons.clear, color: Colors.red),
-                                      onPressed: () {
-                                        _searchController.clear();
-                                        //  _searchController.clear();
-                                        _searchResults.clear();
-                                        onSearchChanged('');
-                                        setState(() {});
-                                      },
-                                    )
-                                  : IconButton(
-                                      icon: Icon(Icons.search,
-                                          color: Colors.indigo),
-                                      onPressed: () async {
-                                        if (_searchController.text
-                                            .trim()
-                                            .isNotEmpty) {
-                                          await performSearch(context);
-                                        } else {
-                                          print("Search field is empty");
-                                        }
-                                      },
-                                    ),
-                            ),
-                            onChanged: (value) {
-                              setState(() {}); // Update UI when text changes
-                              if (value.trim().isNotEmpty) {
-                                onSearchChanged(value);
-                              }
-                              areLayerButtonsVisible = false;
-                              _markers.clear(); // Trigger search change
-                              tapmarkers.clear();
-                              tap_polygons.clear();
-                            },
-                            onSubmitted: (value) => performSearch(context),
-                          ),
-                        ),
-                      ],
                     ),
-                    if (_searchResults
-                        .isNotEmpty) // Display results if available
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: _searchResults.length,
-                          itemBuilder: (context, index) {
-                            String displayedName = _searchResults[index];
-                            String actualName = displayedName.replaceAll(
-                                ' (newly updated)',
-                                ''); // Clean up for actual name
-                            bool isNewlyUpdated = displayedName.contains(
-                                '(newly updated)'); // Check if it's newly updated
-
-                            return ListTile(
-                              title: Row(
-                                children: [
-                                  Text(actualName), // Display the actual name
-                                  if (isNewlyUpdated) // Only display the blue oblong if newly updated
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          left:
-                                              8.0), // Space between text and tag
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 10.0,
-                                          vertical:
-                                              5.0), // Padding for the oblong
-                                      decoration: BoxDecoration(
-                                        color: Colors.red[
-                                            900], // Blue background for the tag
-                                        borderRadius: BorderRadius.circular(
-                                            20.0), // Make it an oblong shape
-                                      ),
-                                      child: Text(
-                                        'newly updated',
-                                        style: TextStyle(
-                                          color: Colors
-                                              .white, // White text on blue background
-                                          fontSize:
-                                              12.0, // Smaller text size for the tag
-                                        ),
-                                      ),
-                                    ),
-                                ],
-                              ),
-                              onTap: () async {
-                                _searchController.text = actualName;
-
-                                await performSearch(
-                                  context,
-                                  selectedResult: actualName,
-                                  markerRotation: _markerRotation,
-                                );
-                              },
-                            );
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                      width: 2.0,
+                    ),
+                  ),
+                  suffixIcon: _searchController.text.isNotEmpty
+                      ? IconButton(
+                          icon: Icon(Icons.clear, color: Colors.red),
+                          onPressed: () {
+                            _searchController.clear();
+                            _searchResults.clear();
+                            onSearchChanged('');
+                            setState(() {});
+                          },
+                        )
+                      : IconButton(
+                          icon: Icon(Icons.search, color: Colors.indigo),
+                          onPressed: () async {
+                            if (_searchController.text.trim().isNotEmpty) {
+                              await performSearch(context);
+                            } else {
+                              print("Search field is empty");
+                            }
                           },
                         ),
-                      ),
-                  ],
                 ),
+                onChanged: (value) {
+                  setState(() {
+                    if (value.trim().isNotEmpty) {
+                      onSearchChanged(value);
+                    }
+                    areLayerButtonsVisible = false;
+                    _markers.clear();
+                    tapmarkers.clear();
+                    tap_polygons.clear();
+                  });
+                },
+                onSubmitted: (value) => performSearch(context),
               ),
             ),
+          ],
+        ),
+        // Display search results
+        if (_searchResults.isNotEmpty)
+          Expanded(
+            child: ListView.builder(
+              itemCount: _searchResults.length,
+              itemBuilder: (context, index) {
+                String displayedName = _searchResults[index];
+                String actualName = displayedName.replaceAll(
+                    ' (newly updated)', ''); // Clean up for actual name
+                bool isNewlyUpdated =
+                    displayedName.contains('(newly updated)'); // Check update
+                bool isHovered = _hoveredIndex == index; // Check hover state
+                bool isSelected = selectedIndex == index; // Check tap state
+
+                return InkWell(
+                  onTap: () async {
+                    setState(() {
+                      selectedIndex = index; // Mark as selected
+                    });
+                    _searchController.text = actualName;
+
+                    await performSearch(
+                      context,
+                      selectedResult: actualName,
+                      markerRotation: _markerRotation,
+                    );
+                  },
+                  onHover: (hovering) {
+                    setState(() {
+                      _hoveredIndex = hovering ? index : -1; // Handle hover
+                    });
+                  },
+                  child: Container(
+                    color: isHovered
+                        ? Colors.grey[300] // Highlight on hover
+                        : (isSelected
+                            ? Colors.grey[300] // Highlight on tap
+                            : Colors.transparent),
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            actualName,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                        if (isNewlyUpdated)
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10.0, vertical: 5.0),
+                            decoration: BoxDecoration(
+                              color: Colors.red[900],
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: Text(
+                              'newly updated',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12.0,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+      ],
+    ),
+  ),
+),
 
             if (_isSearchClicked) // Display circles only when search is clicked
               SizedBox(height: 10), // Space between search bar and circles
@@ -1350,24 +1416,24 @@ class _MapScreenState extends State<MapScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.location_pin),
-            label: 'Areas',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.refresh),
-            label: 'Reload',
-          ),
-        ],
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   currentIndex: _selectedIndex,
+      //   onTap: _onItemTapped,
+      //   items: const [
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.location_pin),
+      //       label: 'Areas',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       label: 'Home',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.refresh),
+      //       label: 'Reload',
+      //     ),
+      //   ],
+      // ),
     );
   }
 
@@ -1409,82 +1475,113 @@ class _MapScreenState extends State<MapScreen> {
 }
 
 void _showLegendDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text(
-          'Legend',
-          style: TextStyle(
-              color: Colors.black87), // Change title text color to white
-        ),
-        backgroundColor:
-            Colors.white70, // Make the dialog background transparent
-        content: SingleChildScrollView(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors
-                  .transparent, // Slightly transparent white background for the container
-              borderRadius:
-                  BorderRadius.circular(10), // Optional: rounded corners
-            ),
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Legend', style: TextStyle(color: Colors.black87)),
+          backgroundColor: Colors.white70,
+          content: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(16.0), // Add padding for spacing
+              padding: const EdgeInsets.all(16.0),
               child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.center, // Center column items
-                children: <Widget>[
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  _buildLegendItem(null, Colors.transparent,
+                      Color.fromARGB(255, 167, 158, 152), 'Buildings'),
+                  _buildLegendItem(null, Colors.transparent,
+                      Color.fromARGB(255, 100, 180, 247), '1st Floor Rooms'),
+                  _buildLegendItem(null, Colors.transparent,
+                      Color.fromARGB(255, 245, 196, 175), '2nd Floor Rooms'),
+                  _buildLegendItem(null, Colors.transparent,
+                      Colors.orangeAccent, '3rd Floor Rooms'),
+                  _buildLegendItem(null, Colors.transparent, Colors.green,
+                      '4th Floor Rooms'),
                   _buildLegendItem(
-                      const Color.fromARGB(255, 167, 158, 152), 'Buildings'),
-                  _buildLegendItem(const Color.fromARGB(255, 100, 180, 247),
-                      '1st Floor Rooms'),
-                  _buildLegendItem(const Color.fromARGB(255, 245, 196, 175),
-                      '2nd Floor Rooms'),
-                  _buildLegendItem(Colors.orangeAccent, '3rd Floor Rooms'),
-                  _buildLegendItem(Colors.green, '4th Floor Rooms'),
-                  _buildLegendItem(Colors.blueGrey, 'Landmarks'),
+                      null, Colors.transparent, Colors.blueGrey, 'Landmarks'),
+                  _buildLegendItem(null, Colors.transparent,
+                      Color.fromARGB(255, 138, 125, 120), 'Canteens'),
                   _buildLegendItem(
-                      const Color.fromARGB(255, 138, 125, 120), 'Canteens'),
-                  _buildLegendItem(const Color.fromARGB(255, 216, 209, 143),
+                      null,
+                      Colors.transparent,
+                      Color.fromARGB(255, 216, 209, 143),
                       'Comfort Rooms (outside)'),
-                  _buildLegendItem(Colors.white, 'Comfort Rooms (inside)'),
+                  _buildLegendItem(null, Colors.transparent, Colors.white,
+                      'Comfort Rooms (inside)'),
+                  _buildLegendItem(const Icon(Icons.fence, color: Colors.black),
+                      Colors.black, null, 'Gate'),
+                  _buildLegendItem(const Icon(Icons.flag, color: Colors.blue),
+                      Colors.blue, null, 'Flag Pole'),
+                  _buildLegendItem(
+                      const Icon(Icons.nature, color: Colors.green),
+                      Colors.green,
+                      null,
+                      'Tree (Acacia)'),
+                  _buildLegendItem(stairsIcon(), Colors.transparent, null,
+                      'Stairs'), // Add stairs here
                 ],
               ),
             ),
           ),
-        ),
-        actions: <Widget>[
-          TextButton(
-            child: const Text(
-              'Close',
-              style: TextStyle(
-                  color: Colors.black87), // Change button text color to white
+          actions: [
+            TextButton(
+              child:
+                  const Text('Close', style: TextStyle(color: Colors.black87)),
+              onPressed: () => Navigator.of(context).pop(),
             ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildLegendItem(
+      Widget? customIcon, Color iconColor, Color? boxColor, String text) {
+    return Row(
+      children: [
+        if (customIcon != null) customIcon,
+        const SizedBox(width: 8),
+        if (boxColor != null) Container(width: 12, height: 12, color: boxColor),
+        const SizedBox(width: 8),
+        Text(text),
+      ],
+    );
+  }
+
+  Widget stairsIcon({double size = 24}) {
+    return SizedBox(
+      width: size,
+      height: size,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: size * 0.75,
+            height: size / 4,
+            decoration: BoxDecoration(
+              color: Colors.grey.withOpacity(0.5),
+              border: Border.all(color: Colors.grey, width: 1),
+            ),
+          ),
+          Container(
+            width: size * 0.75,
+            height: size / 4,
+            decoration: BoxDecoration(
+              color: Colors.grey.withOpacity(0.5),
+              border: Border.all(color: Colors.grey, width: 1),
+            ),
+          ),
+          Container(
+            width: size * 0.75,
+            height: size / 4,
+            decoration: BoxDecoration(
+              color: Colors.grey.withOpacity(0.5),
+              border: Border.all(color: Colors.grey, width: 1),
+            ),
           ),
         ],
-      );
-    },
-  );
-}
+      ),
+    );
+  }
 
-Widget _buildLegendItem(Color color, String text) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.start, // Center the row items
-    children: [
-      Container(
-        width: 20,
-        height: 20,
-        color: color,
-      ),
-      const SizedBox(width: 20), // Space between color box and text
-      Text(
-        text,
-        style: const TextStyle(
-            color: Colors.black87), // Change text color to white
-      ),
-    ],
-  );
-}

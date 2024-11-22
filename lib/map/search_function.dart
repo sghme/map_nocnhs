@@ -52,15 +52,15 @@ Future<List<String>> getSearchSuggestions(String query) async {
     suggestions.add(teacher); // Use the original teacher name for display
   }
 });
-roomTeacherMaps.forEach((room, teachers) {
-    List<String> teacherList = teachers.split(', '); // Assuming teachers are comma-separated
+ roomTeacherMaps.forEach((room, teachers) {
+    List<String> teacherList = teachers.split(', '); // Split by comma
     for (String teacher in teacherList) {
-      String lowerCaseTeacher = teacher.toLowerCase(); // Convert the teacher name to lowercase
-      if (lowerCaseTeacher.contains(searchQuery)) {
-        suggestions.add(teacher); // Use the original teacher name for display
+      if (teacher.toLowerCase().contains(searchQuery)) {
+        suggestions.add(teacher); // Add teacher name
       }
     }
   });
+
   return suggestions;
   //search in teachers name
 }
@@ -128,13 +128,7 @@ Future<void> searchBuildings(
   if (matchedTeacherRoom != null) {
     searchQuery = matchedTeacherRoom!;
   }
-//   List<String> matchedTeacherRooms = []; // Initialize as a list
 
-// roomTeacherMaps.forEach((room, teachers) {
-//   if (teachers.contains(searchQuery)) { // Check if the teacher is in the list
-//     matchedTeacherRooms.add(room); // Add the room to the list
-//   }
-// });
      String? matchedTeacherRooms;
   roomTeacherMaps.forEach((room, teachers) {
     List<String> teacherList = teachers.split(', ');
@@ -149,11 +143,6 @@ Future<void> searchBuildings(
   if (matchedTeacherRooms != null) {
     searchQuery = matchedTeacherRooms!;
   }
-
-  // Use teacher's room name if teacher matches
-  // if (matchedTeacherRooms != null) {
-  //   searchQuery = matchedTeacherRooms!;
-  // }
 
   // Find matching key (either building, room, or landmark)
   String? matchedKey = combinedMarkersLowerCase.keys.firstWhere(
@@ -175,9 +164,20 @@ Future<void> searchBuildings(
       if (teachersName.isEmpty) {
         teachersName = ' $teacherName'; // Initialize with the first teacher and a bullet point
       } else {
-        teachersName = '• $teachersName\n• $teacherName'; // Append subsequent teachers with a bullet and newline
+        teachersName = '$teacherName\n• $teachersName'; // Append subsequent teachers with a bullet and newline
       }
     }
+    // Convert teacher names into bullet format
+  if (teachersName.isNotEmpty && teachersName != 'None') {
+    List<String> teacherList = teachersName.split(', ').where((t) => t.trim() != 'None').toList();
+    teachersName = teacherList.map((teacher) => '• $teacher').join('\n'); // Format as bullet points
+  } else {
+    teachersName = ''; // Clear if empty or "None"
+  }
+
+  print('Room: $roomName');
+  print('Teachers:\n$teachersName');
+
 
     // If teachersName is "None", clear it
     if (teachersName.trim() == "None") {
@@ -456,13 +456,26 @@ Future<void> searchBuildings(
   String teacherName = roomTeacherMap[matchedKey] ?? ''; // Empty if not found
 
   // Combine the teacher names, avoiding duplicates
+ //String teacherName = roomTeacherMap[matchedKey] ?? ''; // Empty if not found
+
+  // Combine the teacher names, avoiding duplicates
  if (teacherName.isNotEmpty && teacherName != "None" && !teachersName.contains(teacherName)) {
       if (teachersName.isEmpty) {
         teachersName = ' $teacherName'; // Initialize with the first teacher and a bullet point
       } else {
-        teachersName = '• $teachersName\n• $teacherName'; // Append subsequent teachers with a bullet and newline
+        teachersName = '$teacherName\n• $teachersName'; // Append subsequent teachers with a bullet and newline
       }
     }
+    // Convert teacher names into bullet format
+  if (teachersName.isNotEmpty && teachersName != 'None') {
+    List<String> teacherList = teachersName.split(', ').where((t) => t.trim() != 'None').toList();
+    teachersName = teacherList.map((teacher) => '• $teacher').join('\n'); // Format as bullet points
+  } else {
+    teachersName = ''; // Clear if empty or "None"
+  }
+
+  print('Room: $roomName');
+  print('Teachers:\n$teachersName');
 
     // If teachersName is "None", clear it
     if (teachersName.trim() == "None") {

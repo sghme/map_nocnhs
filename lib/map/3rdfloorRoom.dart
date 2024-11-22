@@ -102,6 +102,59 @@ const LatLng (11.0110137, 124.6047201),
 const LatLng (11.010994, 124.6047172),
 const LatLng (11.0110013, 124.6046569),
 ];
+final List<LatLng> FOURTH_FLOOR_LEFT = [
+  LatLng(11.010848, 124.6048145),
+  LatLng(11.0108749, 124.6048162),
+  LatLng(11.0108775, 124.6048032),
+  LatLng(11.0108494, 124.6047998),
+  LatLng(11.0108513, 124.6047815),
+  LatLng(11.0108804, 124.6047835),
+  LatLng(11.0108806, 124.6047729),
+  LatLng(11.0108532, 124.60477),
+];
+final List<LatLng> SPA_STAIR1 = [
+  LatLng(11.0113724, 124.6046733),
+  LatLng(11.0113969, 124.6046743),
+  LatLng(11.0113946, 124.6046901),
+  LatLng(11.0113738, 124.6046897),
+  LatLng(11.0113696, 124.6047036),
+  LatLng(11.0113946, 124.604706),
+  LatLng(11.0113936, 124.6047252),
+  LatLng(11.01137, 124.6047219),
+  LatLng(11.0113667, 124.6047373),
+  LatLng(11.0113908, 124.6047397),
+  LatLng(11.0113903, 124.6047575),
+  LatLng(11.0113648, 124.6047556),
+];
+final List<LatLng> SPA_STAIR2 = [
+ LatLng(11.0109786, 124.6046319),
+  LatLng(11.0110029, 124.6046353),
+  LatLng(11.011003, 124.6046519),
+  LatLng(11.0109776, 124.6046495),
+  LatLng(11.0109758, 124.6046649),
+  LatLng(11.0109991, 124.6046675),
+  LatLng(11.0109975, 124.6046848),
+  LatLng(11.0109748,124.6046834),
+  LatLng(11.0109739, 124.6046988),
+  LatLng(11.010998,  124.6046998),
+  LatLng(11.0109944, 124.604719),
+  LatLng(11.0109715, 124.6047164),
+];
+
+final List<LatLng> FOURTH_FLOOR_RIGHT_ROOM = [
+  LatLng(11.0112546,124.6047981),
+  LatLng(11.0112732, 124.6048013),
+  LatLng(11.0112704, 124.6048176),
+  LatLng(11.0112523,124.6048138),
+  LatLng(11.0112508,124.6048289),
+  LatLng(11.0112662, 124.6048311),
+  LatLng(11.0112643, 124.604847),
+  LatLng(11.0112484,124.6048461),
+  LatLng(11.0112453,124.6048616),
+  LatLng(11.0112638, 124.6048628),
+  LatLng(11.0112624, 124.6048773),
+  LatLng(11.0112441,124.6048751),
+];
 
 // Function to create the PolygonLayer for all these buildings
 PolygonLayer createGroundFloorLayer4() {
@@ -140,15 +193,21 @@ G10Building4F_3Room4,
 
   // Define the polygons with other similar properties in lists
   final List<List<LatLng>> greyPolygonPoints = [
-SPA_3stairs1,
-SPA_3stairs2,
-G10Building4F_3Stairs1,
-G10Building4F_3Stairs2,
+// SPA_3stairs1,
+// SPA_3stairs2,
+// G10Building4F_3Stairs1,
+// G10Building4F_3Stairs2,
+FOURTH_FLOOR_RIGHT_ROOM,
+//LGU2_STAIRS_BOX,
+FOURTH_FLOOR_LEFT,
+//STE_Bstairs,
+SPA_STAIR1,
+SPA_STAIR2,
   ];
 
   final List<Polygon> greyPolygons = greyPolygonPoints
       .map((points) => createPolygon(
-          points, Colors.grey.withOpacity(0.3), borderStrokeWidth, Colors.grey))
+          points, Colors.grey.withOpacity(0.5), borderStrokeWidth, Colors.grey))
       .toList();
 
   final List<List<LatLng>> whitePolygonPoints = [
@@ -159,15 +218,16 @@ SPA_3cr2,
   ];
 
   final List<Polygon> whitePolygons = whitePolygonPoints
-      .map((points) => createPolygon(points, Colors.white.withOpacity(0.3),
-          borderStrokeWidth, Colors.white))
+      .map((points) => createPolygon(points, Colors.white.withOpacity(0.9),
+          borderStrokeWidth, Colors.grey))
       .toList();
 
   // Combine all polygons in the final layer
   return PolygonLayer(
     polygons: [
-      ...ThirdLayerPolygons,
+      
       ...greyPolygons,
+      ...ThirdLayerPolygons,
       ...whitePolygons,
     ],
   );

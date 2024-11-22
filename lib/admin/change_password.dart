@@ -149,6 +149,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         return 'Password must contain at least one lowercase letter';
                       } else if (!RegExp(r'\d').hasMatch(value)) {
                         return 'Password must contain at least one number';
+                      } else if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
+                        return 'Password must contain at least one special character';
                       }
                       return null;
                     },

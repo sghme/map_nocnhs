@@ -400,8 +400,8 @@ List<LatLng> getRoomPolygonForRoom(String polygonName) {
       return SPA_2cr1;
     case 'SPA_2cr2':
       return SPA_2cr2;
-    case 'CRGrade10YellowBuilding2ndFloor2':
-      return CRGrade10YellowBuilding2ndFloor2;
+    // case 'CRGrade10YellowBuilding2ndFloor2':
+    //   return CRGrade10YellowBuilding2ndFloor2;
     case 'CRGR10YELLOWBUILDING2':
       return CRGR10YELLOWBUILDING2;
     case 'STEA_2Room1':

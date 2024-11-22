@@ -17,11 +17,11 @@ List<Polygon> initializeRoomPolygons3(
   List<LatLng> G10Building4F_3Room3Tap = G10Building4F_3Room3;
   List<LatLng> G10Building4F_3Room4Tap = G10Building4F_3Room4;
   //COMFORTROOMS 
-  List<LatLng> G10Building4F_3Cr1Tap = G10Building4F_3Cr1;
-  List<LatLng> G10Building4F_3Cr2Tap = G10Building4F_3Cr2;
-  // SPA CR
-  List<LatLng> SPA_3cr1Tap = SPA_3cr1;
-  List<LatLng> SPA_3cr2Tap = SPA_3cr2;
+  // List<LatLng> G10Building4F_3Cr1Tap = G10Building4F_3Cr1;
+  // List<LatLng> G10Building4F_3Cr2Tap = G10Building4F_3Cr2;
+  // // SPA CR
+  // List<LatLng> SPA_3cr1Tap = SPA_3cr1;
+  // List<LatLng> SPA_3cr2Tap = SPA_3cr2;
 
 
 
@@ -71,27 +71,27 @@ List<Polygon> initializeRoomPolygons3(
       borderStrokeWidth: 0,
     ),
     // GRADE 10 4TH FLOOR BUILDING CRROOMS
-    Polygon(
-      points: G10Building4F_3Cr1Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: G10Building4F_3Cr2Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    // SPA CR
-    Polygon(
-      points: SPA_3cr1Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: SPA_3cr2Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
+    // Polygon(
+    //   points: G10Building4F_3Cr1Tap,
+    //   color: Colors.transparent,
+    //   borderStrokeWidth: 0,
+    // ),
+    // Polygon(
+    //   points: G10Building4F_3Cr2Tap,
+    //   color: Colors.transparent,
+    //   borderStrokeWidth: 0,
+    // ),
+    // // SPA CR
+    // Polygon(
+    //   points: SPA_3cr1Tap,
+    //   color: Colors.transparent,
+    //   borderStrokeWidth: 0,
+    // ),
+    // Polygon(
+    //   points: SPA_3cr2Tap,
+    //   color: Colors.transparent,
+    //   borderStrokeWidth: 0,
+    // ),
   ];
   // Calculate bounds for each polygon
   // SPA BUILDING ROOMS
@@ -105,11 +105,11 @@ List<Polygon> initializeRoomPolygons3(
   LatLngBounds G10Building4F_3Room3Bounds = LatLngBounds.fromPoints(G10Building4F_3Room3);
   LatLngBounds G10Building4F_3Room4Bounds = LatLngBounds.fromPoints(G10Building4F_3Room4);
   // GRADE 10 4TH FLOOR BUILDING CRROOMS
-  LatLngBounds G10Building4F_3Cr1Bounds = LatLngBounds.fromPoints(G10Building4F_3Cr1);
-  LatLngBounds G10Building4F_3Cr2Bounds = LatLngBounds.fromPoints(G10Building4F_3Cr2);
-  // SPA CR
-  LatLngBounds SPA_3cr1Bounds = LatLngBounds.fromPoints(SPA_3cr1);
-  LatLngBounds SPA_3cr2Bounds = LatLngBounds.fromPoints(SPA_3cr2);
+  // LatLngBounds G10Building4F_3Cr1Bounds = LatLngBounds.fromPoints(G10Building4F_3Cr1);
+  // LatLngBounds G10Building4F_3Cr2Bounds = LatLngBounds.fromPoints(G10Building4F_3Cr2);
+  // // SPA CR
+  // LatLngBounds SPA_3cr1Bounds = LatLngBounds.fromPoints(SPA_3cr1);
+  // LatLngBounds SPA_3cr2Bounds = LatLngBounds.fromPoints(SPA_3cr2);
 
 
 
@@ -127,11 +127,11 @@ List<Polygon> initializeRoomPolygons3(
   roompolygon3BoundsMap['G10Building4F_3Room3'] = G10Building4F_3Room3Bounds;
   roompolygon3BoundsMap['G10Building4F_3Room4'] = G10Building4F_3Room4Bounds;
   //COMFORTROOMS 
-  roompolygon3BoundsMap['G10Building4F_3Cr1'] = G10Building4F_3Cr1Bounds;
-  roompolygon3BoundsMap['G10Building4F_3Cr2'] = G10Building4F_3Cr2Bounds;
-  // SPA CR
-  roompolygon3BoundsMap['SPA_3cr1'] = SPA_3cr1Bounds;
-  roompolygon3BoundsMap['SPA_3cr2'] = SPA_3cr2Bounds;
+  // roompolygon3BoundsMap['G10Building4F_3Cr1'] = G10Building4F_3Cr1Bounds;
+  // roompolygon3BoundsMap['G10Building4F_3Cr2'] = G10Building4F_3Cr2Bounds;
+  // // SPA CR
+  // roompolygon3BoundsMap['SPA_3cr1'] = SPA_3cr1Bounds;
+  // roompolygon3BoundsMap['SPA_3cr2'] = SPA_3cr2Bounds;
 
   return allPolygons;
 }
@@ -143,8 +143,8 @@ List<Polygon> initializeRoomPolygons4(
   List<LatLng> G10Building4F_4Room3Tap = G10Building4F_4Room3;
   List<LatLng> G10Building4F_4Room4Tap = G10Building4F_4Room4;
   //COMFORTROOMS 
-  List<LatLng> G10Building4F_4Cr1Tap = G10Building4F_4Cr1;
-  List<LatLng> G10Building4F_4Cr2Tap = G10Building4F_4Cr2;
+  // List<LatLng> G10Building4F_4Cr1Tap = G10Building4F_4Cr1;
+  // List<LatLng> G10Building4F_4Cr2Tap = G10Building4F_4Cr2;
 
 
 
@@ -170,17 +170,17 @@ List<Polygon> initializeRoomPolygons4(
       color: Colors.transparent,
       borderStrokeWidth: 0,
     ),
-    // GRADE 10 4TH FLOOR BUILDING CRROOMS
-    Polygon(
-      points: G10Building4F_4Cr1Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: G10Building4F_4Cr2Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
+    // // GRADE 10 4TH FLOOR BUILDING CRROOMS
+    // Polygon(
+    //   points: G10Building4F_4Cr1Tap,
+    //   color: Colors.transparent,
+    //   borderStrokeWidth: 0,
+    // ),
+    // Polygon(
+    //   points: G10Building4F_4Cr2Tap,
+    //   color: Colors.transparent,
+    //   borderStrokeWidth: 0,
+    // ),
   ];
   // Calculate bounds for each polygon
 
@@ -190,8 +190,8 @@ List<Polygon> initializeRoomPolygons4(
   LatLngBounds G10Building4F_4Room3Bounds = LatLngBounds.fromPoints(G10Building4F_4Room3);
   LatLngBounds G10Building4F_4Room4Bounds = LatLngBounds.fromPoints(G10Building4F_4Room4);
   // GRADE 10 4TH FLOOR BUILDING CRROOMS
-  LatLngBounds G10Building4F_4Cr1Bounds = LatLngBounds.fromPoints(G10Building4F_4Cr1);
-  LatLngBounds G10Building4F_4Cr2Bounds = LatLngBounds.fromPoints(G10Building4F_4Cr2);
+  // LatLngBounds G10Building4F_4Cr1Bounds = LatLngBounds.fromPoints(G10Building4F_4Cr1);
+  // LatLngBounds G10Building4F_4Cr2Bounds = LatLngBounds.fromPoints(G10Building4F_4Cr2);
   
 
   //Store bounds in the map with the polygon name as the key
@@ -201,8 +201,8 @@ List<Polygon> initializeRoomPolygons4(
   roompolygon4BoundsMap['G10Building4F_4Room3'] = G10Building4F_4Room3Bounds;
   roompolygon4BoundsMap['G10Building4F_4Room4'] = G10Building4F_4Room4Bounds;
   //COMFORTROOMS 
-  roompolygon4BoundsMap['G10Building4F_4Cr1'] = G10Building4F_4Cr1Bounds;
-  roompolygon4BoundsMap['G10Building4F_4Cr2'] = G10Building4F_4Cr2Bounds;
+  // roompolygon4BoundsMap['G10Building4F_4Cr1'] = G10Building4F_4Cr1Bounds;
+  // roompolygon4BoundsMap['G10Building4F_4Cr2'] = G10Building4F_4Cr2Bounds;
 
   return allPolygons;
 }

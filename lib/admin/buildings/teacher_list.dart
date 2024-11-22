@@ -1,5 +1,15 @@
 import 'package:flutter/material.dart';
 import 'service.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
+//import 'dart:io';
+import 'package:csv/csv.dart';
+//import 'package:path_provider/path_provider.dart';
+import 'dart:convert';
+import 'dart:html' as html;  // For web
+//import 'package:file_selector/file_selector.dart'; // For desktop (Windows)
+import 'package:flutter/foundation.dart';  // Import for kIsWeb
 
 class TeacherList extends StatefulWidget {
   @override
@@ -48,18 +58,146 @@ class _TeacherListState extends State<TeacherList> {
     });
   }
 
+Future<pw.Document> generatePdf() async {
+  final pdf = pw.Document();
+
+  pdf.addPage(
+    pw.MultiPage(
+      build: (pw.Context context) {
+        return [
+          pw.Table(
+            border: pw.TableBorder.all(),
+            children: [
+              // Header Row
+              pw.TableRow(
+                children: [
+                  pw.Text('Year Level', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                  pw.Text('Curriculum', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                  pw.Text('Name', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                  pw.Text('Room Name/Section', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                  pw.Text('Room No.', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                  pw.Text('Building', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                ],
+              ),
+              // Data Rows
+              ..._filteredTeachers.map((teacher) {
+                return pw.TableRow(
+                  children: [
+                    pw.Text(teacher['yearlevel'] ?? 'N/A'),
+                    pw.Text(teacher['program'] ?? 'None'),
+                    pw.Text(teacher['teacher'] ?? 'Unknown'),
+                    pw.Text(teacher['section'] ?? 'N/A'),
+                    pw.Text(teacher['room_no'] ?? 'N/A'),
+                    pw.Text(teacher['building_name'] ?? 'N/A'),
+                  ],
+                );
+              }).toList(),
+            ],
+          ),
+        ];
+      },
+    ),
+  );
+
+  return pdf;
+}
+  void printPdf() async {
+    final pdf = await generatePdf();
+    await Printing.layoutPdf(
+      onLayout: (PdfPageFormat format) => pdf.save(),
+    );
+  }
+ // Web CSV Export Function
+  void exportToCsvWeb() {
+    List<List<String>> csvData = [
+      ['Year Level', 'Curriculum', 'Name', 'Room Name/Section', 'Room No.', 'Building'],
+      ..._filteredTeachers.map((teacher) => [
+        teacher['yearlevel'] ?? 'N/A',
+        teacher['program'] ?? 'None',
+        teacher['teacher'] ?? 'Unknown',
+        teacher['section'] ?? 'N/A',
+        teacher['room_no'] ?? 'N/A',
+        teacher['building_name'] ?? 'N/A',
+      ]),
+    ];
+
+    String csvContent = const ListToCsvConverter().convert(csvData);
+    final bytes = utf8.encode(csvContent);
+    final blob = html.Blob([bytes]);
+    final url = html.Url.createObjectUrlFromBlob(blob);
+
+    final anchor = html.AnchorElement(href: url)
+      ..setAttribute("download", "teachers_data.csv")
+      ..click();
+      ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text('CSV file saved')),
+);
+
+    html.Url.revokeObjectUrl(url);
+  }
+
+  // Windows CSV Export Function
+//   Future<void> exportToCsvDesktop() async {
+//   List<List<String>> csvData = [
+//     ['Year Level', 'Curriculum', 'Name', 'Room Name/Section', 'Room No.', 'Building'],
+//     ..._filteredTeachers.map((teacher) => [
+//       teacher['yearlevel'] ?? 'N/A',
+//       teacher['program'] ?? 'None',
+//       teacher['teacher'] ?? 'Unknown',
+//       teacher['section'] ?? 'N/A',
+//       teacher['room_no'] ?? 'N/A',
+//       teacher['building_name'] ?? 'N/A',
+//     ]),
+//   ];
+
+//   String csvContent = const ListToCsvConverter().convert(csvData);
+
+//   // Use file_selector for the save path dialog
+//   final savePath = await getSavePath(suggestedName: 'teachers_data.csv');
+//   if (savePath != null) {
+//     final file = File(savePath);
+//     await file.writeAsString(csvContent);
+
+//     // Notify the user that the file has been saved
+//     ScaffoldMessenger.of(context).showSnackBar(
+//       SnackBar(content: Text('CSV file saved at $savePath')),
+//     );
+//   }
+// }
+
+
   @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
   }
-  
+
+
+
 @override
 Widget build(BuildContext context) {
   return Scaffold(
     appBar: AppBar(
       title: Text('Advisers or Personnel List'),
       actions: [
+         IconButton(
+            icon: Icon(Icons.print),
+            onPressed: printPdf, // Print the document when pressed
+          ),
+          IconButton(
+  icon: Icon(Icons.save_alt),
+  onPressed: ()   {
+              // Call the correct export function based on platform
+              if (kIsWeb) {
+                exportToCsvWeb();  // For Web
+              }
+              //  else if (Platform.isWindows) {
+              //   exportToCsvDesktop();  // For Windows
+              // }
+            },
+),
+          SizedBox(width: 10),
+
         SizedBox(
           height: 35.0,
           width: 250.0,

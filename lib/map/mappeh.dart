@@ -279,9 +279,10 @@ Future<void> fetchRoomsForBuilding([String searchQuery = '']) async {
       );
 
       roomTeacherMap[fullRoomName] = teacherName;
-      roomTeacherMaps[fullRoomName] = teachersName.join(" ");
+      roomTeacherMaps[fullRoomName] = teachersName.join(", ");
       // roomTeacherMapse[fullRoomName] = teachersList;
-      polygonToRoomBuildingMap[roomPolygonName] = roomName;
+      //polygonToRoomBuildingMap[roomPolygonName] = roomName;
+      polygonToRoomBuildingMap[roomPolygonName] = fullRoomName;
       polygonToRoomFloorMap[roomPolygonName] = floorNo;
       combinedMarkersLowerCase[roomName.toLowerCase()] =
           LatLng(latitude, longitude);

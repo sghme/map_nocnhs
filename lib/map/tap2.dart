@@ -68,12 +68,12 @@ List<Polygon> initializeRoomPolygons1(
 
   List<LatLng> STEA_Room1Tap = STEA_Room1;
   List<LatLng> STEA_Room2Tap = STEA_Room2;
-  List<LatLng> STEA_StairsTap = STEA_Stairs;
+  //List<LatLng> STEA_StairsTap = STEA_Stairs;
 // STE B BUILDING
   List<LatLng> STEB_R1Tap = STEB_R1;
   List<LatLng> STEB_R2Tap = STEB_R2;
   List<LatLng> STEB_R3Tap = STEB_R3;
-  List<LatLng> STEB_STAIRSTap = STEB_STAIRS;
+ // List<LatLng> STEB_STAIRSTap = STEB_STAIRS;
 
 // STE C BUILDING
   List<LatLng> STEC_R1Tap = STEC_R1;
@@ -81,8 +81,8 @@ List<Polygon> initializeRoomPolygons1(
   List<LatLng> STEC_R3Tap = STEC_R3;
   List<LatLng> STEC_R4Tap = STEC_R4;
   List<LatLng> STEC_R5Tap = STEC_R5;
-  List<LatLng> STEC_STAIR1Tap = STEC_STAIR1;
-  List<LatLng> STEC_STAIR2Tap = STEC_STAIR2;
+  // List<LatLng> STEC_STAIR1Tap = STEC_STAIR1;
+  // List<LatLng> STEC_STAIR2Tap = STEC_STAIR2;
 
 // GREENERY AREA
   List<LatLng> GreeneryA_Room1Tap = GreeneryA_Room1;
@@ -191,9 +191,10 @@ List<Polygon> initializeRoomPolygons1(
   List<LatLng> grade10Room6Tap = grade10Room6;
   List<LatLng> grade10Room7Tap = grade10Room7;
   // GRADE 10 YELLOW BUILDING
+    List<LatLng> Grade10YellowBSPTap = Grade10YellowBSP;
   List<LatLng> GRADE10YELLOW_room1Tap = GRADE10YELLOW_room1;
   List<LatLng> GRADE10YELLOW_room2Tap = GRADE10YELLOW_room2; 
-  List<LatLng> Grade10YellowBSPTap = Grade10YellowBSP;
+
   // // GRADE 10 BUILDING B
   List<LatLng> Grade10BuildingB1Tap = Grade10BuildingB1;
   List<LatLng> Grade10BuildingB2Tap = Grade10BuildingB2;
@@ -201,7 +202,7 @@ List<Polygon> initializeRoomPolygons1(
   final List<LatLng> GR10LABTap = GR10LAB;
   final List<LatLng> InnerRoom1Tap = InnerRoom1;
   final List<LatLng> InnerRoom2Tap = InnerRoom2;
-  final List<LatLng> InnerRoom3Tap = InnerRoom3;
+    final List<LatLng> InnerRoom3Tap = InnerRoom3;
   final List<LatLng> PastryLab1Tap = PastryLab1;
   final List<LatLng> InnerOffice2R1Tap = InnerOffice2R1;
   final List<LatLng> InnerOffice2R2Tap = InnerOffice2R2;
@@ -231,21 +232,21 @@ List<Polygon> initializeRoomPolygons1(
   List<LatLng> G10Building4F_Room4Tap = G10Building4F_Room4;
   //COMFORT ROOMS
   // MAIN BUILDING CR
-  List<LatLng> fth_floorcr1Tap = fth_floorcr1;
-  List<LatLng> fth_floorcr2Tap = fth_floorcr2;
-  List<LatLng> STEA_ComfortRoom1Tap = STEA_ComfortRoom1;
-  List<LatLng> STEB_CRTap = STEB_CR;
-  List<LatLng> STEC_CRTap = STEC_CR;
+  // List<LatLng> fth_floorcr1Tap = fth_floorcr1;
+  // List<LatLng> fth_floorcr2Tap = fth_floorcr2;
+  // List<LatLng> STEA_ComfortRoom1Tap = STEA_ComfortRoom1;
+  // List<LatLng> STEB_CRTap = STEB_CR;
+  // List<LatLng> STEC_CRTap = STEC_CR;
   // GRADE 7 CR
-  List<LatLng> G7AComfortRoomFemale1Tap = G7AComfortRoomFemale1;
-  List<LatLng> G7AComfortRoomMale1Tap = G7AComfortRoomMale1;
-  List<LatLng> G7BComfortRoomFemale1Tap = G7BComfortRoomFemale1;
-  List<LatLng> G7BComfortRoomTap = G7BComfortRoom;
-  //SPA CR
-  List<LatLng> SPA_cr1Tap = SPA_cr1;
-  List<LatLng> SPA_cr2Tap = SPA_cr2;
-  List<LatLng> G10Building4F_Cr1Tap = G10Building4F_Cr1;
-  List<LatLng> G10Building4F_Cr2Tap = G10Building4F_Cr2;
+  // List<LatLng> G7AComfortRoomFemale1Tap = G7AComfortRoomFemale1;
+  // List<LatLng> G7AComfortRoomMale1Tap = G7AComfortRoomMale1;
+  // List<LatLng> G7BComfortRoomFemale1Tap = G7BComfortRoomFemale1;
+  // List<LatLng> G7BComfortRoomTap = G7BComfortRoom;
+  // //SPA CR
+  // List<LatLng> SPA_cr1Tap = SPA_cr1;
+  // List<LatLng> SPA_cr2Tap = SPA_cr2;
+  // List<LatLng> G10Building4F_Cr1Tap = G10Building4F_Cr1;
+  // List<LatLng> G10Building4F_Cr2Tap = G10Building4F_Cr2;
 
   List<Polygon> allPolygons = [
     Polygon(
@@ -498,11 +499,11 @@ List<Polygon> initializeRoomPolygons1(
       color: Colors.transparent,
       borderStrokeWidth: 0,
     ),
-    Polygon(
-      points: STEA_StairsTap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
+    // Polygon(
+    //   points: STEA_StairsTap,
+    //   color: Colors.transparent,
+    //   borderStrokeWidth: 0,
+    // ),
 // STE B BUILDING
     Polygon(
       points: STEB_R1Tap,
@@ -519,11 +520,11 @@ List<Polygon> initializeRoomPolygons1(
       color: Colors.transparent,
       borderStrokeWidth: 0,
     ),
-    Polygon(
-      points: STEB_STAIRSTap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
+    // Polygon(
+    //   points: STEB_STAIRSTap,
+    //   color: Colors.transparent,
+    //   borderStrokeWidth: 0,
+    // ),
 // STE C BUILDING
     Polygon(
       points: STEC_R1Tap,
@@ -550,16 +551,16 @@ List<Polygon> initializeRoomPolygons1(
       color: Colors.transparent,
       borderStrokeWidth: 0,
     ),
-    Polygon(
-      points: STEC_STAIR1Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: STEC_STAIR2Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
+    // Polygon(
+    //   points: STEC_STAIR1Tap,
+    //   color: Colors.transparent,
+    //   borderStrokeWidth: 0,
+    // ),
+    // Polygon(
+    //   points: STEC_STAIR2Tap,
+    //   color: Colors.transparent,
+    //   borderStrokeWidth: 0,
+    // ),
 
     // GREENERY AREA
     Polygon(
@@ -951,6 +952,11 @@ List<Polygon> initializeRoomPolygons1(
       borderStrokeWidth: 0,
     ),
 // GRADE 10 YELLOW BUILDING
+ Polygon(
+      points: Grade10YellowBSPTap,
+      color: Colors.transparent,
+      borderStrokeWidth: 0,
+    ),
     Polygon(
       points: GRADE10YELLOW_room1Tap,
       color: Colors.transparent,
@@ -961,11 +967,7 @@ List<Polygon> initializeRoomPolygons1(
       color: Colors.transparent,
       borderStrokeWidth: 0,
     ),
-    Polygon(
-      points: Grade10YellowBSPTap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
+   
 // GRADE 10 BUILDING B
     Polygon(
       points: Grade10BuildingB1Tap,
@@ -1115,72 +1117,72 @@ List<Polygon> initializeRoomPolygons1(
     ),
 //COMFORT ROOMS
 // MAIN BUILDING CR
-    Polygon(
-      points: fth_floorcr1Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: fth_floorcr2Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: STEA_ComfortRoom1Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: STEB_CRTap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: STEC_CRTap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-// GRADE 7 CR
-    Polygon(
-      points: G7AComfortRoomFemale1Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: G7AComfortRoomMale1Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: G7BComfortRoomFemale1Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: G7BComfortRoomTap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: SPA_cr1Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: SPA_cr2Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: G10Building4F_Cr1Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
-    Polygon(
-      points: G10Building4F_Cr2Tap,
-      color: Colors.transparent,
-      borderStrokeWidth: 0,
-    ),
+//     Polygon(
+//       points: fth_floorcr1Tap,
+//       color: Colors.transparent,
+//       borderStrokeWidth: 0,
+//     ),
+//     Polygon(
+//       points: fth_floorcr2Tap,
+//       color: Colors.transparent,
+//       borderStrokeWidth: 0,
+//     ),
+//     Polygon(
+//       points: STEA_ComfortRoom1Tap,
+//       color: Colors.transparent,
+//       borderStrokeWidth: 0,
+//     ),
+//     Polygon(
+//       points: STEB_CRTap,
+//       color: Colors.transparent,
+//       borderStrokeWidth: 0,
+//     ),
+//     Polygon(
+//       points: STEC_CRTap,
+//       color: Colors.transparent,
+//       borderStrokeWidth: 0,
+//     ),
+// // GRADE 7 CR
+//     Polygon(
+//       points: G7AComfortRoomFemale1Tap,
+//       color: Colors.transparent,
+//       borderStrokeWidth: 0,
+//     ),
+//     Polygon(
+//       points: G7AComfortRoomMale1Tap,
+//       color: Colors.transparent,
+//       borderStrokeWidth: 0,
+//     ),
+//     Polygon(
+//       points: G7BComfortRoomFemale1Tap,
+//       color: Colors.transparent,
+//       borderStrokeWidth: 0,
+//     ),
+//     Polygon(
+//       points: G7BComfortRoomTap,
+//       color: Colors.transparent,
+//       borderStrokeWidth: 0,
+//     ),
+//     Polygon(
+//       points: SPA_cr1Tap,
+//       color: Colors.transparent,
+//       borderStrokeWidth: 0,
+//     ),
+//     Polygon(
+//       points: SPA_cr2Tap,
+//       color: Colors.transparent,
+//       borderStrokeWidth: 0,
+//     ),
+//     Polygon(
+//       points: G10Building4F_Cr1Tap,
+//       color: Colors.transparent,
+//       borderStrokeWidth: 0,
+//     ),
+//     Polygon(
+//       points: G10Building4F_Cr2Tap,
+//       color: Colors.transparent,
+//       borderStrokeWidth: 0,
+//     ),
   ];
 
   // Calculate bounds for each polygon
@@ -1246,13 +1248,13 @@ List<Polygon> initializeRoomPolygons1(
 // STE A BUILDING
   LatLngBounds STEA_Room1Bounds = LatLngBounds.fromPoints(STEA_Room1);
   LatLngBounds STEA_Room2Bounds = LatLngBounds.fromPoints(STEA_Room2);
-  LatLngBounds STEA_StairsBounds = LatLngBounds.fromPoints(STEA_Stairs);
+  // LatLngBounds STEA_StairsBounds = LatLngBounds.fromPoints(STEA_Stairs);
 
 // STE B BUILDING
   LatLngBounds STEB_R1Bounds = LatLngBounds.fromPoints(STEB_R1);
   LatLngBounds STEB_R2Bounds = LatLngBounds.fromPoints(STEB_R2);
   LatLngBounds STEB_R3Bounds = LatLngBounds.fromPoints(STEB_R3);
-  LatLngBounds STEB_STAIRSBounds = LatLngBounds.fromPoints(STEB_STAIRS);
+ // LatLngBounds STEB_STAIRSBounds = LatLngBounds.fromPoints(STEB_STAIRS);
 
 // STE C BUILDING
   LatLngBounds STEC_R1Bounds = LatLngBounds.fromPoints(STEC_R1);
@@ -1260,8 +1262,8 @@ List<Polygon> initializeRoomPolygons1(
   LatLngBounds STEC_R3Bounds = LatLngBounds.fromPoints(STEC_R3);
   LatLngBounds STEC_R4Bounds = LatLngBounds.fromPoints(STEC_R4);
   LatLngBounds STEC_R5Bounds = LatLngBounds.fromPoints(STEC_R5);
-  LatLngBounds STEC_STAIR1Bounds = LatLngBounds.fromPoints(STEC_STAIR2);
-  LatLngBounds STEC_STAIR2Bounds = LatLngBounds.fromPoints(STEC_STAIR2);
+  // LatLngBounds STEC_STAIR1Bounds = LatLngBounds.fromPoints(STEC_STAIR2);
+  // LatLngBounds STEC_STAIR2Bounds = LatLngBounds.fromPoints(STEC_STAIR2);
 
 // GREENERY AREA
   LatLngBounds GreeneryA_Room1Bounds = LatLngBounds.fromPoints(GreeneryA_Room1);
@@ -1381,12 +1383,13 @@ List<Polygon> initializeRoomPolygons1(
   LatLngBounds grade10Room6Bounds = LatLngBounds.fromPoints(grade10Room6);
   LatLngBounds grade10Room7Bounds = LatLngBounds.fromPoints(grade10Room7);
 // GRADE 10 YELLOW BUILDING
+ LatLngBounds Grade10YellowBSPBounds =
+      LatLngBounds.fromPoints(Grade10YellowBSP);
   LatLngBounds GRADE10YELLOW_room1Bounds =
       LatLngBounds.fromPoints(GRADE10YELLOW_room1);
   LatLngBounds GRADE10YELLOW_room2Bounds =
       LatLngBounds.fromPoints(GRADE10YELLOW_room2);
-  LatLngBounds Grade10YellowBSPBounds =
-      LatLngBounds.fromPoints(Grade10YellowBSP);
+ 
 // GRADE 10 BUILDING B
   LatLngBounds Grade10BuildingB1Bounds =
       LatLngBounds.fromPoints(Grade10BuildingB1);
@@ -1429,28 +1432,28 @@ List<Polygon> initializeRoomPolygons1(
       LatLngBounds.fromPoints(G10Building4F_Room4);
   //COMFORT ROOMS
   // MAIN BUILDING CR
-  LatLngBounds fth_floorcr1Bounds = LatLngBounds.fromPoints(fth_floorcr1);
-  LatLngBounds fth_floorcr2Bounds = LatLngBounds.fromPoints(fth_floorcr2);
-  LatLngBounds STEA_ComfortRoom1Bounds =
-      LatLngBounds.fromPoints(STEA_ComfortRoom1);
-  LatLngBounds STEB_CRBounds = LatLngBounds.fromPoints(STEB_CR);
-  LatLngBounds STEC_CRBounds = LatLngBounds.fromPoints(STEC_CR);
-  // GRADE 7 CR
-  LatLngBounds G7AComfortRoomFemale1Bounds =
-      LatLngBounds.fromPoints(G7AComfortRoomFemale1);
-  LatLngBounds G7AComfortRoomMale1Bounds =
-      LatLngBounds.fromPoints(G7AComfortRoomMale1);
-  LatLngBounds G7BComfortRoomFemale1Bounds =
-      LatLngBounds.fromPoints(G7BComfortRoomFemale1);
-  LatLngBounds G7BComfortRoomBounds = LatLngBounds.fromPoints(G7BComfortRoom);
-  //SPA CR
-  LatLngBounds SPA_cr1Bounds = LatLngBounds.fromPoints(SPA_cr1);
-  LatLngBounds SPA_cr2Bounds = LatLngBounds.fromPoints(SPA_cr1);
-  // GRADE 10  4TH FLOOR CR
-  LatLngBounds G10Building4F_Cr1Bounds =
-      LatLngBounds.fromPoints(G10Building4F_Cr1);
-  LatLngBounds G10Building4F_Cr2Bounds =
-      LatLngBounds.fromPoints(G10Building4F_Cr2);
+  // LatLngBounds fth_floorcr1Bounds = LatLngBounds.fromPoints(fth_floorcr1);
+  // LatLngBounds fth_floorcr2Bounds = LatLngBounds.fromPoints(fth_floorcr2);
+  // LatLngBounds STEA_ComfortRoom1Bounds =
+  //     LatLngBounds.fromPoints(STEA_ComfortRoom1);
+  // LatLngBounds STEB_CRBounds = LatLngBounds.fromPoints(STEB_CR);
+  // LatLngBounds STEC_CRBounds = LatLngBounds.fromPoints(STEC_CR);
+  // // GRADE 7 CR
+  // LatLngBounds G7AComfortRoomFemale1Bounds =
+  //     LatLngBounds.fromPoints(G7AComfortRoomFemale1);
+  // LatLngBounds G7AComfortRoomMale1Bounds =
+  //     LatLngBounds.fromPoints(G7AComfortRoomMale1);
+  // LatLngBounds G7BComfortRoomFemale1Bounds =
+  //     LatLngBounds.fromPoints(G7BComfortRoomFemale1);
+  // LatLngBounds G7BComfortRoomBounds = LatLngBounds.fromPoints(G7BComfortRoom);
+  // //SPA CR
+  // LatLngBounds SPA_cr1Bounds = LatLngBounds.fromPoints(SPA_cr1);
+  // LatLngBounds SPA_cr2Bounds = LatLngBounds.fromPoints(SPA_cr1);
+  // // GRADE 10  4TH FLOOR CR
+  // LatLngBounds G10Building4F_Cr1Bounds =
+  //     LatLngBounds.fromPoints(G10Building4F_Cr1);
+  // LatLngBounds G10Building4F_Cr2Bounds =
+  //     LatLngBounds.fromPoints(G10Building4F_Cr2);
 
   //Store bounds in the map with the polygon name as the key
   roompolygonBoundsMap['G7ARoom1'] = grade7ARoom1Bounds;
@@ -1510,12 +1513,12 @@ List<Polygon> initializeRoomPolygons1(
 // STE A BUILDING
   roompolygonBoundsMap['STEA_Room1'] = STEA_Room1Bounds;
   roompolygonBoundsMap['STEA_Room2'] = STEA_Room2Bounds;
-  roompolygonBoundsMap['STEA_Stairs'] = STEA_StairsBounds;
+ // roompolygonBoundsMap['STEA_Stairs'] = STEA_StairsBounds;
 // STE B BUILDING
   roompolygonBoundsMap['STEB_R1'] = STEB_R1Bounds;
   roompolygonBoundsMap['STEB_R2'] = STEB_R2Bounds;
   roompolygonBoundsMap['STEB_R3'] = STEB_R3Bounds;
-  roompolygonBoundsMap['STEB_STAIRS'] = STEB_STAIRSBounds;
+ // roompolygonBoundsMap['STEB_STAIRS'] = STEB_STAIRSBounds;
 
 // STE C  BUILDING
   roompolygonBoundsMap['STEC_R1'] = STEC_R1Bounds;
@@ -1523,8 +1526,8 @@ List<Polygon> initializeRoomPolygons1(
   roompolygonBoundsMap['STEC_R3'] = STEC_R3Bounds;
   roompolygonBoundsMap['STEC_R4'] = STEC_R4Bounds;
   roompolygonBoundsMap['STEC_R5'] = STEC_R5Bounds;
-  roompolygonBoundsMap['STEC_STAIR1'] = STEC_STAIR1Bounds;
-  roompolygonBoundsMap['STEC_STAIR2'] = STEC_STAIR2Bounds;
+  // roompolygonBoundsMap['STEC_STAIR1'] = STEC_STAIR1Bounds;
+  // roompolygonBoundsMap['STEC_STAIR2'] = STEC_STAIR2Bounds;
 
 // GREENERY AREA
   roompolygonBoundsMap['GreeneryA_Room1'] = GreeneryA_Room1Bounds;
@@ -1632,9 +1635,10 @@ List<Polygon> initializeRoomPolygons1(
   roompolygonBoundsMap['grade10Room6'] = grade10Room6Bounds;
   roompolygonBoundsMap['grade10Room7'] = grade10Room7Bounds;
 // GRADE 10 YELLOW BUILDING
+roompolygonBoundsMap['Grade10YellowBSP'] = Grade10YellowBSPBounds;
   roompolygonBoundsMap['GRADE10YELLOW_room1'] = GRADE10YELLOW_room1Bounds;
   roompolygonBoundsMap['GRADE10YELLOW_room2'] = GRADE10YELLOW_room2Bounds;
-  roompolygonBoundsMap['Grade10YellowBSP'] = Grade10YellowBSPBounds;
+  
 // GRADE 10 BUILDING B
   roompolygonBoundsMap['Grade10BuildingB1'] = Grade10BuildingB1Bounds;
   roompolygonBoundsMap['Grade10BuildingB2'] = Grade10BuildingB2Bounds;
@@ -1643,7 +1647,7 @@ List<Polygon> initializeRoomPolygons1(
   //Gate Rooms
   roompolygonBoundsMap['InnerRoom1'] = InnerRoom1Bounds;
   roompolygonBoundsMap['InnerRoom2'] = InnerRoom2Bounds;
-  roompolygonBoundsMap['InnerRoom3'] = InnerRoom3Bounds;
+    roompolygonBoundsMap['InnerRoom3'] = InnerRoom3Bounds;
   roompolygonBoundsMap['InnerOffice2R1'] = InnerOffice2R1Bounds;
   roompolygonBoundsMap['InnerOffice2R2'] = InnerOffice2R2Bounds;
   roompolygonBoundsMap['PastryLab1'] = PastryLab1Bounds;
@@ -1672,22 +1676,22 @@ List<Polygon> initializeRoomPolygons1(
   roompolygonBoundsMap['G10Building4F_Room4'] = G10Building4F_Room4Bounds;
 //COMFORT ROOMS
 // MAIN BUILDING CR
-  roompolygonBoundsMap['fth_floorcr1'] = fth_floorcr1Bounds;
-  roompolygonBoundsMap['fth_floorcr2'] = fth_floorcr2Bounds;
-  roompolygonBoundsMap['STEA_ComfortRoom1'] = STEA_ComfortRoom1Bounds;
-  roompolygonBoundsMap['STEB_CR'] = STEB_CRBounds;
-  roompolygonBoundsMap['STEC_CR'] = STEC_CRBounds;
-// GRADE 7 CR
-  roompolygonBoundsMap['G7AComfortRoomFemale1'] = G7AComfortRoomFemale1Bounds;
-  roompolygonBoundsMap['G7AComfortRoomMale1'] = G7AComfortRoomMale1Bounds;
-  roompolygonBoundsMap['G7BComfortRoomFemale1'] = G7BComfortRoomFemale1Bounds;
-  roompolygonBoundsMap['G7BComfortRoom'] = G7BComfortRoomBounds;
-//SPA CR
-  roompolygonBoundsMap['SPA_cr1'] = SPA_cr1Bounds;
-  roompolygonBoundsMap['SPA_cr2'] = SPA_cr2Bounds;
-// GRADE 10  4TH FLOOR CR
-  roompolygonBoundsMap['G10Building4F_Cr1'] = G10Building4F_Cr1Bounds;
-  roompolygonBoundsMap['G10Building4F_Cr2'] = G10Building4F_Cr2Bounds;
+//   roompolygonBoundsMap['fth_floorcr1'] = fth_floorcr1Bounds;
+//   roompolygonBoundsMap['fth_floorcr2'] = fth_floorcr2Bounds;
+//   roompolygonBoundsMap['STEA_ComfortRoom1'] = STEA_ComfortRoom1Bounds;
+//   roompolygonBoundsMap['STEB_CR'] = STEB_CRBounds;
+//   roompolygonBoundsMap['STEC_CR'] = STEC_CRBounds;
+// // GRADE 7 CR
+//   roompolygonBoundsMap['G7AComfortRoomFemale1'] = G7AComfortRoomFemale1Bounds;
+//   roompolygonBoundsMap['G7AComfortRoomMale1'] = G7AComfortRoomMale1Bounds;
+//   roompolygonBoundsMap['G7BComfortRoomFemale1'] = G7BComfortRoomFemale1Bounds;
+//   roompolygonBoundsMap['G7BComfortRoom'] = G7BComfortRoomBounds;
+// //SPA CR
+//   roompolygonBoundsMap['SPA_cr1'] = SPA_cr1Bounds;
+//   roompolygonBoundsMap['SPA_cr2'] = SPA_cr2Bounds;
+// // GRADE 10  4TH FLOOR CR
+//   roompolygonBoundsMap['G10Building4F_Cr1'] = G10Building4F_Cr1Bounds;
+//   roompolygonBoundsMap['G10Building4F_Cr2'] = G10Building4F_Cr2Bounds;
 
   return allPolygons;
 }

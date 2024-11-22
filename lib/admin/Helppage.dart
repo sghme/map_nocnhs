@@ -28,7 +28,7 @@ class _HelpPageState extends State<HelpPage> {
     'assets/images/29.png',
     'assets/images/31.png',
     'assets/images/32.png',
-    'assets/images/30.png',
+    
     //Add
     'assets/images/7.png',
     'assets/images/3.png',
@@ -46,7 +46,11 @@ class _HelpPageState extends State<HelpPage> {
     //Help
     'assets/images/23.png',
     //Logout
+    'assets/images/27_1.png',
+    'assets/images/27_2.png',
     'assets/images/27.png',
+    'assets/images/27_3.png',
+    'assets/images/27_4.png',
     //Login Attempt
     'assets/images/24.png',
     'assets/images/25.png',

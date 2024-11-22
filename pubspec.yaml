@@ -48,6 +48,14 @@ dependencies:
   multi_select_flutter: ^4.1.3
   fl_chart: ^0.69.0
   file_picker: ^8.1.2
+  pdf: ^3.9.0        # You can check the latest version on pub.dev
+  printing: ^5.13.4   # You can check the latest version on pub.dev
+  csv: ^5.0.0        # You can check the latest version on pub.dev
+  path_provider: ^2.1.5  # Uncomment if you use path_provider
+  file_selector: ^1.0.3   # For file selection in desktop
+  #flutter_web_plugins: ^0.0.0 # Ensure compatibility for web (if needed)
+  # Uncomment the following line if you are using any web-specific features
+  html: ^0.15.0   # Uncomment if needed for web
 
 #map
 
@@ -110,9 +118,12 @@ flutter:
   - assets/images/24.png
   - assets/images/25.png
   - assets/images/27.png
+  - assets/images/27_1.png
+  - assets/images/27_2.png
+  - assets/images/27_3.png
+  - assets/images/27_4.png
   - assets/images/28.png
   - assets/images/29.png
-  - assets/images/30.png
   - assets/images/31.png
   - assets/images/32.png
   - assets/images/33.png
