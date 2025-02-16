@@ -3,13 +3,11 @@ import 'service.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
-//import 'dart:io';
 import 'package:csv/csv.dart';
-//import 'package:path_provider/path_provider.dart';
 import 'dart:convert';
 import 'dart:html' as html;  // For web
-//import 'package:file_selector/file_selector.dart'; // For desktop (Windows)
 import 'package:flutter/foundation.dart';  // Import for kIsWeb
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TeacherList extends StatefulWidget {
   @override
@@ -58,37 +56,100 @@ class _TeacherListState extends State<TeacherList> {
     });
   }
 
+
+//PDF Function
 Future<pw.Document> generatePdf() async {
   final pdf = pw.Document();
+  final now = DateTime.now();
+  final date = '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
+
+  // Get the username from SharedPreferences
+  final prefs = await SharedPreferences.getInstance();
+  final user = prefs.getString('username') ?? 'Unknown User';
 
   pdf.addPage(
     pw.MultiPage(
+      pageFormat: PdfPageFormat.a4,
+      margin: const pw.EdgeInsets.all(32),
       build: (pw.Context context) {
         return [
+          // pw.Text(
+          //   'Advisers or Personnel List',
+          //   style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold),
+          // ),
+          // pw.SizedBox(height: 20),
           pw.Table(
-            border: pw.TableBorder.all(),
+            border: pw.TableBorder.all(width: 1, color: PdfColors.grey),
+            columnWidths: {
+              0: pw.FlexColumnWidth(1),
+              1: pw.FlexColumnWidth(1.2),
+              2: pw.FlexColumnWidth(2),
+              3: pw.FlexColumnWidth(2),
+              4: pw.FlexColumnWidth(1),
+              5: pw.FlexColumnWidth(1.5),
+            },
             children: [
-              // Header Row
               pw.TableRow(
+                decoration: pw.BoxDecoration(color: PdfColors.grey300),
                 children: [
-                  pw.Text('Year Level', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                  pw.Text('Curriculum', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                  pw.Text('Name', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                  pw.Text('Room Name/Section', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                  pw.Text('Room No.', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                  pw.Text('Building', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                  pw.Padding(
+                    padding: const pw.EdgeInsets.all(4),
+                    child: pw.Text('Year Level', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                  ),
+                  pw.Padding(
+                    padding: const pw.EdgeInsets.all(4),
+                    child: pw.Text('Curriculum', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                  ),
+                  pw.Padding(
+                    padding: const pw.EdgeInsets.all(4),
+                    child: pw.Text('Name', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                  ),
+                  pw.Padding(
+                    padding: const pw.EdgeInsets.all(4),
+                    child: pw.Text('Room Name or Section', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                  ),
+                  pw.Padding(
+                    padding: const pw.EdgeInsets.all(4),
+                    child: pw.Text('Room No.', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                  ),
+                  pw.Padding(
+                    padding: const pw.EdgeInsets.all(4),
+                    child: pw.Text('Building', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                  ),
                 ],
               ),
-              // Data Rows
               ..._filteredTeachers.map((teacher) {
                 return pw.TableRow(
+                  decoration: pw.BoxDecoration(
+                    border: pw.Border(
+                      bottom: pw.BorderSide(width: 0.5, color: PdfColors.grey),
+                    ),
+                  ),
                   children: [
-                    pw.Text(teacher['yearlevel'] ?? 'N/A'),
-                    pw.Text(teacher['program'] ?? 'None'),
-                    pw.Text(teacher['teacher'] ?? 'Unknown'),
-                    pw.Text(teacher['section'] ?? 'N/A'),
-                    pw.Text(teacher['room_no'] ?? 'N/A'),
-                    pw.Text(teacher['building_name'] ?? 'N/A'),
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(4),
+                      child: pw.Text(teacher['yearlevel'] ?? 'N/A'),
+                    ),
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(4),
+                      child: pw.Text(teacher['program'] ?? 'None'),
+                    ),
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(4),
+                      child: pw.Text(teacher['teacher'] ?? 'Unknown'),
+                    ),
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(4),
+                      child: pw.Text(teacher['section'] ?? 'N/A'),
+                    ),
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(4),
+                      child: pw.Text(teacher['room_no'] ?? 'N/A'),
+                    ),
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(4),
+                      child: pw.Text(teacher['building_name'] ?? 'N/A'),
+                    ),
                   ],
                 );
               }).toList(),
@@ -96,11 +157,22 @@ Future<pw.Document> generatePdf() async {
           ),
         ];
       },
+      footer: (pw.Context context) {
+        return pw.Container(
+          alignment: pw.Alignment.centerRight,
+          margin: const pw.EdgeInsets.only(top: 20),
+          child: pw.Text(
+            'Printed by: $user on $date',
+            style: pw.TextStyle(fontSize: 10, color: PdfColors.grey),
+          ),
+        );
+      },
     ),
   );
 
   return pdf;
 }
+
   void printPdf() async {
     final pdf = await generatePdf();
     await Printing.layoutPdf(
@@ -179,23 +251,30 @@ Widget build(BuildContext context) {
   return Scaffold(
     appBar: AppBar(
       title: Text('Advisers or Personnel List'),
-      actions: [
-         IconButton(
-            icon: Icon(Icons.print),
-            onPressed: printPdf, // Print the document when pressed
-          ),
-          IconButton(
-  icon: Icon(Icons.save_alt),
-  onPressed: ()   {
-              // Call the correct export function based on platform
-              if (kIsWeb) {
-                exportToCsvWeb();  // For Web
-              }
-              //  else if (Platform.isWindows) {
-              //   exportToCsvDesktop();  // For Windows
-              // }
-            },
-),
+     actions: [
+  Tooltip(
+    message: 'Click to Print',  // Tooltip for the print button
+    child: IconButton(
+      icon: Icon(Icons.print),
+      onPressed: printPdf, // Print the document when pressed
+    ),
+  ),
+  Tooltip(
+    message: 'Export as CSV',  // Tooltip for the CSV export button
+    child: IconButton(
+      icon: Icon(Icons.save_alt),
+      onPressed: () {
+        // Call the correct export function based on platform
+        if (kIsWeb) {
+          exportToCsvWeb();  // For Web
+        }
+        // Uncomment and use this for Windows
+        // else if (Platform.isWindows) {
+        //   exportToCsvDesktop();
+        // }
+      },
+    ),
+  ),
           SizedBox(width: 10),
 
         SizedBox(
